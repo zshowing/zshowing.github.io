@@ -1,2 +1,4 @@
 # zshowing.github.io
-Blog
+Blog hosted on Github.
+
+Since 2016.9.16
