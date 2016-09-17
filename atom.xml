@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Jon&#39;s Blog - Code &amp; Design</title>
+  <title>Design &amp; Code</title>
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jonshowing.com/"/>
-  <updated>2016-09-16T07:41:06.000Z</updated>
+  <updated>2016-09-16T14:29:33.000Z</updated>
   <id>http://jonshowing.com/</id>
   
   <author>
@@ -16,11 +16,448 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Basic Loveology</title>
+    <link href="http://jonshowing.com/2016/08/11/Basic-Loveology/"/>
+    <id>http://jonshowing.com/2016/08/11/Basic-Loveology/</id>
+    <published>2016-08-11T03:26:21.000Z</published>
+    <updated>2016-09-16T14:29:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>*题目是致敬美剧<community>每集的标题命名风格。</community></p>
+<p>我觉得，一段经得起推敲的感情，大致有两个分类。</p>
+<p>一种是邂逅型，一种是养成型。</p>
+<p>前者代表一类爱情电影：一次惊天地泣鬼神的邂逅，两个人发现他俩各种搭，究级搭，搭成狗，接下来就是各种无中生有的变故最后俩人没羞没臊地生活在一起。</p>
+<p>后者代表另一类爱情电影：俩人最开始巨不搭，究级拧巴，拧巴成狗，接下来就是各种无中生有的变故最后俩人发现/变得还真挺搭的。</p>
+<p>所有不属于这两类的都属于经不起推敲的感情，代表了剩下的爱情电影：莫名其妙的单恋啊，奇形怪状的多角恋啊，等等。</p>
+<p>我在不同场合表达过许多次对相亲的反感和抵触，主要原因就是，我认为在现实中，邂逅型恋情的概率低到可以忽略。换句话说，参加1000次相亲大概才能有3次能碰到靠谱的人（3σ原则）。考虑到这世界上每天真实发生的总相亲次数和其中能产生的靠谱结果，我甚至觉得0.3%都是个乐观的估计。</p>
+<p>相亲的结果几乎只有四种：一边试探着跟你交往一边暗暗觉得你是sb，或者一边试探着跟你交往然后突然发现你是sb，直接觉得你是sb，你觉得对方是sb。</p>
+<p>所以，对于非男神女神级别的普通人而言，最现实，也是唯一可能走通感情线的途径，就是养成型路线。（注意，不是童养媳和光源氏计划。）</p>
+<p>小学的青梅竹马，高中的前后桌，大学的同社团同学，公司里的程序员和产品经理。</p>
+<p>只有他们有可能知道其实我一直是sb，然后还依然爱我啊。</p>
+<p><br></p>
+<p>但是说起来，比起普遍鄙视网恋的论调，我倒一直觉得在网上找对象比在现实中碰概率更靠谱。</p>
+<p>不同于现实生活或者相亲时拘谨的找话题，网上生活是相对没限制的、兴趣导向型的。有人说网上代表着虚假和伪装，我反而认为网上才有一些当面看不到的真实。</p>
+<p>尤其是豆瓣、微博这种积累着大量这个人历史偏好的天然数据库，比起相亲时互相刨根问底，效率高到不知哪里去了。</p>
+<p><br></p>
+<p>综上，如果不是运气爆棚碰到个青梅竹马或完美配对，在理论上最优化的找对象途径是：在网上广播出自己的信息和特性，由臭味相投的另一个个体接收，并发回反馈。</p>
+<p>一直很奇怪豆瓣官方为什么不做这个，简直是浪费了大好的用户数据和刚性需求。</p>
+<p><br></p>
+<p>开始认真考虑在恰当的时候在网上也发个征友的帖子。虽然很不情愿高调，但没有一家合适的平台能让相关信息低调地精准抵达受众啊。</p>
+<hr>
+<p>参考资料：</p>
+<p><a href="https://www.douban.com/doulist/37853447/" target="_blank" rel="external">豆列：随手转发征婚交友帖</a><br><a href="https://www.douban.com/note/97560239/" target="_blank" rel="external">《给未来的你》，2010/4/23</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      有关爱情的基本定理：一段经得起推敲的感情，大致有两个分类。
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Love" scheme="http://jonshowing.com/tags/Love/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Advanced Self-Examination and Status Analyze</title>
+    <link href="http://jonshowing.com/2016/08/06/Advanced-Self-Examination-and-Status-Analyze/"/>
+    <id>http://jonshowing.com/2016/08/06/Advanced-Self-Examination-and-Status-Analyze/</id>
+    <published>2016-08-05T17:01:53.000Z</published>
+    <updated>2016-09-16T14:52:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><em>*题目是致敬美剧<community>每集的标题命名风格。</community></em></p>
+<p>回顾了一下之前的文字，上一次真正认真打些东西还是元旦跨年的时候，再早一些就要追溯到去年这个时候了。比起动不动就一个月加起来打几万字日志的大学时代，现在的我还真是惊人的沉默。</p>
+<p>当年我说，我之所以喜欢码字，是因为谋篇布局这件事能让我快乐。</p>
+<blockquote>
+<p>“不管是写什么，也不管有没有人看，只要我可以遣词造句，只要我能够布局谋篇，我就能体会到那种不能言喻的快乐。至于得到了谁谁的认可，或是受到了某某的赞赏，那倒都是些锦上添花的东西了。”</p>
+<p>“归根结底，写作，是因为快乐。仅此而已。”</p>
+<p>——《因为快乐》，2009.4.30</p>
+</blockquote>
+<p>现在想起来，写作能让当时的我感到快乐，有几个原因：</p>
+<ol>
+<li>那是当时我发泄情绪的主要渠道；</li>
+<li>不同于做数学作业和背电路公式，写作是一项创造性工作；</li>
+<li>除了创造性以外，写作实质上是一件高度理性化的事情，这恰好有助于我整理混乱的大脑思绪；</li>
+<li>最后一点是当时我没意识到，但是现在看起来显而易见的事情——写作恰好是当时的我最擅长的事情。</li>
+</ol>
+<p>而现在，处在2016年的这个十字路口，我再次拾起写作这个工具，主要是为了上述的第三个功能。</p>
+<h2 id="The-Past"><a href="#The-Past" class="headerlink" title="The Past"></a>The Past</h2><p>实际上，上面说的第四点是一个贯穿我迄今为止人生的过程，我一直在寻找自己擅长的事情。有的时候这等同于另一个概念，就是上面所说，能让我感到快乐的事情。</p>
+<p>由于这世上的选项实在太多，最开始我用的是排除法。</p>
+<p>上大学之前我知道的是，我不喜欢做简单重复而没有创造性的工作，这是在我学车的时候看教练的工作状态领悟的。</p>
+<p>后来进了大学，我意识到了另一件事：我不喜欢做看不到成果的理论工作。换句话说，我发现我是个实用主义者，只有那些能实实在在看得到的东西才能引起我的兴趣。（顺便，这大概是我在被数学分析的证明题折磨恶心的时候领悟到的。）</p>
+<p>大四时因为一个偶然的契机，我开始为学校的BBS设计进站页面——说是设计，其实只是简单的摆弄Photoshop，做个700px × 400px的图片。但我立刻发现，从这件事情上，不管是过程还是结果，我都获得了不小的成就感。</p>
+<p>毕业之后进入IT业界，我在完全没接触过手机开发的情况下在家自学了一阵，最终幸运地找到了个开发app的工作，因为比起传统的PC端编程（尤其是搞后端啊数据库神马的），手机app开发是典型的“能实实在在看得到的东西”。</p>
+<p>在这期间，我又仔细界定了一下自己的兴趣所在：</p>
+<ol>
+<li>我喜欢做创造性的工作；</li>
+<li>在1的基础上，我喜欢做能看得到“实体”的工作（在这个语境中，能看得到界面的就算实体）；</li>
+<li>在1和2的基础上，我喜欢做能体现美感的工作；</li>
+<li>最理想的（也就是说不现实的）状况是，我能胜任从头到尾（立项、画原型、写产品文档、做视觉设计、写代码、调交互、迭代）自己打磨一件，属于自己的产品。（顺便，今年前几个月我考虑过怎么才能做freelance，最终觉得确实不太现实）</li>
+</ol>
+<p>但实际情况是，即使做的是app开发，在很多时候还是广义的体力活的范畴。我能做的大概只有——在文档没说清楚的地方发挥自己的创意（换个大公司估计就不可能有这种事了）以及经常和产品经理探讨产品问题（以至于最后产品经理离职前还送了我一本<a href="https://book.douban.com/subject/25915629/" target="_blank" rel="external">讲用户体验设计的书</a>。</p>
+<h2 id="The-Present"><a href="#The-Present" class="headerlink" title="The Present"></a>The Present</h2><p>于是，就有了去学交互设计的想法。</p>
+<p>留学这事大学时就考虑过，但是以当时的情况实在是不现实：数学分析和电路这种我毫无兴趣的理论课早已让我噤若寒蝉，我觉得即使出去也是大学几年惨痛经历的重演而已。况且要申奖学金必须申PhD，而如前所述，我对研究理论问题没有丝毫兴趣；如果只申Master的话——事实上，我爸说要卖一套房——把我吓坏了，本来就觉得自己会应付不来理论课，再加上这种败家的压力（简直就是必须要成功），简直想想就觉得透不过气。</p>
+<p>现在的心态就要好很多，首先比起计算机科学，人机交互是个和蔼可亲得多的项目；至于关键的学费问题，现在作为一个有良好信用记录的人，我可以去银行申请贷款，甚至可以把前两年摇号中签后不得不买的车卖掉换个七手夏利扔小区里（反正即使我在北京也经常一个月不开）。再租个七平米的房子什么的省省钱（当年在上海住过半年多），应该差不多够用。所以，我对出国所有的恐惧中，就只剩语言和交流问题。这也是这次出国的想法一直拖到现在才真正论证可行性并付诸实践的原因之一。（另外的顾虑包括，GPA实在是比较渣，但翻阅知乎上这两年前辈的帖子有的说工作和项目经验可以弥补——感谢同为实用主义者的部分老美）</p>
+<p>我只能这么想：比起在国内血汗工厂加班出卖代码劳动力来说，跟人用英语交流，甚至，做presentation也就显得不那么可怕了。</p>
+<p>说完了“道”上的内容，说些“术”上的细节。</p>
+<p>现实是这样的：</p>
+<p>目前单词量还是非常贫瘠，而GRE的填空毫无逻辑难度，简直完全在考词汇量；</p>
+<p>阅读速度非常差劲，建议15-17分钟完成的阅读，计时完成时间普遍在30分钟以上；</p>
+<p>前几天试着看了一下<lord of="" the="" flies="">，只读了4页，在Evernote里作了整整一页的笔记，花了一个小时；</lord></p>
+<p>基本上好的学校都要求托福口语和写作在25分以上，有些要求26分（年前考的时候口语20分，现在应该不会有什么变化——这也是在英国时airbnb的房东说我口语好，我十分惊讶的原因）；</p>
+<p>我的背景（作品集相关）还需要强化，目前体现专业相关的内容太少；</p>
+<p>学费还是需要再赚一赚……</p>
+<h2 id="The-Future"><a href="#The-Future" class="headerlink" title="The Future"></a>The Future</h2><p>考虑到上面这些因素，赶今年申请季估计比较悬。</p>
+<p>虽然HCI有着越来越热的趋势，但达不到硬性规定，申请也是没有意义的。</p>
+<p>到现在居然卡在语言问题，实在是……但没办法，悟已往之不谏，知来者之可追。</p>
+<p>所以还是继续再找个工作，然后在这多出来的一年里提升相关的水平。</p>
+<p>——就算没申请成功（很有可能），至少英语水平还提高了呢，也算一举突破了一个长久以来的瓶颈。</p>
+<p>反正我还能继续，骄傲（傲娇）地，写代码。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      在2016年这个十字路口，回顾了一下历史的进程，激励了一下自我的奋斗。
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Life, Career, 自我剖析" scheme="http://jonshowing.com/tags/Life-Career-%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Project RDFZ: The Documentary, Part II</title>
+    <link href="http://jonshowing.com/2015/09/27/Project-RDFZ-the-Documentary-Part-II/"/>
+    <id>http://jonshowing.com/2015/09/27/Project-RDFZ-the-Documentary-Part-II/</id>
+    <published>2015-09-27T10:50:08.000Z</published>
+    <updated>2016-09-17T10:25:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>大家好，这里是人大附中2005届学生毕业十周年返校活动的现场，我是记者小张儿。</p>
+<p>接下来请您跟随我的镜头一起，深入到活动的各个环节。</p>
+<p>首先映入我们眼帘的，是工人正在组装巨大的背板。</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wqcs4v4oj21kw11xwxe.jpg" alt=""></p>
+<p>在另一边，组委会的志愿者们正在用流水线的形式分装要送给到场同学的礼物。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wqei6flkj21kw2dcb0t.jpg" width="60%"></p>
+<p>成果是这样的：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/d948cc29889607.5610054c31147.png" alt=""></p>
+<p>大波同学还没到，工作人员还在待机：<br><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wr2iq5xrj21kw11xk72.jpg" alt=""></p>
+<p>背板搭好后大概是这样的画风：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wql9tiy0j21kw11xnbx.jpg" alt=""></p>
+<p>是大家的签到板和合影的背景板。</p>
+<p>让我们四处走走，这是沿途的指示牌：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wqmeik77j21kw11xtoh.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wqnouxa7j21kw11xne8.jpg" alt=""></p>
+<p>重头戏来了，在等候正式聚会开始前，组委会准备了收集印章活动，最先收集齐7个印章的同学可以<del>召唤神龙</del>获得神秘奖品。</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wqqn5znbj21kw11x164.jpg" alt=""></p>
+<p>那么印章的效果到底是什么样呢？</p>
+<p>锵锵锵！！！</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wqso6u29j21kw1kwttd.jpg" alt=""></p>
+<p>那么，神秘礼物是什么呢？笔者也不知道！！</p>
+<p>活动正式开始：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wqxe0om1j21kw11xwsf.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wqwqa6v5j21kw11xe2l.jpg" alt=""></p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wqz2hgb9j21kw11x7ki.jpg" alt=""></p>
+<p>活动圆满结束！部分筹备组人员合影：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wr8wc5foj20zk0non1v.jpg" alt=""></p>
+<p>到家，终于见到了冰箱贴的真身：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wqv9muvaj21kw11xwsk.jpg" alt=""></p>
+<p>就是这样，感谢观赏！</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wr7d4gkmj21kw2dctme.jpg" alt=""></p>
+<p>文字/摄影：Jon Showing</p>
+]]></content>
+    
+    <summary type="html">
+    
+      在高中毕业十周年返校聚会即将到来的时候，我临危受命被抓来设计与之相关的一系列物料。&lt;br&gt;这是对整个设计过程进行记录的系列文章之二，描绘了活动现场的设计实物效果。
+    
+    </summary>
+    
+      <category term="Design" scheme="http://jonshowing.com/categories/Design/"/>
+    
+    
+      <category term="Design" scheme="http://jonshowing.com/tags/Design/"/>
+    
+      <category term="RDFZ" scheme="http://jonshowing.com/tags/RDFZ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Project RDFZ: The Documentary, Part I</title>
+    <link href="http://jonshowing.com/2015/09/26/Project-RDFZ-The-Documentary-Part-I/"/>
+    <id>http://jonshowing.com/2015/09/26/Project-RDFZ-The-Documentary-Part-I/</id>
+    <published>2015-09-26T10:50:08.000Z</published>
+    <updated>2016-09-17T09:58:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本着没有总结就没有进步的原则，早就想写这么一篇了（咱能不每篇都用这句话开篇么……）。嗯，接下来就是给今年十周年返校聚会做设计的一些记录。</p>
+<p>题目来自于素材文件的文件夹名。在我的Evernote里面还有好多其他Project XXX，这种命名方式感觉是被日本人带坏了……</p>
+<h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>被拉进这次活动的契机非常神奇，大概是2014年底的某天（手机恢复了一次系统，微信记录已散佚），陈培同学找到我说明年有个毕业十周年的返校活动，能不能来帮忙，于是我就在懵懂中被拉进了一个大群。</p>
+<p>而我和拉我进群的陈培同学在这时连见都还没见过，属于当年人人网误打误撞加的网友！甚至连网友都不属于很熟的那种！</p>
+<p>2015年3月15号第一次在高中楼开会的时候，我对自己的定位还停留在海报设计师和摄影师的水平上，总想着应该还能找到更专业的人来干这事儿吧？</p>
+<p>我意识到没有什么救世主也不靠神仙皇帝是在五月中旬。实际上，四月底的时候我还用2004届的Logo改了一份交了上去：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vvqt8lhvj20go0g741g.jpg" alt=""></p>
+<p>没错，你们所有的照片和纪念品上的logo，险些就是这个样子……</p>
+<p>5月底是第一份设计——邀请函截稿的日子，而要出邀请函的设计稿，必须搞定logo。当我意识到我不能交出这么个东西然后对别人说我负责了这次的设计的时候，我念了两句诗：</p>
+<blockquote>
+<p>这几天突然就发现要做的事情都赶到一块儿了……想起句非常喜欢的台词”With great power comes great responsibility”，虽然不喜欢《xx侠》类电影，但是这句台词真是从第一次听见就觉得很有道理。觉得累的时候有时就会用这话来洗脑打鸡血。<br>2015-5-20 08:16 来自 微博 weibo.com</p>
+</blockquote>
+<p>第一次系统的设计工作，开始了。</p>
+<h2 id="设计过程"><a href="#设计过程" class="headerlink" title="设计过程"></a>设计过程</h2><p>我咨询了公司的美女设计师小英姐，她推荐给我一个网站<a href="https://www.behance.net/" target="_blank" rel="external">https://www.behance.net/</a> 经过一番钻研，我发现类似的成套的设计其实都可以分解成一系列按部就班的步骤。比如先确定一些独特的设计元素，或者先定下Logo，然后剩下的内容就比较好办了，往其他的设计内容上合理套用即可。</p>
+<p>这是当时我在豆瓣发的心得：</p>
+<blockquote>
+<p>Showing V1.2 说:<br>从小一直对做原创工作的人很敬畏，也很想成为其中的一员，不过一直不太有信心。前一阵考察了不少设计，发现其实设计工作是一项系统工程，可以分解为无数不那么原创的步骤，但最终的效果依然非常惊人。又想起人们说的写小说的套路，大概世界上的创造性工作互相之间都有相通之处。哪怕是编程。<br>2015年5月24日</p>
+</blockquote>
+<p>所以，我要面对的第一个，可能也是最大的挑战，就是重新设计一个合适的Logo。</p>
+<h3 id="Logo"><a href="#Logo" class="headerlink" title="Logo"></a>Logo</h3><p>它必须简洁，以便方便地复用在其他设计上，同时又必须显眼，让人一看就知道这个Logo描绘的是人大附中，不是别的什么。</p>
+<p>最重要的，就是如上所说的，是它将为所有后续的设计打下一个可供发挥的基调。</p>
+<p>像所有伟大的设计一样，这个设计的最初构思是描绘在<del>餐巾纸</del>日历上的。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7vvudjo45j20zk0qoaf8.jpg" alt=""></p>
+<p>然后细化成了这样：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/4751e129889607.560ebf094f91f.png" alt=""></p>
+<p>如图，备选方案主要就是校门和校服。基本上，2004届的logo中已经把所有的标志性物体都堆进去了，而我要做的，是减法。</p>
+<p>可能有读者不知道这里面提到的校门是什么样子，就是下面这张照片的样子：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/f06f3029889607.560ebf094c023.jpg" alt=""></p>
+<p>随后我下载了之前只用过几分钟的AI，进行了第一波尝试：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5d11e929889607.560ebf094d196.png" alt=""></p>
+<p>以及：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vwy4f7n6j21kw16oafl.jpg" alt=""></p>
+<p>由于实在不认识什么设计界的人，我在微信上进行了无差别骚扰，因为聊天记录丢失，大部分的反馈已经记不清了，印象最深的是hww同学的反馈，她说字体实在是应该好好换一下，这和后面几天小英姐对请柬的评价如出一辙，包括第一版邀请函完成后发到微博，@洞悉帝 和zf同学也都有此反馈，让我一下子意识到自己对字体的敏感度有短板。</p>
+<p>由于进度紧张，加上我认为把Logo放到上下文中会有助于决断，所以我在同时进行邀请函的设计。</p>
+<p>我做出的第一版邀请函是这样的：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7vvzz9rghj20gj0nedg1.jpg" alt=""></p>
+<p>可以看到已经很接近最终版本了。而这时小英姐给我看了她百忙之中帮忙做的版本：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vw0w6gkgj20go0ovjs1.jpg" alt=""></p>
+<p>跟专业的一比，一下找到了差距有没有……</p>
+<p>小英姐对校门进行了修改，但是我权衡之下还是觉得未修改的版本对校友来说更打眼。有“10”这个寓意固然好，但为了凑出这个寓意把原有的形状模糊了就有点得不偿失。何况，我还是很喜欢“十”和校门边缘交叉的处理。</p>
+<p>所以接下来主要的问题就是字体。这时小英姐设计中用到的字体给了我很大的灵感，她在其中用到了造字工房的郎宋体：<br><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7vw36v6fij20go0goq3h.jpg" alt=""></p>
+<p>在此感谢造字工房对此款字体的非商业使用开放了授权。</p>
+<p>这款字体的特点是竖笔粗，横笔细，我一下想到，这恰好与校门的形状可以对应！</p>
+<p>经过一番调整，校门的形状大致确定，与文字搭配完美，但是又发现郎宋体的数字和英文相对而言达不到要求，需要另外找合适的字体。</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vw4o6dmcj209r058aaf.jpg" alt=""></p>
+<p>幸好公司会议室的书架上有一本<a href="https://book.douban.com/subject/4085474/" target="_blank" rel="external">《1000 Fonts》</a>，我拿来从头翻到尾，以纵向宽横向细为目标，找到了两款：Sardonyx和Serpentine。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7vwh1uqwnj20go0ciq6d.jpg" alt=""></p>
+<p>经过对比和调整，最终使用的是Sardonyx的横向拉伸方案。最终完成体：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vwhn95waj218g0b4tae.jpg" alt=""></p>
+<blockquote>
+<p>中文字体: 造字工房 郎宋<br>英文/数字字体: Sardonyx bold</p>
+</blockquote>
+<p>Logo搞定以后，一套设计就有了设计的基本元素，下面的事情就好办多了。</p>
+<h3 id="邀请函"><a href="#邀请函" class="headerlink" title="邀请函"></a>邀请函</h3><p>有了Logo，邀请函基本上只是在上面的设计图基础上把Logo套用进去即可。</p>
+<p>我在6月12号的一次进度碰头会上第一次看到了邀请函的实体印制版本，当时很震惊在屏幕上看起来有些平淡的设计图一旦有了手感或者质感，居然会是完全另一种感觉：</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/5613ec79jw1f7wgiqtd7mj20hs0dcab7.jpg" alt=""></p>
+<p><img src="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wgebwnlej21kw16ok5j.jpg" alt=""></p>
+<p>这是继上次给徐经理印制送别明信片之后，又一次对“质感”这件事有所感悟。</p>
+<p>在这次碰头会上，也定下了聚会需要的物料，除了工作组需要的背板工作牌等东西之外，重头戏是给返校同学的礼物——对我来说，就是下一阶段的设计任务。</p>
+<p>一个是明信片，一个是在明信片上盖的印章，还有就是冰箱贴。</p>
+<p>插播当时我在豆瓣发的广播：</p>
+<blockquote>
+<p>Showing V1.2 说:<br>虽然做校友返校聚会设计这事儿实情是实在找不到人我才顶上去的，但还是有种花大家的钱过自己的设计瘾的感觉……<br>最头疼的是找不到人来讨论问题，好像认识的人找不到搞艺术的……<br>2015年6月17日</p>
+</blockquote>
+<h3 id="冰箱贴"><a href="#冰箱贴" class="headerlink" title="冰箱贴"></a>冰箱贴</h3><p>冰箱贴是一波主打纪念品，非常重要。事实上在这个事情上我有个多年前的储备，就是在大学时拿高中楼道里的柜子作为原型练手做的一张图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wpde7r7gj20l40ci76d.jpg" width="60%"></p>
+<p>我十分想把它变成实物，也就是说，在家里的冰箱上复刻出高中楼道的感觉。</p>
+<p>我甚至做了效果图：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wpfy2cdrj20xc0m8dpv.jpg" alt=""></p>
+<p>但是在和总舵主（本次返校活动的总协调人）进行沟通时，她反馈说作为纪念品应该多少喜庆一点，这个方案虽然创意很好却不太搭。</p>
+<p>我想了想，觉得还是很有道理的，于是改成了正统的冰箱贴设计：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wpjuxkqvj21a21a27ar.jpg" width="40%"></p>
+<p>后来事实证明，这个选择还是正确的。</p>
+<h3 id="明信片"><a href="#明信片" class="headerlink" title="明信片"></a>明信片</h3><p>有了上一次制作明信片的经验，加上这么多年基本都在做伪平面设计，这次对于明信片的设计任务我心里还算比较有底。按照习惯，最先进行的工作是：建立素材库。</p>
+<h4 id="建立素材库"><a href="#建立素材库" class="headerlink" title="建立素材库"></a>建立素材库</h4><p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wjrxxrylj21kw114wvp.jpg" alt=""></p>
+<p>这个阶段将进行大量的搜索工作，换用各种关键词在flickr、tumblr、新浪微博和Google等处花式收集。当然，也包括自己这么多年在硬盘里持续的存货。（说实话，到这时我简直觉得这事除了我之外没几个人能干好。兵马未动，粮草先行啊！）</p>
+<h4 id="选题"><a href="#选题" class="headerlink" title="选题"></a>选题</h4><p>接下来，要从素材库中选取若干有代表性的角度。说实话，真正的设计流程应该是先设计角度再去现场拍照——但我限于时间精力和不能随便进校园的实际情况，只能采取这种折中方案。</p>
+<p>选题的原则大致是：有代表性，尽量分散，类似素材想办法合并，以最大化利用。</p>
+<h4 id="制作"><a href="#制作" class="headerlink" title="制作"></a>制作</h4><p>大致如此（工作照摆拍）：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/5613ec79jw1f7wk8b8aquj21kw11xwux.jpg" alt=""></p>
+<h4 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h4><p><img src="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wk8izla9j218g121nih.jpg" alt=""></p>
+<h3 id="背板及指路板"><a href="#背板及指路板" class="headerlink" title="背板及指路板"></a>背板及指路板</h3><p>活动当天的背板和引导用的指路板，当时后勤组要得很急，不过这个相对来说就好办很多，再次印证了有了Logo一切都顺其自然这一点。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7vx8emdo6j21kw0sgjvf.jpg" alt=""></p>
+<p>6月21日完成。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wos6mipnj218g0stdkf.jpg" alt=""></p>
+<p>6月23日完成。</p>
+<h3 id="胸牌"><a href="#胸牌" class="headerlink" title="胸牌"></a>胸牌</h3><p>胸牌也是简单的基于现有元素的组合，不需太复杂就能很舒服：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wp34zfdoj20j60b4aaz.jpg" alt=""></p>
+<p>6月24日凌晨完成。</p>
+<h3 id="印章"><a href="#印章" class="headerlink" title="印章"></a>印章</h3><p>印章的设计是这次除了Logo之外挑战最大的部分，因为它不仅数量多（7个），而且没法像明信片那样<del>偷懒</del>找素材，只能自己手绘。</p>
+<p>好在我在之前设计Logo的时候已经稍微摸清了一点Illustrator的门道，接下来现学现卖也算稍微有点底。</p>
+<p>第一步依然是收集素材，只不过这回是作为绘图的参照。</p>
+<p>草图：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/48775729889607.5610dd307ae12.png" alt=""></p>
+<h4 id="6月24日"><a href="#6月24日" class="headerlink" title="6月24日"></a>6月24日</h4><p>6月24日，前两个印章完成：</p>
+<blockquote>
+<p>Showing V1.2 说:<br>印章系列(完成度2/7)。PS. 有还上豆瓣的高中校友吗？虽然不是什么好设计但是在返校活动前看到还是请保密啊……<br>2015-06-24 01:37:51</p>
+</blockquote>
+<p><img src="http://ww4.sinaimg.cn/mw690/5613ec79jw1f7wn1wt96lj21kw143guu.jpg" width="70%"></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79gw1f7wp06k8z5j20d209ndi7.jpg" alt=""></p>
+<p>高中楼，完全在AI里面照着照片描的；</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/5613ec79gw1f7wn4azp7sj21kw22pha1.jpg" width="70%"></p>
+<p>综合楼，上面的形状是餐盘，因为这楼下面两层都是食堂，最上面是阶梯礼堂。在描绘时使用了AI的透视模式。</p>
+<p>字体与Logo保持一致，使用郎宋体。</p>
+<h4 id="6月25日"><a href="#6月25日" class="headerlink" title="6月25日"></a>6月25日</h4><p><img src="http://ww1.sinaimg.cn/large/5613ec79gw1f7wnabiyv7j20t20h4dkc.jpg" width="70%"></p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f7wozgygfmj20hm08vdja.jpg" alt=""></p>
+<p>以及：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wndgakynj20t110t7b5.jpg" width="70%"></p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79gw1f7woxt5uj4j20hx0b70v2.jpg" alt=""></p>
+<h4 id="6月26日"><a href="#6月26日" class="headerlink" title="6月26日"></a>6月26日</h4><p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wnodm9p4j20so0lg41g.jpg" width="70%"></p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79gw1f7woz3glpqj20h30cpac0.jpg" alt=""></p>
+<p>以及：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wnnnd61tj20sr0kc0wr.jpg" width="70%"></p>
+<p>而最后一个印章也在制作中：<br><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wnq9k6rzj20sz0tawhz.jpg" width="70%"></p>
+<p>工作照：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/5613ec79jw1f7wnz4kd91j20zk0qo0yh.jpg" alt=""></p>
+<p>继现学AI之后又开始现学SketchUp xD</p>
+<h4 id="6月27日"><a href="#6月27日" class="headerlink" title="6月27日"></a>6月27日</h4><p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wo0r07hoj21kw0y0qd6.jpg" width="70%"></p>
+<p>至于最终印出来的样子是什么样呢？依然延续了“成品让人惊叹”的定律，请继续阅读下一篇。</p>
+<p>至此，轰轰烈烈的巨型设计现场进行了一个多月终于告一段落，距离真正的活动也进入了最后一周倒计时。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      在高中毕业十周年返校聚会即将到来的时候，我临危受命被抓来设计与之相关的一系列物料。&lt;br&gt;这是对整个设计过程进行记录的系列文章之一，记述了一次完整的设计流程。
+    
+    </summary>
+    
+      <category term="Design" scheme="http://jonshowing.com/categories/Design/"/>
+    
+    
+      <category term="Design" scheme="http://jonshowing.com/tags/Design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>那些女孩教我的事</title>
+    <link href="http://jonshowing.com/2015/07/27/lessons-that-girls-taught-me/"/>
+    <id>http://jonshowing.com/2015/07/27/lessons-that-girls-taught-me/</id>
+    <published>2015-07-27T10:55:56.000Z</published>
+    <updated>2016-09-16T13:08:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>这是个早就想写但一直不知怎么下笔的题目，记得不久前曾经努力开过一个头，刚才找了一下，发现正好是半，年，前……</p>
+<p>题目出自胖哥当年在KTV特别爱点的一首歌，但严格说来要写的内容基本上还是自己悟出来的。</p>
+<p>之前迟迟下不了笔的原因在于，这篇跨度从小学到现在的东西线索过于庞杂，又不想写成流水账。</p>
+<p>而现在匆匆下笔的原因则是，我急需跟自己讲明白道理。</p>
+<p>想来想去，还是分成几个“Before&amp;After”比较清楚。</p>
+<h3 id="颜控去死"><a href="#颜控去死" class="headerlink" title="颜控去死"></a>颜控去死</h3><p>说起来，我最为彻底的进步就是认清了这件事：你不能仅仅因为一个女生漂亮就爱上她。</p>
+<p>说起来轻巧，实际上这却在很大程度上是在挑战一个人的本能。</p>
+<p>君不见各国的爱情片里，充斥着类似的所谓一见钟情桥段？</p>
+<p>总结起来，这件事发生的年代基本上是在心智尚未成熟的年代，比如小学、初中（以至于后来我不认为初中有过真正喜欢过谁）、高中刚开始。最后的一个事例大概是大学时的小师妹事件。</p>
+<p>意识到这么做不对也不是件很难的事情，只需要有过几次失败自然能想明白。到后来我对于这点认识得越来越清楚，比如大学时的小慢，比如公司里的湖南妞儿，比如在HIMYM完结活动中偶然认识的小美女，都严格恪守了这条规则，没有让内心有更多的波动。</p>
+<h3 id="谢绝杀熟"><a href="#谢绝杀熟" class="headerlink" title="谢绝杀熟"></a>谢绝杀熟</h3><p>一句话，你不能因为和一个人很熟，就任性到非要和她在一起。</p>
+<p>托班里女生质量比较高的福，在漫长的岁月里，我几乎在不同的时间段里爱上了所有的熟人。指特别熟的那种。幸好，最后我只搞砸了一次，其余的全被我权衡后花几个月时间克制住了，可喜可贺。当然，如果在美剧里这可能不算什么= =</p>
+<p>显然，我证明了“熟”和“在一起”不是充要条件。应该说，两者不管从谁都推不出对方。</p>
+<h3 id="聊得来？再想想？"><a href="#聊得来？再想想？" class="headerlink" title="聊得来？再想想？"></a>聊得来？再想想？</h3><p>目前为止最有欺骗性的特质就是所谓“聊得来”。</p>
+<p>这里所说的“欺骗性”，不是指女生故意欺骗，而是你很难意识到在你们看起来巨聊得来的背后，是什么在支撑。</p>
+<p>有的女生，天生话痨。她跟你聊得来没错，她也和剩下的中国人聊得来。她还和部分英语国家的人聊得来，取决于她的英文水平。</p>
+<p>有的女生，在和你聊得来的表象下，其实有着一种让对话进行下去的使命感。一旦她失去了这种动力，你会发现你们之间其实无话可说。</p>
+<p>你还可以举一反三。总之，如果你没有注意到这些现象背后的本质，你会陷得非常深，你甚至会抑郁——因为你会觉得，你无力改变你遇到的事情。然后你会发现，这不是认知偏差，这是真的。</p>
+<h3 id="感动是无法复制的"><a href="#感动是无法复制的" class="headerlink" title="感动是无法复制的"></a>感动是无法复制的</h3><p>我觉得有必要把这一点单提出来，因为在当下非常有现实意义。</p>
+<p>曾经遇到过一些非常非常非常非常让我感动的事情，感动到险些去追给我带来这份感动的女生。</p>
+<p>幸亏没有。</p>
+<p>如果你稍微有点思考能力就会明白，一天天的生活不是靠感动来感动去继续下去的。</p>
+<p>诚然，做出让你感动的事情说明她有一颗金子般的心。</p>
+<p>然并卵好吗！！</p>
+<p>这与能让你们的关系发展下去，相关系数无限近似于零。</p>
+<h3 id="事件是无法复制的"><a href="#事件是无法复制的" class="headerlink" title="事件是无法复制的"></a>事件是无法复制的</h3><p>而另外一些时候，你不是被打动，而是经历了一些你从来没有跟女孩子一起经历过的事件。</p>
+<p>比如某年暑假，跟A同学，从附中的操场翻窗户进到高中楼，像特工一样避开高中楼保安；<br>比如某年春天，跟B同学见面时，超偶然地一起玩了个公园里的刺激性游乐项目；<br>比如前一阵，在一个聚餐里，我去敬C同学表示感谢时，她反而一边和我说话一边哭得梨花带雨……这也是我必须要写这篇东西的原因。（必须说，这件事同时也符合上一条，我被感动得一塌糊涂）</p>
+<p>麻省跳大神学院的占卜研究表明，只有智商低于27.5的物种，才会把偶然发生的事件，当成必然发生。</p>
+<p>你被这些事件震撼，唯一能得出的结论是，你经历得太少。仅此而已。End of story.</p>
+<h3 id="Be-Attractive"><a href="#Be-Attractive" class="headerlink" title="Be Attractive"></a>Be Attractive</h3><p>说了一大堆Don’ts，有没有什么Do呢？</p>
+<p>上面写的这一点就是我意识到的最大的To do. 来自zf同学在某一年的微博评论。</p>
+<p>神奇的是，当时我居然对这个评论还没当回事，这是直到后来我又经历了一些事情，再翻到时才惊讶地发现的。</p>
+<p>原话差不多是：</p>
+<blockquote>
+<p>“不要总想着useful啊，要想想怎么让自己attractive啊！”</p>
+</blockquote>
+<p>这大概是我最难改的顽疾了，直到现在我有时还忍不住会去想自己有什么用，能怎么帮到对方。</p>
+<p>吴彦祖能怎么帮到你了？</p>
+<p>圆通快递的取件小哥倒是能天天帮你。</p>
+<p>哦，热心的水管工东尼大木老师也可以。</p>
+<h3 id="女生不是追来的"><a href="#女生不是追来的" class="headerlink" title="女生不是追来的"></a>女生不是追来的</h3><p>曾经特别不理解“追”和“表白”这两种行为。</p>
+<p>上面说到useful，其实追的本质就是个展示自己用处的过程。</p>
+<p>你把姿态放得很低，“我能陪你！我能给你买早餐！我还能带你去看这个世界！”</p>
+<p>谁不能啊？</p>
+<p>表白就更可笑了，我一直对一个场景脑补不能，就是女神在某天答应了穷追良久的屌丝的表白，接下来这俩人能怎么相处。</p>
+<p>描绘屌丝追女神的殿堂级作品《I’’S》，对此的处理办法是：留白。</p>
+<p>绝妙的处理办法啊！！反正我当时特别激动地觉得终于可以解惑了，结果是硬生生地给作者行了个跪拜大礼。</p>
+<p>直到大学时有一天看BBS的帖子，有人说，表白这事其实应该就是个过场，至少也是要到有九成把握了再干。</p>
+<p>顿悟。我一下子觉得，这样整个过程就都讲得通了。</p>
+<p>强行表白基本上是要给自己找个交待的那种，属于自杀性爆炸范畴。</p>
+<p>武断一点的说，女生不是追来的，你只是让她确认心里的不确定，仅此而已。</p>
+<p>这是至今依然总也记不住的一件事情。</p>
+<h3 id="性格，性格，还是性格"><a href="#性格，性格，还是性格" class="headerlink" title="性格，性格，还是性格"></a>性格，性格，还是性格</h3><p>总结一下，到现在，有一点基本是肯定的，就是两个人是不是适合在一起，性格，或者气场，或者whatever类似的东西，是决定性因素之一。</p>
+<p>所以对于男生来说，实际上自身的素质决定了选择面的宽窄。你的性格越多样，就越能和越多类型的姑娘搭。</p>
+<p>像我这样的闷骚型，就无悬念的一定要找自带话题少女。</p>
+<p>伤感，但没办法，这个世界就是这样。</p>
+<p>“出场自带500多斤的伤感”。</p>
+<h3 id="没有一个帝国是靠谦卑维持的"><a href="#没有一个帝国是靠谦卑维持的" class="headerlink" title="没有一个帝国是靠谦卑维持的"></a>没有一个帝国是靠谦卑维持的</h3><p>2013年9月，我借着给HIMYM第八季写影评的借口，狠狠地抒发了一下自身的思考结果。</p>
+<p>我写道：</p>
+<blockquote>
+<p>“Ted比我强的最关键的一点就在于，在对孩儿他妈的长期寻找中，他一直在使自己变得更强大，变得更吸引人。他会滔滔不绝地与你谈论他喜爱的领域，会去做各种看起来很傻但是很有意思的事情，同时，不放弃自己即将遇到小黄伞的信念（虽然一直拿着本《霍乱时期的爱情》在地铁上看这种钓鱼行为令人非常Orz）。 </p>
+<p>只有这样，在真正遇到“老妈”的时候，你才能让她感到开心，你的光辉才能让她也彻底爱上你。所谓的命中注定，无非是实力超群——至少是实力相当。 </p>
+<p>没有一个帝国是靠谦卑维持的。感情也一样。 ”</p>
+</blockquote>
+<p>一段现在看来依然带着寒光的文字。</p>
+<p>2015年7月，依然倒在了同一段文字前面。</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>之前和朋友说过，经过我对自身经历的仔细思考，如果仅仅从性格上讲，和我最搭的是D同学。</p>
+<p>相处模式是这样的：她给我讲故事的时候，我吐槽。她不讲故事的时候，我就逗闷子。</p>
+<p>我还知道哪些点会“激怒”她，我会没事闲的故意往这个点上引。北京话里这叫贱招儿。</p>
+<p>得到的反馈是胳膊上的一顿猛掐。</p>
+<p>经常是一节课下来，累倒是不累，反而笑得肚子疼。我外加胳膊疼。</p>
+<p>如果我至今还残存一些逗闷子的能力的话，大概有八成是那个时候养成的。</p>
+<p>这种相处模式并不新奇，但如果放在这十几年在和女生交往中长期的暗色调经历里面，这几乎是其中唯一的一抹亮色。</p>
+<p>所以，它一定有一些特别的地方。</p>
+<p>分析了一下，首先，在异性朋友里面，她是和我关系最好的人里面唯一一个特别外向的；其次，我并没有爱她，因此，我完全不必顾忌自己的形象（其他经历中我都是小心翼翼）；另外，我们没有一方明显弱势，基本势均力敌；最后，我们都很看重对方这个朋友。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>我一直觉得，人总是要长点记性的。</p>
+<p>我喜欢写文章总结东西，因为除了写诗之外，写作其实是一件非常需要理性的事情。在你心乱如麻，脑中充斥着万千种想法的时候，只要你能坐下来把你的问题像模像样地筹划成一篇文章写下来，一般情况下就能好很多。</p>
+<p>而近几年，这个大杀器的使用频率是眼看着越来越少。</p>
+<p>这篇文章之所以早就想写，是因为我一直想整理一下到目前为止遇到的事情，以便提醒自己不要重蹈覆辙。毕竟很多时候，这里面列出的反例并不是那么显而易见，甚至需要挑战人性。</p>
+<p>所谓的Perfect Match也许根本不会遇到，但能长期相处的人基本上还是应该有个baseline的。</p>
+<ul>
+<li>一个真心欣赏你的人。</li>
+<li>一个至少在和你说话时自带话题的少女。</li>
+<li>一个既不会强势也不会弱势的朋友。</li>
+</ul>
+<p><juno>里面有一首歌，里面有这么一句，给我留下了极深的印象：</juno></p>
+<blockquote>
+<p>“You’re a part-time lover and a full-time friend.”</p>
+</blockquote>
+<p>差不多就是这样。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>本来一直觉得自己的经历非常苍白，但总结下来居然觉得自己要赶上Ted了……</p>
+<p>说起来，虽然前面说了好多“暗色调”的事情，但总体上，我还是非常感激生命中的那些过客。<br>不只是因为我自己也是过客，而是，刚才我在翻之前写的东西的时候，看到了这么一句：</p>
+<blockquote>
+<p>2013-02-28 14:33:22 《两年》<br>无论如何，我要感谢。我险些忘记，我还能如此开心。</p>
+</blockquote>
+<p>生命，就是这样才井猜的啊。</p>
+<p>说到Ted，我觉得在影视作品里我几乎找不到比他更像我的人了。</p>
+<p>今后，我也特想偷他的这句话：</p>
+<blockquote>
+<p>Kids,<br>This is how I met your mother.</p>
+</blockquote>
+<p>2015.7.26 凌晨 初稿<br>2015.7.27 白天 续完并改二稿<br>2015.7.29 深夜 补充“女生不是追来的”一段</p>
+]]></content>
+    
+    <summary type="html">
+    
+      这篇文章总结了前二十几年在和女孩的交往中所积累的人生经验。&lt;br&gt;Kids, this is how I met your mother.
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Love" scheme="http://jonshowing.com/tags/Love/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Bye，经理</title>
     <link href="http://jonshowing.com/2015/05/18/bye-manager/"/>
     <id>http://jonshowing.com/2015/05/18/bye-manager/</id>
     <published>2015-05-18T13:46:50.000Z</published>
-    <updated>2016-09-16T07:41:06.000Z</updated>
+    <updated>2016-09-16T13:02:34.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>5月12日，天高云淡，惠风和畅，正在我鱼块地和PM同学讨论问题的时候，突然看到了这么一行：</p>
 <p><img src="http://ww1.sinaimg.cn/large/5613ec79gw1f7ve8uabo0j205509xdg1.jpg" alt=""></p>
@@ -49,13 +486,315 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;缘起&quot;&gt;&lt;a href=&quot;#缘起&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h3&gt;&lt;p&gt;5月12日，天高云淡，惠风和畅，正在我鱼块地和PM同学讨论问题的时候，突然看到了这么一行：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://
+      “经理”，又叫徐经理，是以前公司的产品经理，因为比较熟，所以经常开玩笑地这么叫她。&lt;br&gt;这篇文章记叙了当时在她离职之前，我对送她的离职礼物的考虑和设计。
     
     </summary>
     
+      <category term="Design" scheme="http://jonshowing.com/categories/Design/"/>
+    
     
       <category term="Design" scheme="http://jonshowing.com/tags/Design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Words on Photography 2013</title>
+    <link href="http://jonshowing.com/2013/12/22/Words-on-Photography-2013/"/>
+    <id>http://jonshowing.com/2013/12/22/Words-on-Photography-2013/</id>
+    <published>2013-12-22T15:15:07.000Z</published>
+    <updated>2016-09-17T01:40:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>现在回想起来，我的摄影之路呈现出了最典型的自然演变趋势：最开始是05到09年用诺基亚6670照的几千张记录生活的照片，然后是09年初购入卡片机后的记录生活与有意创作混合阶段，仅仅两年时间就又是上万张，最后才是今年年中时购入的单反（初衷还有很大一部分是为了照人像）。</p>
+<p>也许正是因为这样的轨迹，让我有个坚定的摄影理念，就是要尽量还原现场，在这个基础上再去追求美感。倘若最后照出的景色与肉眼所见的大相径庭，那即使照片再好看，其存在的价值也不高。</p>
+<p>这次在青旅中遇到了几个台湾游客，那是我第一次近距离接触比较专业的摄影人士，也聆听了许多指点而受益匪浅。但当我后来在Facebook上看到他们出的片子时，就发现他们的照片清一色地修片过度。</p>
+<p>这不仅不能叫记录，这种修片行为也不能叫艺术创作。</p>
+<hr>
+<p>之前一直觉得，摄影在艺术创作领域的等级比较低，因为它出片太快，运气成分居多，不像其他艺术形式需要那么多脑力和精力投入——这是个几乎只凭天赋和审美就能做好的事情。</p>
+<p>直到最近我才慢慢体会到，其实不是这样。能不能找到完美的构图仍然需要良好的艺术素养甚至是丰富的经验，有时还需要大量的时间和良好的耐心，更不用说在不同的光线条件下如何手动调节相机参数这些技术活。</p>
+<p>这也是当我把相片发到人人网上之后，有个人追着要加我好友时我感到出乎意料的原因，我深深觉得自己的功力很渣，在看到别人拍的同样题材的照片时常常感到差距。我甚至对自己起家的观察生活的能力感到怀疑，我对生活的观察力还依然敏感吗？</p>
+<hr>
+<p>当把你扔到日本之后，你会拍些什么呢？</p>
+<p>你一定会觉得简直处处都是可拍的，对不对？</p>
+<p>没错，我也是这么想的。接下来的问题就是，要怎么拍呢？</p>
+<p>这是当手中的设备换为单反后，我面临的最大问题。尽管单反的响应速度是其他相机的若干倍，可我的快门数几乎还降低了一些。这件庞然大物拿到手上，单纯记录生活的念头就会不由自主地被对美感的追求所压制。</p>
+<p>也许，这种“累”还是因为缺练吧。现在回想起来，可拍的东西真的太多。</p>
+<hr>
+<p>与上一条有些矛盾的是，像我很早以前写的（<a href="/2009/04/20/Words-on-Photography/">《絮语摄影》</a>）那样，我还是不太习惯去拍那些“看不出是在哪里拍的”的静物，虽然已经改了不少。这点在看别人的作品时还不时会感到刺痛。</p>
+<p>最近加班太多，不在写作状态，最想写出的大概就是这几点。收笔。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      一些对摄影的总结，第二弹。
+    
+    </summary>
+    
+      <category term="Photography" scheme="http://jonshowing.com/categories/Photography/"/>
+    
+    
+      <category term="Photography" scheme="http://jonshowing.com/tags/Photography/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS App“格子箱”试用研究</title>
+    <link href="http://jonshowing.com/2012/07/18/analyze-about-the-ios-app-gezbox/"/>
+    <id>http://jonshowing.com/2012/07/18/analyze-about-the-ios-app-gezbox/</id>
+    <published>2012-07-18T03:13:00.000Z</published>
+    <updated>2016-09-16T15:47:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>现在每天新出的移动端app众多，但随之能让人真正驻足留意，以至花时间投入其中的app就太少了。也正是因此，当我发现自己居然在没人推荐的情况下，被一个完全没有熟人的社区吸引的时候，我就暗暗震惊，并且出于敏感开始收集这个app是如何做到这一点的。</p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最开始发现这款app，神奇地与任何app推广形式都没关系，而是起始于我搜索相机信息时，搜到了一篇对微单和单反的对比文章<a href="https://www.douban.com/note/202625985/" target="_blank" rel="external">《单反还是微单？他们选择了……》</a><strong>（2016年注：原链接已挂，只能搜到该团队在豆瓣运营的帐号发表的同名日志）</strong>：</p>
+<p><img src="http://filer.blogbus.com/1411463/1411463_1342604307n.png" alt=""></p>
+<p>仅就这篇文章来讲，初看之下其成文角度非常新颖，在众多疑似枪文的评测之中，这篇文章在少量讲解之后配以大量的实例，而“在格子箱内，所有使用微单相机的用户，有40%的人选择购买了索尼Nex-5系列”这样的数据流风格，也完全符合我数据控的口味。</p>
+<p>于是我开始翻看这个博主的其他文章。</p>
+<p>在<a href="http://www.19lou.com/forum-1440-thread-9901329960441003-1-1.html" target="_blank" rel="external">《有了iPhone和Mac，还需要……？》</a><strong>（2016年注：这篇更是只能在一个莫名其妙的社区的转帖中才能找到尸体）</strong>这篇文章中，这种数据流发挥到了极致。“21%的Mac用户购买了Lamy笔”，“10%的用户购买了参天 Sante FX Neo眼药水”这样的统计数据彻底撩起了我的兴趣，虽然我还没搞清楚这个app究竟是干什么的，对这种细致分析的认同和追随也促使我去下载了这款app。这时是6月19日。</p>
+<p>到这里我认为比较重要的一点是，新颖的原创文章，翔实的真实数据对用户的吸引（用户能得到别处得不到的有条理的信息）。同时，还发挥出了自身社区的长处（这也是别处不可替代的）。不可否认的是这样的文章对文字编辑要有很高的要求。
+</p>
+<h3 id="第一印象"><a href="#第一印象" class="headerlink" title="第一印象"></a>第一印象</h3><p>格子箱app（v2.0以前）打开之后如图所示：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vuxgsj1ej21kw0sstna.jpg" alt=""></p>
+<p>最上面的大图就是前面提到的专题。如果说网上的文章是导火索，在程序中对应的专题则起到了巩固作用。这些专题让我觉得真的得到了一些新鲜的（而且在不断更新的）消息，是一个蛮特别且颇专业的RSS feed。(下图：往期专题内容）</p>
+<p><img src="http://filer.blogbus.com/1411463/1411463_1342606064d.png" alt=""></p>
+<p>而下面的列表则采取了非常灵活的组织方式，在我试用的十几天里变换了若干次，有些section是突然出现的（当然这也是运营人员在不断地摸索，最近一两周内已经趋于稳定），而所有的section都在不定时更新。其更新策略我不太确定，但推测也是人工干预主推内容的。</p>
+<p>到目前为止我们已经看到了这个程序在内容展现上的一大特点：有一双看不见的手在精心安排。哪怕（除了“专题”外）几乎所有的内容都是用户自己产生的，在展现上也是经过了足够的权衡而成。</p>
+<h3 id="互动"><a href="#互动" class="headerlink" title="互动"></a>互动</h3><p>内容吸引人，展现得有趣，这些只是吸引用户驻足的一面，而让用户真正扎下根来，靠的还是互动。</p>
+<p>程序中有许多网友自己建立的小组，在安装程序当天我就加入了一个：</p>
+<p><img src="http://filer.blogbus.com/1411463/1411463_13426070113.png" alt=""></p>
+<p>不过小组只是作为内容聚合的另一种纬度存在的，也相当于在程序内增加了一个自己感兴趣的RSS feed。</p>
+<p>在潜水了多天之后，7月2号，我上传了自己的第一批东西，没想到迅速收到了几条回复，这促使我发了一条微博：</p>
+<blockquote>
+<p>这个格子箱做得很好啊，最开始是觉得各种编辑专题很不错（包括相机显示器等东西的选购，最近甚至有剃须刀和Lamy笔），后来发现社区也颇活跃，刚试着传了几个东西就一堆回复……之前完全没有听说过，哪儿来的这么多用户= =</p>
+</blockquote>
+<p><img src="http://filer.blogbus.com/1411463/1411463_1342607316x.png" alt=""></p>
+<p>这与上次产品会中讨论的，用户在得到来自别人的认同感时会产生继续分享的愿望，是一致的。</p>
+<p>所以再往后就是一个良性循环。</p>
+<p>7月2日上传物品3件，7月4日13件，7月5日发状态一条，物品2件，7月7日发物品6件，7月8日12件，7月9日8件，7月11日3件，7月12日3件，7月13日1件，7月14日13件……</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vttdwg6cj21kw10jafk.jpg" alt=""></p>
+<p>你分享的东西越多，收到的回复就越多，于是你就越有动力继续发。甚至，你会发现与自己兴趣类似的人，当他们更新了某些东西时，你会想到自己也有相关的东西，于是也会找出来分享：</p>
+<p><img src="http://filer.blogbus.com/1411463/1411463_13426095178.png" alt=""></p>
+<p>在此图中，因为我在前几天刚刚传了一大堆收藏的科幻小说上去，并且与几个人聊了不少，所以这位“思思”看到又有人传科幻时便想起了我，而我在看到这张时则又去找了几本前几天懒得拍照上传的科幻书分享。这就是良性循环的开始。</p>
+<p>而这里面最关键的第一推动力，就是最开始的那几条回复。（我后来很怀疑其中有该公司内部人士）<br>互动还包括一种形式，就是与App运营人员的互动。在对这款app的试用中，我多次感到（虽然是隐式的）在受到运维人员的影响。如图：</p>
+<p><img src="http://filer.blogbus.com/1411463/1411463_1342606026p.png" alt=""></p>
+<p>截图日期是7月10日，即运营人员发现我在几天之内上传了若干物品，比较活跃后，立即将我加入了“人物”这个section。毋庸置疑，这对一个新人的正面影响还是比较大的。</p>
+<p>7月11日，我则发现自己又进入了“热门人物”：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vu4d8l5dj216o1kwdmj.jpg" alt=""></p>
+<p>还有件好玩的，在我最近一周趋于沉寂时，今晚突然发现自己又被app放到了首页“箱子推荐”里面（下图），想必是想用可能带来的加关注和新回复提醒来让我继续回来。（当然，我的箱子也确实有点货值得推荐）。</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vu6gwde8j20hs0qoaca.jpg" alt=""></p>
+<h3 id="改版"><a href="#改版" class="headerlink" title="改版"></a>改版</h3><p>在试用过程中，此程序除了上面说过的变化分栏形式外，还有一次大的升级，下图是某次打开后的升级提示：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7vu8chsyzj216o1kwjz0.jpg" alt=""></p>
+<p>自我下载后的几版升级都截了图，按时间顺序从左到右列于下方。</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vu9pn8b6j21kw0whtjw.jpg" alt=""></p>
+<p>可以看到运营人员的尝试，到最新一版时，把最上面的面积大幅缩小，同时不再限于专题，而是把精选的用户物品也展现出来，更加发挥了此app的精髓和竞争力所在。</p>
+<p>由于有社区的存在，此app每次改版的特点是，会有大量用户参与讨论，并且会很快得到答复。这是7月19号2.2版上线后我对此版本的评价，以及就在当天得到的回复。</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vuqka3ucj21kw137dsy.jpg" alt=""></p>
+<p>让每个人都有参与感，让人人都成为某个圈子的一份子，让每个ID和头像后面都成为独一无二的人，邀请活跃用户加入到整个程序构架的讨论（并且得到回复），这就是这个app给人的体验。</p>
+<h3 id="理念"><a href="#理念" class="headerlink" title="理念"></a>理念</h3><p>翻回头来，让我们从底层探讨一下——这款app的理念是什么，它怎么就笃定用户有分享的欲望？</p>
+<p>仅说我个人的体会，我认为每个人都会有自己的爱好，有自己的倾向性，正是这些让你成了你自己而不是其他人。在不同的人到当下或长或短的人生中，或多或少会有些自己的收藏，像手办这样正式的也好，过生日时别人送的随便什么东西也好，家中的每一个藏品实际上都是一个故事。</p>
+<p>那么问题就来了，收藏一直以来就是个颇个人化的体验，只对自己有纪念意义的不说，就算是大众能理解的物品，真正至于邀请别人到家中欣赏的也毕竟是少数。结果就是，我收集了许多东西，却只能孤芳自赏。</p>
+<p>SNS带来了一些改变，但他们无法解决的问题是，SNS唯一的纬度是时间即Timeline，3天之前的新鲜事是无人问津的。从组织形式上讲，这就与物品和故事的分享相悖。当然还有个问题，过分在SNS上晒物品有装逼嫌疑。</p>
+<p>“格子箱”不属于创新，“格子”的概念来源于现实，这与苹果具象化的设计理念直接对应，其效果也非常好，用法一目了然。在最开始，该app一直宣称是“整理强迫症人士必备的软件”云云，口号是“生活、购物、分享”，这个定位非常狭窄。我曾经在微博说，我完全懒得整理，只喜欢收集。结果到最新的2.2版，口号已经换成了“用‘物’感受生活”，这与我上面说的“藏品背后有故事”已经非常接近。</p>
+<p>实际上，在旅行的体验上，也有着相似的情况。首先，旅行体验实际上也是个非常个人化的过程。每个人在每个地方都有自己的经历和故事，但这些经历大多只和当时有关。你在青旅偶遇了什么旅伴，你在当地碰巧赶上焰火表演，这是人愿意分享的，但与其他人并无太大关系。其次，在SNS上的Timeline flood情况依然存在，我这次去广州的事儿总不能说半年吧，那过后的这些故事难道就被掩埋在几千条微博之中了吗？</p>
+<p>所以，在旅行的问题上，我们需要个“格子箱”来整理自己的旅行经历，当建立起一个行程（格子）之后，他最好可以从微博抓取当时的故事并按时间排列；可以从Camera roll抓取照片并自动填充进去；……</p>
+<h3 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h3><p>前面说的都是这款app值得学习的地方，最后提一下不足之处，那就是其<a href="http://weibo.com/gezbox" target="_blank" rel="external">官方新浪微博</a>。当我看到这个帐号的时候，简直难以相信其中的内容是和那些日志和专题出自同一个团队之手，该官博更新的内容与其他官博并无太多不同，几乎没有发挥出自己本身的优势。当然，我只尝试往新浪微博同步了一条微博，就在第二天被该官博转发了，他还是多少往正确的方向做了些努力，虽然远远不够。</p>
+<p>摘抄前几天我发的微博：</p>
+<blockquote>
+<p>微博上营销帐号的策略实在是……我关注你是为了看你贴这些三流笑话的么 可好像大部分的官微都是这德性= = 我觉得还是要发和自己相关的东西，提供信息；信息量不够维持的话就互动；还不够维持的话像当年大众软件那样编编辑部故事也好啊！当年买大软一半的原因是看他们编辑部又发生什么了！</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      从产品的角度，剖析了这款app在设计和运营上一些打动自己的亮点。
+    
+    </summary>
+    
+      <category term="产品设计" scheme="http://jonshowing.com/categories/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/"/>
+    
+    
+      <category term="iOS" scheme="http://jonshowing.com/tags/iOS/"/>
+    
+      <category term="App" scheme="http://jonshowing.com/tags/App/"/>
+    
+      <category term="产品设计" scheme="http://jonshowing.com/tags/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>沟通障碍有福音</title>
+    <link href="http://jonshowing.com/2010/06/15/cure-for-those-who-had-difficulties-with-communication/"/>
+    <id>http://jonshowing.com/2010/06/15/cure-for-those-who-had-difficulties-with-communication/</id>
+    <published>2010-06-15T04:42:41.000Z</published>
+    <updated>2016-09-16T14:52:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最早关注邵小毛是因为她的才气和声音，当然，还有各种萌=.=<br>（参见我的“聪明大于身高，才气胜过身材，萌压倒一切”三定律）</p>
+<p>不过去了她的巡演才发现，这姐们儿和我一样，居然也是个沟通障碍……</p>
+<p>演出的一首曲目叫《沟通障碍有福音》，就是上面视频里的那首歌（不过不是我去的那场）。她说这首歌写的就是她涉足音乐的初衷，就是因为自己在沟通上有障碍，所以才用音乐去表达自己。然后我一下就想起了她之前的话，怪不得会让我那么熟悉——</p>
+<p>巡演上海站，她是这么开场的：</p>
+<blockquote>
+<p>“大家好，我是邵夷贝（引入话题）……</p>
+<p>终于来到了这个特殊时期的人潮汹涌的上海滩（拿出事先准备好的段子）……</p>
+<p>感谢大家来看我的巡演（真正要说的话）……</p>
+<p>嗯……（在想词）</p>
+<p>不太会说，那就唱吧……（放弃继续说下去的努力……）”</p>
+</blockquote>
+<p>这整个流程我十分理解啊，因为这就是我无数次做过的=.= 真正灵光闪现的也就是“事先准备好”的那一段，之后就迅速被打回原形……</p>
+<p>回来之后看她po上网的总结日记，又看到了这样的话：</p>
+<blockquote>
+<p>“我上台前在后台连蹦带跳叽哇乱叫了一阵子，连后台的保安都不得不和我说‘加油’安慰我…这次上台前实在是紧张，心虚得要死…”</p>
+</blockquote>
+<p>也是和我如出一辙，只不过我是在心里叫罢了=v=</p>
+<p>然后又去查了她更早的日记，在《沟通障碍是不是福音》这篇中，也提到：</p>
+<blockquote>
+<p>“有时候我也反省，小时候觉得这是酷，后来觉得这是矫情，再后来不得不承认这是沟通障碍。如果让我写字，哪怕写短信，我都表情感叹号一大堆。但是一到面对面，我就囧脸一张，同一表情持续一晚上，十个问题踢不出一个P来。”</p>
+</blockquote>
+<p>想起去年这个时候和水源某id见面后也很受刺激，之前准备了一堆话题但纷纷只支撑了几分钟便不支败下来。。。。最后很快变成了只能顺着对方的话题说=.= 那是我对自己贫瘠的找话题聊天能力最有深刻体会的一次。。。。关键问题是对方还是很能聊天的那种，不是和我一样不会聊天的……唉，就像这首歌里唱的，“表达想法对我来说永远是问题，为什么大脑和嘴巴之间有那么远的距离”。。。</p>
+<p>不过就像那句话说，“上帝关上一扇门，必将打开一扇窗”。不善言谈的小毛在音乐上才气纵横，我虽然不会作曲，至少在文字表达上没有障碍，可以把自己的感受用文字比较准确地写下来。</p>
+<p>这就是所谓“沟通障碍有福音”。</p>
+<hr>
+<p>附 《沟通障碍有福音》</p>
+<blockquote>
+<p>曲/词/唱 邵夷贝</p>
+<p>星期六的下午 他就突然出现在我面前<br>心中礼炮乱响 好像已经征服整个世界<br>该怎么办 我却说不出对他的想念<br>冒出一句 你头发好乱<br>头上一直冒汗 不知怎么才能解释明白<br>多想他能发现 我的口是心非心有不甘<br>不想隐藏 被他吸引的磁铁心脏<br>可是外表没有正负极的表象<br>表达想法对我来说 永远是问题<br>为什么大脑和嘴巴之间 有那么远的距离<br>可不可以制造一个 表达的加速器<br>让我给你一个真实的自己<br>不会表达的人 总是因为沉默而被错过<br>多么希望说话 只是通过一种条件反射<br>请赐一种 不能取代的表达法则<br>让紧闭的心经常透一透气<br>表达想法对我来说 永远是问题<br>为什么大脑和嘴巴之间 有那么远的距离<br>可不可以制造一个 表达的加速器<br>让我给你一个最真实的自己<br>可以拿着吉他 五三二三一三唱歌来听<br>希望你能明白 我的歌词就是我的心情<br>弦已走音 你却安静地安静地倾听<br>我很爱你 可不可以</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      《沟通障碍有福音》是邵夷贝的一首歌，我发现它完全描写了我自己。
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Music, Life, 自我剖析" scheme="http://jonshowing.com/tags/Music-Life-%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我做PS的若干特点</title>
+    <link href="http://jonshowing.com/2010/02/05/Summary-about-designing-with-Photoshop/"/>
+    <id>http://jonshowing.com/2010/02/05/Summary-about-designing-with-Photoshop/</id>
+    <published>2010-02-04T18:25:11.000Z</published>
+    <updated>2016-09-17T05:47:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>此处PS=Photoshop，不是Personal Statement，正在申请出国的各位学弟学妹切勿激动。</p>
+<p>昨天做完了石导拜托的海报，突然觉得自己每次做PS都有些很有趣的共同特点。玩Photoshop也不短了，不妨试着总结一下。</p>
+<h3 id="素材库"><a href="#素材库" class="headerlink" title="素材库"></a>素材库</h3><p>每次拿到自由发挥的任务先到自己的“素材库”找灵感。</p>
+<p>这里的“素材库”包括两块，从<a href="http://bbs.themex.net/" target="_blank" rel="external">Themex论坛</a>存的900多张Wallpaper，和自己这一年来照的5000多张相片，其中前者功劳最大，也是我每次必花时间过一遍的项目。在过这一遍的过程中，一是可以直接从这些壁纸中找素材，二是可以从这里面包罗万象的内容和创意中激发灵感，起到辅助头脑风暴的作用。我的照片库由于数量太大，相比之下内容也偏单一，所以一般都是脑子想到了一些灵感再去查找。</p>
+<p>因为这个原因，我一开始从Themex下壁纸还是纯爱好，后来就变成了一种有意识的储备——我知道，这个素材库的数量决定了我灵感火药库的弹药储备状况。</p>
+<p>一般情况下我都会先定下四个以上的不同方案待实现，然后再去各处（Flickr、Google Images、Baidu图片等等）找素材，再一一尝试实现，最后限于素材、技术等因素，还没有全部实现的情况。</p>
+<p>例子：“豆瓣电台明信片计划”之“超级马里奥”，就是先在Wallpaper文件夹看到了一张Mario的壁纸，激发了灵感，然后在网上搜来另外的素材图完成的：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/5613ec79gw1f7wh5zhcwtj21d80ygdm7.jpg" alt=""></p>
+<p>例子：“Science板水源BBS进站”这个任务，就是想到了之前拍的这张照片，然后一口气完成的文案、构图和后期整合：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79gw1f7wh6l9m6gj20jg0b4dkk.jpg" alt=""></p>
+<h3 id="素材的搬运工"><a href="#素材的搬运工" class="headerlink" title="素材的搬运工"></a>素材的搬运工</h3><p>总是在现成的图上加工，极少自己设计。</p>
+<p>其实这个限于两点：我的出身——非设计专业出身，和我的设备——没有手绘设备。而且，我还很烦鼠绘……</p>
+<p>所以我一直觉得，我到现在为止唯一称得上是“设计”的作品是那幅人大附中柜门号码加工出的“RDFZ”，只有这个是我真正从无到有一点点做出来的，其他的都是加工。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wh7j8rrwj20iw07sab4.jpg" alt=""></p>
+<h3 id="模仿"><a href="#模仿" class="headerlink" title="模仿"></a>模仿</h3><p>啥都想模仿一下。</p>
+<p>在Themex看到别人的签名档好看，就一口气做了三四个；看到有人给漫画原画上色，我就也抓了幅当时正在看的《I`S》的原画来上色；看到Dreamxis设计的UI漂亮得令人发指，就模仿着弄了个“你丫是好人”的对话框……</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wh8rdvnkj20i208c0u9.jpg" alt=""></p>
+<p>其实这有利于PS的进阶，因为一切技术都是在练习中才能进益的。自己的东西在某种程度上也建立在模仿的基础上。</p>
+<p>更多的心理因素暂不分析——困了- – 写完睡觉了……</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/5613ec79gw1f7wh9bo4tgj21560uttrb.jpg" alt=""></p>
+<h3 id="蓝色控"><a href="#蓝色控" class="headerlink" title="蓝色控"></a>蓝色控</h3><p>无可救药地喜欢蓝色。</p>
+<p>这涉及到我一贯的色彩偏好……其实这一点可以更概括一些，概括成“无可救药地喜欢纯色”。这从我刚开始玩PS时给自己接的那单活儿“北京板水源BBS进站”就有所意识了，那四格里四种纯色的搭配让我自己爱不释手；在后来的案例中，我最爱的也是大片绚丽的纯色。我曾经给自己一个评价：“视觉动物”，当时是因为我仅仅由于某些软件的界面太难看就把他们弃用了，这一点用来解释我对绚丽纯色的偏爱十分贴切。</p>
+<p>顺便提一句，我估计是由于我喜欢纯色的缘故，我也特别喜欢简洁风。我喜欢画面干干净净，清清爽爽的，不喜欢杂乱。</p>
+<p>后来拿北京板进站做的签名档，四格代表的是北京的四季：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7whac3gtkj20go046dh2.jpg" alt=""></p>
+<p>给石导做的海报，上面那蓝色让我自己心醉至今- – 这也是这篇文章写作的动因之一：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f7whhk14fxj20ci0goq4w.jpg" alt=""></p>
+<p>例子：应一个朋友的请求帮忙做的BBS进站，灵感来自于豆瓣友邻<a href="https://www.douban.com/people/hayibala/" target="_blank" rel="external">@小哀</a> 拍的<a href="https://www.douban.com/note/35071692/" target="_blank" rel="external">照片</a>：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7whjkrpfbj20jg0b4n0p.jpg" alt=""></p>
+<h3 id="没事找事"><a href="#没事找事" class="headerlink" title="没事找事"></a>没事找事</h3><p>喜欢给自己没事找事。</p>
+<p>我目前为止完成的任务中，别人找到我的占不到一半，剩下的都是我看到有活儿主动揽过来的——完全义务，不收报酬，还承担售后服务。</p>
+<p>以前的日志里我分析过，这是我渴望得到别人肯定的表现，然后大家的评论表示，所有人都有这个心理……</p>
+<p>08年CS板板衫设计，典型的没事找事。当时我还根本不怎么会用PS呢，这个设计图现在看来和垃圾似的……</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7whm54zk7j20b209k3yp.jpg" alt=""></p>
+<p>说真的，不管是什么样的活儿，做完了都会有这样那样的收获，这种收获是你看教程的时候怎么也学不到的。</p>
+<p>我说不清Photoshop具体给我带来了哪些东西，是一种“我在活着”的存在感？一种“我能思考、我能创造”的欣慰感？还是一种“我还不错”的自我认同感？</p>
+<p>我只确定一件事情，就是这个过程，这些作品，这所有的一切，都能带给我快乐。</p>
+<hr>
+<p>P.S 在这个过程中，有一件事情让我后来每次想起的时候都会感慨。</p>
+<p>李文昕（天哪，我居然一直都没念对她的名字），上海交大机动学院工业工程与物流工程系06级硕博连读生，2008年10月21日突发高烧，30日晚出现口腔血块，11月1日回长沙，3日确诊，白血病。</p>
+<p>记得清楚，那是2008年11月20日夜，Sean在MSN上叫我，问我能不能帮忙做个进站。然后说明了情况。</p>
+<p>我当即答应了下来，跑完步回宿舍之后就开始着手找素材。</p>
+<p>现在我的硬盘里还保存着这幅图的原件，其最后修改时间是——2008年11月21日，凌晨4点09分。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7whn4p0qxj20jg0b4n04.jpg" alt=""></p>
+<p>后来还发生了好多事情，好多好多，学校里的募捐，水源站庆晚会上来自化疗室的VCR……我们听到了很多好消息，听到李文昕学姐配型成功，移植成功，病情稳定，一系列的消息……</p>
+<p>因为，仅仅是因为做过这张进站，我对这些所有的消息，都比别人有种更复杂的感情。</p>
+<p>谁知道最后，等来的却是这个消息：<br>讣告。<br>时间是2009年11月15日。</p>
+<p>这段经历有没有对我的”不安全感“起到推波助澜的作用？我同样不知道。<br>我还是要说那句被说滥了的话——生命，太脆弱了。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>发现当年结尾结的好沉重……</p>
+<p>这次用评论里yingzhi.ma学姐的留言结尾吧：</p>
+<blockquote>
+<p>支持硕哥，一直坚持着自己喜欢的东西，摸索着自己的路。套用托尔金爷爷笔下人物的一句话：<strong>无论你去向何方，愿你找到光明</strong>。</p>
+</blockquote>
+<p>必须要说，在坚持走自己喜欢的路这件事上，马姐和其他好多人，其实是我的榜样。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      总结了一些自己在用Photoshop进行设计时的习惯，算是小小的“设计风格”。
+    
+    </summary>
+    
+      <category term="Design" scheme="http://jonshowing.com/categories/Design/"/>
+    
+    
+      <category term="Design" scheme="http://jonshowing.com/tags/Design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Words on Photography</title>
+    <link href="http://jonshowing.com/2009/04/20/Words-on-Photography/"/>
+    <id>http://jonshowing.com/2009/04/20/Words-on-Photography/</id>
+    <published>2009-04-19T18:03:46.000Z</published>
+    <updated>2016-09-17T01:34:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目其实有问题。以前拿手机照相，只能叫“记录”；现在拿卡片机照相，可以叫“照相”；如果用上单反或者准单反，那才能叫“摄影”。</p>
+<p>不过不管怎么说，自从2月13日可以照相以来，还是有一些体会的。</p>
+<h3 id="无限重复"><a href="#无限重复" class="headerlink" title="无限重复"></a>无限重复</h3><p>最早的感触来自我的一些习惯性兴奋点，我发现我总是喜欢照一些具有“无限重复”特征的，看上去很有纵深感的景物。比如：</p>
+<p>这样一排的自行车：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wbfvm15aj21kw2dc1ky.jpg" alt=""></p>
+<p>这样一排的旗杆：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/5613ec79jw1f7wbgl0amvj21kw16odx6.jpg" alt=""></p>
+<p>或者这样取很小的角度拍一段很长的建筑物:</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wbicthqwj21kw2dc4qq.jpg" alt=""></p>
+<p>我发现每次当我见到类似的景物时都会忍不住想去拍，哪怕那是再普通不过的景物，比如一排普普通通的护栏，一堵长长的砖墙等，然后就开始刻意去扳——因为确实有许多拍出来是没什么价值的。这样的纵深感固然感觉好，但却太过刻意太过死板，偶尔为之尚能让人眼前一亮，若泛滥则毫无美感可言，只剩矫揉与造作之嫌。我对这种倾向的自我评价是三个字：“反自然”，因为自然界中很少有这样严格无限重复的景致，自然界之美在于随机与变化。而我偏偏对重复感兴趣，不愧是现代人类一只。</p>
+<h3 id="大块纯色"><a href="#大块纯色" class="headerlink" title="大块纯色"></a>大块纯色</h3><p>然后后来我又发现了自己的第二个特点：喜欢照大块的纯色。比如：</p>
+<p>苏州，拙政园：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/5613ec79jw1f7wbk7wjp1j21kw11x19i.jpg" alt=""></p>
+<p>苏州，虎丘山顶：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/5613ec79jw1f7wbl8holrj21kw2dc7wh.jpg" alt=""></p>
+<p>苏州，狮子林：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/5613ec79jw1f7wblzhjjuj21kw11xwvf.jpg" alt=""></p>
+<p>这是在苏州玩的两天里照的照片中的3张，可以看到3张的构想都是同样风格的。我很明显地发现我总是拿镜头往屋檐那里瞄，好像周围游客很少有照屋檐的=。= 在BBS也有网友回复说“视角很独特的苏州园林”……当然，也正赶上那两天阳光都很赞，天蓝得让人感动，要不我可能不会总想着照蓝天了吧。</p>
+<h3 id="偏角构图"><a href="#偏角构图" class="headerlink" title="偏角构图"></a>偏角构图</h3><p>接着我又发现其实我就是喜欢这样有一个景物占个角、其他部分放空的构图，不光自己喜欢这么照，看到别人有类似的作品也会很兴奋。比如前几天在BBS的海南板看到他们在爆桌面，我偶然看到了这张：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wbry7lcxj20rs0hd7aa.jpg" alt=""></p>
+<p>我立刻就被点燃了，一个“跪求原图”就回了上去。。。结果现在我和这张图的拍摄者莫少已经在校内加为好友了，哈~很喜欢他的摄影~在这里<a href="http://www.flickr.com/photos/mervynmo/" target="_blank" rel="external">http://www.flickr.com/photos/mervynmo/</a></p>
+<h3 id="有关虚焦"><a href="#有关虚焦" class="headerlink" title="有关虚焦"></a>有关虚焦</h3><p>然后想说的是设备问题。之前我很喜欢虚焦的效果，以为买了相机就能实现那种效果的，结果果然还是得有好的参数才能达到，我这小卡片只能在5cm的范围内实现虚焦，比如：</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/5613ec79jw1f7wbucxjzlj21kw11xqka.jpg" alt=""></p>
+<p>在我刚确认这台相机没法实现普遍意义上的虚焦时，还有点郁闷，但后来也就释然了，因为看了好多单反的片子，纯粹就是仗着性能好，每张都是虚焦效果。本来以为这是多么高深的技术，却发现是如此滥俗的效果，唉，罢。</p>
+<h3 id="有关选景"><a href="#有关选景" class="headerlink" title="有关选景"></a>有关选景</h3><p>今天上午在校内看了一个叫mc的同学拍的照片，100张从头一口气看到尾，居然一点都不嫌多，还想接着看下去。她的照片给了我许多灵感，让我想了很多。我以前拍照时总是刻意忽略一些“看不出特色”的景物，我们来看下面几张：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wbvt6rorj20b50goac4.jpg" alt=""><br><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wbvt5gz8j20b50got9i.jpg" alt=""><br><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wbvt73kmj20b50gojt1.jpg" alt=""></p>
+<p>这三张里（这就是从mc相册里选的），只有第三张我“有可能”会拍，其他两张我会觉得，“这也看不出是在哪里啊，恨不得在家里都能摆出这样的静物，有什么拍的必要呢？”但是在用心看完mc的这组照片过后，我真的有点被感动了，她用相机向我们诠释了什么叫做体味生活的瞬间，诠释了什么叫做艺术来源于生活而高于生活。在拍照时，真的不应该那么的“功利”，倘若是美好的景物，纵然看不出什么“地方特色”，只要能给人艺术的美感，又何妨一照？这也许不是可以拿来展示的作品，但这却是实实在在的生活味道。</p>
+<p>也许她看不到，不过我还是要感谢mc，谢谢你~</p>
+<p>行文至此，抬表观瞧，竟已近卯时。遂收笔，下面的时间，是众看官的=)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      有关摄影的一些总结。
+    
+    </summary>
+    
+      <category term="Photography" scheme="http://jonshowing.com/categories/Photography/"/>
+    
+    
+      <category term="Photography" scheme="http://jonshowing.com/tags/Photography/"/>
     
   </entry>
   
