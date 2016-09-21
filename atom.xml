@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jonshowing.com/"/>
-  <updated>2016-09-16T14:29:33.000Z</updated>
+  <updated>2016-09-21T03:30:58.000Z</updated>
   <id>http://jonshowing.com/</id>
   
   <author>
@@ -16,13 +16,369 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>地铁通4.0版iOS客户端重写中的一些经验</title>
+    <link href="http://jonshowing.com/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/"/>
+    <id>http://jonshowing.com/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/</id>
+    <published>2016-09-21T03:30:22.000Z</published>
+    <updated>2016-09-21T03:30:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p><a href="https://itunes.apple.com/cn/app/tie-tong-touchchina-quan-guo/id530096786?mt=8" target="_blank" rel="external">地铁通</a>是一款覆盖了国内全部和国外部分已开通地铁城市的导航类应用，入选了苹果的AppStore精华，至今仍在地铁关键字搜索排名第一。迄今为止（注：2016年2月）iOS版的总下载数为237万，苹果后台显示的日活跃用户约为5万。</p>
+<p>我是从2013年起接手的这个应用，在那之前是一个在中国定居的法国同事<a href="https://www.linkedin.com/in/kevintingwingyuen" target="_blank" rel="external">Kevin</a>搭起的总体架构，在SVN显示的第一次提交是2012年6月14日。在这漫长的时间里，由于可以想象的项目进度和迭代压力，重写架构这种费力不讨好的事儿自然一直没法安排。</p>
+<p>事实上，小规模的重构（即，单个页面规模）一直在进行，在2014年8月的一个版本我由于花了很大力气重构得比较狠，还恶搞苹果的Jony Ive，用他的口吻做了几页宣传PPT：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wyleayk0j20z00iwjsq.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wylci9t9j20z00iwdih.jpg" alt=""></p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wyldc3a8j20z00jatci.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wylcuyzjj20z00jgq63.jpg" alt=""></p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wylcmw7pj20z00j2juh.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wylbywtgj20z00jg0t1.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wylby2xej20z00iwt8s.jpg" alt=""></p>
+<p>（此处有掌声）  </p>
+<p>尽管如此，更大规模，或者说，更底层的架构级重构还是一直没时间进行。由于横跨多个业务场景，这种级别的重构工作势必占用几周的完整时间，还要进行彻底的测试。作为一家创业公司是承受不起的。</p>
+<p>直到我决定要离职，出于一种代码洁癖和少许的社会责任感（我觉得在我之后怕是没人能做得起这种量级的代码调整了，难道就把这一坨四年历史的充满补丁的垃圾留给200多万用户吗？），外加一股想要自我救赎的冲动（我认为，能自己把自己的烂代码改掉是一种自我救赎），我向Boss提出了重构申请，作为离职前的最后一个项目。</p>
+<p>地铁通4.0项目就这么立项了。</p>
+<h2 id="程序概貌"><a href="#程序概貌" class="headerlink" title="程序概貌"></a>程序概貌</h2><p>在深入讲解之前，我先整体介绍一下地铁通这款app的大致组成。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7xjpm7k50j20ku112n4x.jpg" width="50%"></p>
+<p>如上面的主界面截图，地铁通的主要功能就是显示地铁图和查询两个站点间的最佳换乘路线，大概的模块划分如下：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7xleabzvzj21h016eten.jpg" alt=""></p>
+<h2 id="现存问题"><a href="#现存问题" class="headerlink" title="现存问题"></a>现存问题</h2><p>接下来，让我们分析一下在3.x版本的地铁通里面都存在哪些需要改进的问题。</p>
+<h3 id="ViewController职责过多"><a href="#ViewController职责过多" class="headerlink" title="ViewController职责过多"></a>ViewController职责过多</h3><p>这可以说是任何一个未精心设计过架构的iOS App必然会导致的结果，在苹果的MVC架构中，ViewController这一级是最容易膨胀的，业界风起云涌的诸如MVVM等架构正是为了解决这种问题。</p>
+<p>具体到项目中，比如在展示搜索结果的<code>线路结果页</code>中，当线路数据传到这个页面时，需要再次加工才能获得该页面所需要的信息（比如哪个站是换乘站、一共需要换乘几次、计算合理的末班车时间等），而这个工作全部放到了当前ViewController中进行。再加上其他一些处理逻辑，导致这个ViewController变得极端臃肿，达到了令人发指的3000多行。</p>
+<p>再比如切换不同城市地铁的<code>城市列表页</code>中，由于没有做好适当的分层，导致这个ViewController除了显示城市列表的任务之外，还承担了：</p>
+<ul>
+<li>点选切换城市之后的数据初始化工作；</li>
+<li>点选开始下载后的进度更新逻辑，甚至下载完成后的解压逻辑；</li>
+<li>点选删除城市之后的数据清理工作；</li>
+<li>…</li>
+</ul>
+<h3 id="耦合过紧"><a href="#耦合过紧" class="headerlink" title="耦合过紧"></a>耦合过紧</h3><p>从上面的结构模块示意图中可以看出，在不同模块之间存在着错综复杂的强依赖，其中尤以<code>DataSource</code>最为严重，因为在整个App运行期间都要保持不同界面的某种数据一致性。虽然在之前的架构中特地抽象出了DataSource这个单例，但各个模块间都是直接对其进行操作，不仅繁琐、容易出错，从架构的角度来看，某些底层的操作完全不应该由最上层的ViewController来做。</p>
+<p>再举个例子，在3.x版本的地图控件中（即上图的<code>TileView</code>），存在着大量处理和用户交互的代码逻辑，甚至还有用户点选起点和终点后直接对<code>DataSource</code>进行更新的逻辑。过紧的耦合导致了不必要的判断，到现在我都无法完全搞清之前同事写的下面这几行代码中，那两个神奇的数字到底是干嘛的：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSInteger</span> tag = <span class="number">-1</span>;</div><div class="line"><span class="keyword">if</span> ([sender isKindOfClass:[<span class="built_in">UIButton</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">    <span class="built_in">UIButton</span> *tmpBtn = (<span class="built_in">UIButton</span> *)sender;</div><div class="line">    tag = tmpBtn.tag;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (sender == bubbleView.startBtn || tag == <span class="number">888</span> || tag == <span class="number">887</span>) &#123; <span class="comment">// WTF??</span></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="产品逻辑混乱"><a href="#产品逻辑混乱" class="headerlink" title="产品逻辑混乱"></a>产品逻辑混乱</h3><p>这条看起来可能有点甩锅的意思，但实际情况确实如此：如果有哪条逻辑写起来非常拧巴，或者连描述起来都拧巴的时候，你可以去认真思考一下，是不是从产品设计上就出了问题。</p>
+<p>虽然从流程上讲，这种上溯应该扼杀在需求评审之类的时机，但从实际执行的角度，已经完成的功能并不代表就是不可更改的。尤其在发现那部分代码已经成为维护地狱的时候，应该当机立断进行修正。</p>
+<p>比如在书签/历史线路页面，以前产品的需求是查询过的站点和线路按时间逆序混杂在一起显示，这样导致的结果就是，在构造这个页面时需要大量的动态判断逻辑来区分每个cell到底是什么东西：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSObject</span> *obj = [historyMArray objectAtIndex:row];</div><div class="line"><span class="keyword">if</span> ([obj isKindOfClass:[<span class="built_in">NSDictionary</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">    ...</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> ([obj isKindOfClass:[Route <span class="keyword">class</span>]])&#123;</div><div class="line">    ...</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> ([obj isKindOfClass:[<span class="built_in">NSArray</span> <span class="keyword">class</span>]])&#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> cell;</div></pre></td></tr></table></figure>
+<p>而如果把页面分为若干个section显示，不仅从根源上杜绝了这种混乱的逻辑，从产品的角度也使用户一眼看上去更加清晰。</p>
+<h3 id="页面布局方式过时"><a href="#页面布局方式过时" class="headerlink" title="页面布局方式过时"></a>页面布局方式过时</h3><p>可能对于大部分现有的App来说，这已经不算是个问题，但对于一个有着几年历史的App，基本上最早的那些界面依然是用绝对坐标进行定位的；加载一个动态生成的UI时，也是一点点计算后再<code>addSubview</code>上去，或者修改某个控件的<code>frame.size.height</code>来更新其高度。这种做法不仅不优雅，更重要的是不直观。一切不直观的代码都会导致以下几点问题：</p>
+<ul>
+<li>开发时难以调试；</li>
+<li>出现bug时难以维护；</li>
+<li>拿到新需求时难以修改。</li>
+</ul>
+<p>所谓的KISS原则（Keep It Simple &amp; Stupid），指的就是这样的场景。</p>
+<p><br></p>
+<p>知道了现有的问题，下面要做的就是一些合理的规划了。</p>
+<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2><p>有了上面所述的教训，在设计新版架构的时候，从最开始就确立了几条原则：</p>
+<ol>
+<li>尽量打散耦合，只在有必要的情况下采用紧耦合；</li>
+<li>切记合理封装，每个模块严格只负责自己的事务；</li>
+<li>争取保持简洁，遇到复杂的实现换用简单的设计。</li>
+</ol>
+<p>下面是我当时在日记本上画的下载模块的层次结构示意图：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f7y17wt9lbj21kw0yoe0i.jpg" alt=""></p>
+<p>每一层之间仅保留最基本的数据请求和数据反馈。</p>
+<p>新的结构图大概是这个样子：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f7y26hsd5tj21g412m44r.jpg" alt=""></p>
+<p>最明显的区别就是把模块之间的紧耦合变成了虚线显示的Notification，并且去掉了所有跨级调用。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>在开始项目之前，一个要做的选择是，要用原有的Objective-C还是新生的Swift？</p>
+<p>最终我选择了Swift。理由是：</p>
+<ol>
+<li>Swift经过几年的发展，已经趋于稳定；</li>
+<li>此次重写的目标就是要面向未来，而Swift就是未来；</li>
+<li>借机学习新的技术。</li>
+</ol>
+<p>然后，我用”Swift best practices”作为关键词搜索进行了一番调研，尽量从最开始就站在巨人的肩膀上，往正确的方向走。</p>
+<p>比如这篇：<a href="https://github.com/futurice/ios-good-practices" target="_blank" rel="external">https://github.com/futurice/ios-good-practices</a></p>
+<p>一些在项目中采纳的点：</p>
+<h3 id="使用struct来定义常量"><a href="#使用struct来定义常量" class="headerlink" title="使用struct来定义常量"></a>使用<code>struct</code>来定义常量</h3><p>在Objective-C时代经常用<code>#define</code>来定义常量，现在可以使用<code>struct</code>来定义。比如：<br>    <figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">CMConfig</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">AppName</span>: <span class="type">String</span>          = <span class="string">"xxx"</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">AppStoreID</span> : <span class="type">UInt</span>        = <span class="number">8888</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">WeiboKey</span>: <span class="type">String</span>         = <span class="string">"8888"</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">WeiboAppSecret</span>: <span class="type">String</span>   = <span class="string">"8888"</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">AppStoreURL</span>: <span class="type">NSURL</span>       = <span class="type">NSURL</span>(string: <span class="string">"itms-apps://itunes.apple.com/cn/app/bei-jing-de-tie-touchchina/id530096786"</span>)!</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样可以最大程度地利用Swift<em>类型安全</em>的语言特性，使你在编译期就可以检查出一些低级的失误。</p>
+<h3 id="使用Asset-Catalogs来图像资源文件"><a href="#使用Asset-Catalogs来图像资源文件" class="headerlink" title="使用Asset Catalogs来图像资源文件"></a>使用<code>Asset Catalogs</code>来图像资源文件</h3><p>之前的图像资源管理非常混乱，不仅所有文件混杂在目录中，而且每个资源对应着两到三个不同分辨率的@2x, @3x传统位图。</p>
+<p>采取Asset Catalog进行统一管理后，不仅工程干净清爽了许多，还可以用一张矢量图来让XCode自动为你生成不同分辨率的资源。记得我刚才说的“面向未来”吗？xD</p>
+<p>（没错，矢量图是我自己拿Adobe Illustrator重绘的。）</p>
+<h3 id="设定合理的Logging策略"><a href="#设定合理的Logging策略" class="headerlink" title="设定合理的Logging策略"></a>设定合理的Logging策略</h3><p>之前的项目中一直采用<code>NSLog</code>，这样的弊端是在正式上线的App中很难把所有NSLog都屏蔽掉，而这些输出的记录会影响程序效能，还可能泄露隐私。</p>
+<p>如果在一开始就设定合理的Logging分级机制，这样在打发布包的时候只需把Looging Level调高（甚至可以在切换scheme的时候自动进行调整），就能杜绝上述问题。</p>
+<h3 id="使用预处理标志"><a href="#使用预处理标志" class="headerlink" title="使用预处理标志"></a>使用预处理标志</h3><p>直接看图：<br>    <img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7yui16xaej20y3046q44.jpg" alt=""></p>
+<p>使用Preprocessor Symbol的好处是什么呢？还以刚才的常量定义为例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">CMConfig</span> </span>&#123;</div><div class="line">    ...</div><div class="line">#<span class="keyword">if</span> <span class="type">Debug</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">BaseURL</span> : <span class="type">NSURL</span>          = <span class="type">NSURL</span>(string: <span class="string">"https://test.itouchchina.com"</span>)!</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMBPushMode</span> : <span class="type">BPushMode</span>  = <span class="type">BPushMode</span>.<span class="type">Development</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMLogLevel</span> : <span class="type">SLogLevel</span>   = <span class="type">SLogLevel</span>.<span class="type">Verbose</span> <span class="comment">// 百度推送模式</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMDebugStatus</span> : <span class="type">Bool</span>     = <span class="literal">true</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMHeaderClass</span>: <span class="type">String</span>    = <span class="string">"test"</span></div><div class="line">#<span class="keyword">else</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">BaseURL</span> : <span class="type">NSURL</span>          = <span class="type">NSURL</span>(string: <span class="string">"https://production.itouchchina.com"</span>)!</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMBPushMode</span> : <span class="type">BPushMode</span>  = <span class="type">BPushMode</span>.<span class="type">Production</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMLogLevel</span> : <span class="type">SLogLevel</span>   = <span class="type">SLogLevel</span>.<span class="type">Error</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMDebugStatus</span> : <span class="type">Bool</span>     = <span class="literal">false</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">CMHeaderClass</span>: <span class="type">String</span>    = <span class="string">"production"</span></div><div class="line">#endif</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如此便可以一劳永逸地解决各种常量在开发版和正式版中的切换问题，你从此可以忘掉它，在切换scheme的时候一切都会自动调整，免去了可能的错误。</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7yyy6rullj20b606mdgl.jpg" alt=""></p>
+<p>如果你有更多的scheme，希望更细粒度地进行控制，可以使用Swift Flag:</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7yxhrdxltj20tb04yq3v.jpg" alt=""></p>
+<p>在此不再赘述。</p>
+<h3 id="使用CocoaPods进行第三方库管理"><a href="#使用CocoaPods进行第三方库管理" class="headerlink" title="使用CocoaPods进行第三方库管理"></a>使用CocoaPods进行第三方库管理</h3><p>这点应该大家都熟悉，<strong>谁用谁知道</strong>。</p>
+<h2 id="详细分析"><a href="#详细分析" class="headerlink" title="详细分析"></a>详细分析</h2><p>下面选几个有代表性的页面，分别说明一下改进的细节。</p>
+<h3 id="城市列表页"><a href="#城市列表页" class="headerlink" title="城市列表页"></a>城市列表页</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ol>
+<li>如前所述，UI层代码、交互层代码、响应层代码和数据处理以及初始化代码没有合理分离。</li>
+<li><p>城市的下载状态没有一个统一的位置持有。<br> 设计者的本意是通过进入该页面时生成的一个包含所有City实例的<code>NSArray</code>管理，可一旦开始下载，就要涉及<code>DownloadManager</code>模块里面的下载状态和当前页面数组中的状态之间的同步等一系列问题。<br> 同时，我们会发现每次在设置城市的下载状态时都会进行很多判断，这些判断还有不少是重复的。更严重的问题是，一个后续的错误状态也许会覆盖掉之前设置过的正确状态（因为在局部没有足够的上下文信息对状态进行充分的判断）。</p>
+<p> 举个例子：</p>
+ <figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (cell.state == <span class="built_in">CGListTableCellStateEdit</span>) &#123;</div><div class="line">    <span class="built_in">NSString</span> * versionFile = getCGDocumentPath([<span class="built_in">NSString</span> stringWithFormat: <span class="string">@"guides/guide%d/current.version"</span>, [guide.metroAppId intValue]]);</div><div class="line">    <span class="built_in">NSString</span> * version = [<span class="built_in">NSString</span> stringWithContentsOfFile: versionFile encoding: <span class="built_in">NSUTF8StringEncoding</span> error: <span class="literal">nil</span>];</div><div class="line">    <span class="built_in">NSFileManager</span> * fm = [<span class="built_in">NSFileManager</span> defaultManager];</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> ([fm fileExistsAtPath:versionFile]) &#123;</div><div class="line">        <span class="keyword">if</span> ((version != <span class="literal">nil</span>) &amp;&amp; ([guide.guideupdate compare: version] != <span class="built_in">NSOrderedSame</span>))</div><div class="line">            cell.guide.cellState = <span class="built_in">CGListTableCellStateUpdate</span>;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            cell.guide.cellState = <span class="built_in">CGListTableCellStateDownloaded</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        cell.guide.cellState = <span class="built_in">CGListTableCellStateDownloaded</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    [<span class="keyword">self</span> reloadTableView];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 这只是一个简单的当用户点击一个<strong>编辑状态</strong>的城市时应该采取的动作，但此处的实现居然恐怖到动用了一个<code>NSFileManager</code>！而这一切仅仅是为了判断这个城市应该回复到<strong>已下载</strong>状态还是<strong>有更新</strong>状态。</p>
+<p> 类似的代码还可以见到好几处（在该页搜索<code>NSFileManager</code>，有多达19个结果！）。</p>
+</li>
+<li><p>最后一个问题也是上面提到的，搭建UI采用绝对坐标。<br> 甚至有这样恶心的代码：</p>
+ <figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)formatUI&#123;</div><div class="line">    <span class="built_in">CGSize</span> size = [cityNameLabel.text sizeWithFont:cityNameLabel.font];</div><div class="line">    <span class="built_in">CGRect</span> rect;</div><div class="line">    rect = cityNameLabel.frame;</div><div class="line">    rect.size.width = size.width;</div><div class="line">    cityNameLabel.frame = rect;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (size.width &gt; <span class="number">74</span>) &#123; <span class="comment">// Why 74?</span></div><div class="line">        <span class="built_in">CGRect</span> rect;</div><div class="line">        rect = sizeLabel.frame;</div><div class="line">        rect.origin.x = <span class="number">80</span> + size.width - <span class="number">74</span>; <span class="comment">// ???</span></div><div class="line">        sizeLabel.frame = rect;</div><div class="line">    </div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h4><h5 id="下载管理"><a href="#下载管理" class="headerlink" title="下载管理"></a>下载管理</h5><p>在地铁通4.0中，我把所有对下载状态的管理一概收到了下载模块<code>CMDataAPI</code>中，现在获取下载状态只要一行：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> currentMode: <span class="type">CMCityListCellMode</span> = <span class="type">CMDataAPI</span>.sharedInstance.getModeForCity(city)</div></pre></td></tr></table></figure>
+<p>在<code>getModeForCity(_city: CMCity)</code>的实现中，只需遍历下载和解压两个队列，如果有必要对结果再进行时间戳的比对即可。（顺便，我把下载的时间戳迁移到了<code>NSUserDefaults</code>里，避免了文件操作，并在运行时做了缓存。）</p>
+<h5 id="进度更新"><a href="#进度更新" class="headerlink" title="进度更新"></a>进度更新</h5><p>而下载进度和解压进度的更新，也被封装成了两个方法，只暴露给调用页面需要的参数（之前的版本中，解压进度甚至是无法查看的）：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">hookUpDownloadingProgress</span></span></div><div class="line">        <span class="params">(_progress: <span class="params">(<span class="params">(UInt, Int64, Int64)</span></span></span> -&gt; <span class="type">Void</span>)?,</div><div class="line">        success: (<span class="type">CMCity</span> -&gt; <span class="type">Void</span>)?,</div><div class="line">        failure: (<span class="type">CMCity</span> -&gt; <span class="type">Void</span>)?,</div><div class="line">        forCity city: <span class="type">CMCity</span>)&#123;</div><div class="line">        ...</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">hookUpUnzippingProgess</span></span></div><div class="line">        <span class="params">(_progress: <span class="params">(<span class="params">(Int, Int)</span></span></span> -&gt; <span class="type">Void</span>)?,</div><div class="line">        success: (<span class="type">CMCity</span> -&gt; <span class="type">Void</span>)?,</div><div class="line">        forCity: city: <span class="type">CMCity</span>)&#123;</div><div class="line">        ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="与地图页的解耦合"><a href="#与地图页的解耦合" class="headerlink" title="与地图页的解耦合"></a>与地图页的解耦合</h5><p>在切换城市时，对地图页的直接调用改为发<code>NSNotification</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="type">NSNotificationCenter</span>.defaultCenter().postNotificationName(<span class="type">PropertyKeys</span>.kCMCityChangeNotification, object: <span class="literal">nil</span>)</div></pre></td></tr></table></figure>
+<p>注意所有的广播名称常量也用前述的<code>struct</code>进行了统一的定义。</p>
+<h5 id="转移数据操作"><a href="#转移数据操作" class="headerlink" title="转移数据操作"></a>转移数据操作</h5><p>所有的数据初始化全部移到<code>CMDataSource</code>中进行：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line">dispatch_async(dispatch_get_global_queue(<span class="type">DISPATCH_QUEUE_PRIORITY_DEFAULT</span>, <span class="number">0</span>), &#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    <span class="type">CMDataSource</span>.sharedInstance.loadCity(city) <span class="comment">// One line to rule them all!</span></div><div class="line">    dispatch_async(dispatch_get_main_queue(), &#123;[<span class="keyword">unowned</span> <span class="keyword">self</span>] () -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">        <span class="type">SVProgressHUD</span>.dismiss()</div><div class="line">        <span class="keyword">self</span>.navigationController?.dismissViewControllerAnimated(<span class="literal">true</span>, completion: <span class="literal">nil</span>)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>删除城市数据亦然：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="type">CMDataSource</span>.sharedInstance.removeCity(city)</div></pre></td></tr></table></figure>
+<h5 id="使用Storyboard-Xib"><a href="#使用Storyboard-Xib" class="headerlink" title="使用Storyboard/Xib"></a>使用Storyboard/Xib</h5><p>将UI搭建改为Storyboard/Xib这件事早有很多讨论，略去不表。</p>
+<h4 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h4><table>
+<thead>
+<tr>
+<th>文件</th>
+<th style="text-align:center">地铁通V3.x</th>
+<th style="text-align:center">地铁通V4.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CityListViewController</td>
+<td style="text-align:center">1712行</td>
+<td style="text-align:center">280行</td>
+</tr>
+<tr>
+<td>CityListCell</td>
+<td style="text-align:center">与上面是同一个文件</td>
+<td style="text-align:center">123行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="线路结果页"><a href="#线路结果页" class="headerlink" title="线路结果页"></a>线路结果页</h3><h4 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h4><ol>
+<li><p>如前所述，对于线路数据需要再进行加工才能使用。</p>
+<p> 如图，光是确定各种情况下的末班车时间就有下面一大堆方法：<br> <img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7z9j3titcj20se09a0vl.jpg" alt=""></p>
+<p> 在<code>tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath</code>里就更加惨不忍睹。</p>
+</li>
+<li><p>这个页面在搭建UI上的问题更加严重。<br> 由于每次生成的路线有无数种可能的组合，比如该城市的数据库中有没有出租车信息、起点终点是地铁站还是用户输入的地点、进行百度/Google搜索时有搜索中和搜索完成/失败三种状态……导致整个UI是在不停变化的，而未采用AutoLayout中约束条件的弊端在这种情况下体现得淋漓尽致。</p>
+<p> 恶心代码欣赏：</p>
+ <figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (taxiFee.floatValue &lt; <span class="number">0.01</span>) &#123;</div><div class="line">    [headerView removeTaxi];</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(discountRate &gt; <span class="number">0</span>)&#123;</div><div class="line">    [headerView setDiscountRateUI];</div><div class="line">    <span class="built_in">CGRect</span> headerFrame = headerView.frame;</div><div class="line">    headerFrame.size.height += <span class="built_in">CM_ROUTE_SUM_MARGIN</span>;</div><div class="line">    headerView.frame = headerFrame;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 曾经设计师在挑UI问题的时候提出某处的空白留的不够，当时的我盘算了下在这种纷杂状况下想要精确控制空白高度的工作量……决定把这个bug放到最后再改，后来其他需求一来就不了了之了……</p>
+</li>
+<li><p>直接操作现象。<br> 在数据变动要更新UI的时候，经常出现直接去更新相关View控件的代码。初看起来这没什么问题，但还是刚才说的问题，当这涉及到控件大小的改动时，就非常令人头疼了。</p>
+</li>
+</ol>
+<h4 id="改进-1"><a href="#改进-1" class="headerlink" title="改进"></a>改进</h4><h5 id="引入新数据类型"><a href="#引入新数据类型" class="headerlink" title="引入新数据类型"></a>引入新数据类型</h5><p>引入新的<code>Route</code>和<code>RouteNode</code>对象，将所有与表现层无关的数据构建代码一律移入这里。</p>
+<p>顺便，还为今后可能的变动做了扩展：<br><figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">convenience</span> <span class="keyword">init</span>(start:<span class="type">CMPOI</span>, end:<span class="type">CMPOI</span>, algorithm: <span class="type">CMRouteAlgorithm</span>, type: <span class="type">CMRouteType</span>)</div></pre></td></tr></table></figure></p>
+<p>在初始化对象的时候灵活传入所需的算法，可以实现灵活变换不同的算法计算路线。之前出现过针对海外城市采取不同的路线计算方式，当时的实现弄得非常恶心，这样就优雅很多。</p>
+<p>现在，即使是返回cell的回调方法里也清晰多了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</div><div class="line">    <span class="keyword">let</span> node = routeArray[indexPath.row]</div><div class="line">        </div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> type = node.type, <span class="keyword">let</span> lineId = node.lineId&#123;</div><div class="line">        <span class="keyword">switch</span> type&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">TimeAdjusting</span>:</div><div class="line">            <span class="keyword">var</span> cell: <span class="type">CMRouteTimeAdjustingCell</span>? = tableView.dequeueReusableCellWithIdentifier(<span class="type">TimeAdjustingCellId</span>) <span class="keyword">as</span>? <span class="type">CMRouteTimeAdjustingCell</span></div><div class="line">            <span class="keyword">if</span> cell == <span class="literal">nil</span>&#123;</div><div class="line">                cell = <span class="type">CMRouteTimeAdjustingCell</span>(style: <span class="type">UITableViewCellStyle</span>.<span class="type">Default</span>, reuseIdentifier: <span class="type">TimeAdjustingCellId</span>)</div><div class="line">            &#125;</div><div class="line">            ... <span class="comment">// Initialization code</span></div><div class="line">            <span class="keyword">return</span> cell!</div><div class="line">        <span class="keyword">case</span> .<span class="type">Normal</span>:</div><div class="line">            <span class="keyword">var</span> cell: <span class="type">CMRouteNormalStationCell</span>? = tableView.dequeueReusableCellWithIdentifier(<span class="type">NormalStationCellId</span>) <span class="keyword">as</span>? <span class="type">CMRouteNormalStationCell</span></div><div class="line">            ... <span class="comment">// Same as above</span></div><div class="line">            <span class="keyword">return</span> cell!</div><div class="line">        <span class="keyword">case</span> .<span class="type">POI</span>:</div><div class="line">            ...</div><div class="line">            <span class="keyword">return</span> cell!</div><div class="line">        <span class="keyword">case</span> .<span class="type">Transfer</span>, .<span class="type">Start</span>, .<span class="type">Destination</span>:</div><div class="line">            ...</div><div class="line">            <span class="keyword">return</span> cell!</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="type">UITableViewCell</span>()</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h5 id="使用约束条件建立UI"><a href="#使用约束条件建立UI" class="headerlink" title="使用约束条件建立UI"></a>使用约束条件建立UI</h5><p>现在，整个页面，包括cell，都是用Constraints建立起来的（使用了一个第三方库叫<a href="http://snapkit.io/" target="_blank" rel="external">SnapKit</a>）。</p>
+<p>而且，cell里面的地铁线路，是用<code>CoreGraphic</code>自己画的。</p>
+<p>甚至，线路上的文字是黑色还是白色，都是通过算法自动生成的（参考了<a href="http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color" target="_blank" rel="external">这里</a>的讨论）。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7zcoe3fqsj20ku111jvd.jpg" width="60%"></p>
+<p>这样的灵活度基本上算是达标了:)</p>
+<p>PS. 在完成整个项目之后，我试着把新版app在iPad上跑了一下，惊讶地发现，在我没有改动任何地方的情况下，居然所有页面的UI都显示正常！这在引入约束条件生成UI之前简直是不可想象的。</p>
+<h5 id="只更新数据源，不操作控件"><a href="#只更新数据源，不操作控件" class="headerlink" title="只更新数据源，不操作控件"></a>只更新数据源，不操作控件</h5><p>事实上，这就是最基本的MVC分层在实际中的应用——当数据变化时，产生变化的组件只负责更新<code>DataModel</code>，然后简单地调用<code>tableView.reloadData()</code>搞定。剩下的问题都由<code>View</code>层自行负责。</p>
+<h5 id="成果-1"><a href="#成果-1" class="headerlink" title="成果"></a>成果</h5><table>
+<thead>
+<tr>
+<th>文件</th>
+<th style="text-align:center">地铁通3.x</th>
+<th style="text-align:center">地铁通4.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RouteViewController</td>
+<td style="text-align:center">3055行</td>
+<td style="text-align:center">1158行</td>
+</tr>
+<tr>
+<td>RouteViewCell</td>
+<td style="text-align:center">158+67+171+89+220+249+245<br>=1199行&lt;1&gt;</td>
+<td style="text-align:center">400行</td>
+</tr>
+<tr>
+<td>Route&lt;2&gt;</td>
+<td style="text-align:center">1045行</td>
+<td style="text-align:center">N/A</td>
+</tr>
+<tr>
+<td>DataModel&lt;3&gt;</td>
+<td style="text-align:center">N/A</td>
+<td style="text-align:center">629行</td>
+</tr>
+<tr>
+<td>DijkstraAlgorithm&lt;4&gt;</td>
+<td style="text-align:center">N/A</td>
+<td style="text-align:center">320行</td>
+</tr>
+</tbody>
+</table>
+<p>注：</p>
+<ol>
+<li>3.x版本中分为NormalCell、TransferCell、HeaderView、SummaryView等许多文件；</li>
+<li>3.x版本中的Route文件其实是算法，生成一个不包含meta信息的<code>NSArray</code>；</li>
+<li>4.0版本中的DataModel定义了程序所需的所有底层对象，不仅有Route，还有下载的城市以及车站等等；</li>
+<li>这是计算图上两点间最短路径的Dijkstra算法的实现，从之前的Route文件中抽了出来。</li>
+</ol>
+<h3 id="书签-历史页"><a href="#书签-历史页" class="headerlink" title="书签/历史页"></a>书签/历史页</h3><p>这个页面之前也提到过，主要问题是设计太混乱。</p>
+<p>修改之后的逻辑相当的简洁，想出错都难：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> indexPath.section == <span class="number">0</span>&#123;<span class="comment">//routes</span></div><div class="line">    <span class="keyword">let</span> route = favRoutes[indexPath.row]</div><div class="line">    <span class="keyword">return</span> getRouteCell(route <span class="keyword">as</span>! <span class="type">NSDictionary</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;<span class="comment">//stations</span></div><div class="line">    <span class="keyword">let</span> station = favStations[indexPath.row]</div><div class="line">    <span class="keyword">return</span> getStationCell(station)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>成果是：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th style="text-align:center">地铁通3.x</th>
+<th style="text-align:center">地铁通4.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BookmarkViewController</td>
+<td style="text-align:center">784行</td>
+<td style="text-align:center">315行</td>
+</tr>
+<tr>
+<td>BookmarkCell</td>
+<td style="text-align:center">109+98+105=312行</td>
+<td style="text-align:center">90行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="车站详情页"><a href="#车站详情页" class="headerlink" title="车站详情页"></a>车站详情页</h3><p>这个页面的代码量与之前基本保持一致，不同的是整体的UI搭建逻辑。</p>
+<p>之前的搭法：从上到下依次初始化子控件并添加，保持一个<code>position</code>变量记录当前高度。</p>
+<p>新版中的搭法：每个子控件负责处理自己的UI展现，子控件之间用约束条件加以绑定。</p>
+<p>由于这个页面的数据都是不确定的，因此只能用代码添加数据元素间的约束条件，这是与前面那些大体UI已定好只待往里填数据的页面不同的地方。</p>
+<p>最终的画风大概是这样的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line">scrollView.translatesAutoresizingMaskIntoConstraints = <span class="literal">false</span></div><div class="line">scrollView.addSubview(titleBackgroundView)</div><div class="line">scrollView.addSubview(timetableView)</div><div class="line">scrollView.addSubview(facilitiesView)</div><div class="line">scrollView.addSubview(exitView)</div><div class="line"><span class="keyword">self</span>.view.addSubview(scrollView)</div><div class="line"></div><div class="line">scrollView.snp_makeConstraints &#123; (make) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    make.top.equalTo(<span class="keyword">self</span>.view.snp_top)</div><div class="line">    make.width.equalTo(<span class="keyword">self</span>.view.snp_width)</div><div class="line">    make.bottom.equalTo(floatingBGView.snp_top)</div><div class="line">&#125;</div><div class="line">titleBackgroundView.snp_makeConstraints &#123; (make) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    make.top.equalTo(scrollView.snp_top).priorityRequired()</div><div class="line">    make.width.equalTo(scrollView.snp_width).priorityRequired()</div><div class="line">&#125;</div><div class="line">timetableView.snp_makeConstraints &#123; (make) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    make.top.equalTo(titleBackgroundView.snp_bottom).offset(<span class="number">10.0</span>)</div><div class="line">    make.width.equalTo(scrollView.snp_width)</div><div class="line">    make.centerX.equalTo(scrollView.snp_centerX)</div><div class="line">&#125;</div><div class="line">facilitiesView.snp_makeConstraints &#123; (make) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    make.top.equalTo(timetableView.snp_bottom).offset(<span class="number">20.0</span>)</div><div class="line">    make.width.equalTo(scrollView.snp_width)</div><div class="line">    make.leading.equalTo(scrollView.snp_leading)</div><div class="line">&#125;</div><div class="line">exitView.snp_makeConstraints &#123; (make) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    make.top.equalTo(facilitiesView.snp_bottom).offset(<span class="number">20.0</span>)</div><div class="line">    make.leading.equalTo(scrollView.snp_leading)</div><div class="line">    make.width.equalTo(scrollView.snp_width)</div><div class="line">    make.bottom.equalTo(scrollView.snp_bottom).offset(-<span class="type">Constants</span>.<span class="type">StationDetailViewVerticalSpacing</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> _station = station&#123;</div><div class="line">    titleLabel.text = _station.stationName</div><div class="line">    iconsDisplayView.setImages(_station.getIcons())</div><div class="line">    timetableView.setup(_station.timeTables)</div><div class="line">    facilitiesView.setupUI(_station.facilities)</div><div class="line">    exitView.setupUI(_station.exits)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UI约束与数据初始化一气呵成，而且清晰明了。（顺便感谢Swift的链式语法）</p>
+<h3 id="搜索页"><a href="#搜索页" class="headerlink" title="搜索页"></a>搜索页</h3><p>用到搜索页的地方有两处，一个是首页点击最上方进入的页面，一个是首页点击下方右边按钮进入的页面。两者的不同是：前者有输入起点和终点的工具栏，后者只是单纯搜索定位车站。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7ztpzxw31j21jk0xcn1y.jpg" alt=""></p>
+<h4 id="问题-2"><a href="#问题-2" class="headerlink" title="问题"></a>问题</h4><ol>
+<li>之前的版本的两个界面完全独立，等于许多逻辑重复了两遍，违背了DRY(Don’t Repeat Yourself)原则。</li>
+<li><p>和线路详情页类似，此处也缺少对数据合理的对象化封装，导致在使用时需要大量的判断逻辑。<br> 比如，会出现下面这样的代码片段：</p>
+ <figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> ([workDict objectForKey:<span class="string">@"city"</span>] != <span class="literal">nil</span> &amp;&amp; [[workDict objectForKey:<span class="string">@"city"</span>] isEqualToString:_cityName]) &#123;</div><div class="line">    _isShowingWork = <span class="literal">YES</span>;</div><div class="line">    <span class="keyword">if</span> ([workDict objectForKey:<span class="string">@"add"</span>] == <span class="literal">nil</span>) &#123; <span class="comment">// Station</span></div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123; <span class="comment">// POI</span></div><div class="line">        [<span class="keyword">self</span> updateHistoryItem:workDict];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span>&#123; <span class="comment">// Have not set</span></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 这种直接对原始数据进行操作的做法实在是既繁琐又容易出错。</p>
+</li>
+<li>对子控件的直接更新，这点和前面的线路结果页类似，但更加麻烦：由于当前编辑状态在随时变化，在决定更新控件时必须由零碎的变量来辅助判断到底要对哪个控件进行操作。<br> 比如在百度定位API返回结果之后，下面的这段响应代码： <figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">    - (<span class="keyword">void</span>)updatePOIFromLocation:(BMKPoiInfo *)info&#123;</div><div class="line">    Station *station = [[<span class="built_in">CMDataSource</span> getInstance] getNearestStation:info.pt.latitude andLo:info.pt.longitude];</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (isUpdatingStart) &#123;</div><div class="line">        ... <span class="comment">// Do some work</span></div><div class="line">        <span class="keyword">self</span>.currentEditing = <span class="built_in">CMSearchEditingEnd</span>;</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (isUpdatingEnd)&#123;</div><div class="line">        ... <span class="comment">// Doing work</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (isUpdatingStart) &#123;</div><div class="line">        isUpdatingStart = <span class="literal">NO</span>;</div><div class="line">        _startIsShowingLocation = <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (isUpdatingEnd) &#123;</div><div class="line">        isUpdatingEnd = <span class="literal">NO</span>;</div><div class="line">        _endIsShowingLocation = <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>又要凭借状态变量进行判断，又要记得时刻更新它们，还得防止考虑不周更新错了状态，简直是车祸现场。</p>
+<h4 id="改进-2"><a href="#改进-2" class="headerlink" title="改进"></a>改进</h4><h5 id="合并两个页面"><a href="#合并两个页面" class="headerlink" title="合并两个页面"></a>合并两个页面</h5><p>我直接把两个页面合并到了一起，由入口参数决定最终显示哪个界面。</p>
+<p>但后来意识到，这并不是最好的解决方案。弊端是，原来是毫无耦合造成重复，现在两个页面的耦合又太紧了，虽然这这版的需求中工作得很好，再有调整又会比较棘手。更好的做法是使用<code>组合</code>，把公共的列表提取出来。</p>
+<p>这一点在Casa的<a href="http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html" target="_blank" rel="external">《跳出面向对象思想(一) 继承》</a>中解释得非常好，我就不再赘述。</p>
+<h5 id="新定义数据对象"><a href="#新定义数据对象" class="headerlink" title="新定义数据对象"></a>新定义数据对象</h5><p>在前面提到的<code>DataModel</code>中增加了<code>POI</code>对象，包含<code>Station</code>作为它的一个property。</p>
+<p>这代表，现在整个界面中，甚至整个app运行期间，都只有一种数据对象——<code>CMPOI</code>，清爽，干净，不紧绷。</p>
+<h5 id="只更新数据源，不操作控件-1"><a href="#只更新数据源，不操作控件-1" class="headerlink" title="只更新数据源，不操作控件"></a>只更新数据源，不操作控件</h5><p>基本同前，不赘述。</p>
+<h5 id="成果-2"><a href="#成果-2" class="headerlink" title="成果"></a>成果</h5><table>
+<thead>
+<tr>
+<th>文件</th>
+<th style="text-align:center">地铁通3.x</th>
+<th style="text-align:center">地铁通4.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SearchStationViewController</td>
+<td style="text-align:center">2019行</td>
+<td style="text-align:center">469行</td>
+</tr>
+<tr>
+<td>StationSearchView</td>
+<td style="text-align:center">821行</td>
+<td style="text-align:center">N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="DataSource"><a href="#DataSource" class="headerlink" title="DataSource"></a>DataSource</h3><h4 id="明确职责"><a href="#明确职责" class="headerlink" title="明确职责"></a>明确职责</h4><p>这个组件作为整个app的数据中心，在新版的开发中更加明确了它的职责，把原来分散在其他组件中的一些功能划了过来。</p>
+<p>比如，之前城市列表读取及解析功能是被划到网络请求组件中的，因为从服务器拿过来的返回数据可以就地解析；但从更高层的逻辑考虑这是不正确的，因为对程序城市列表的需求是更直接的，网络模块只要做好本职的网络交互就行了。</p>
+<p>修改之后，网络请求组件读取成功城市列表后，并不直接返回，而是将列表保存到本地缓存起来，再发一个Notification通知到关心读取成功这个事件的其他组件：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">updateCityList</span><span class="params">()</span></span>&#123;</div><div class="line">    ... <span class="comment">// Initialization code for paramaters</span></div><div class="line">        </div><div class="line">    <span class="keyword">let</span> param: [<span class="type">String</span> : <span class="type">String</span>] = [<span class="string">"param"</span>: <span class="type">JSONStringParam</span>]</div><div class="line">        </div><div class="line">    manager.<span class="type">POST</span>(url, parameters: param, success: &#123; (opreation, object) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">        <span class="keyword">let</span> data = object <span class="keyword">as</span>! <span class="type">NSData</span></div><div class="line">        <span class="keyword">if</span> <span class="type">CMDataSource</span>.sharedInstance.loadXMLResponse(data) == <span class="literal">true</span>&#123;</div><div class="line">            <span class="keyword">let</span> documentPath = getDocumentPath(<span class="string">"guides/guides.info"</span>)</div><div class="line">            data.writeToFile(documentPath, atomically: <span class="literal">true</span>)</div><div class="line">                </div><div class="line">            <span class="type">NSNotificationCenter</span>.defaultCenter().postNotificationName(<span class="type">PropertyKeys</span>.kCMCityListUpdateSuccessNotification, object: <span class="literal">nil</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;) &#123; (opreation, error) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">                ... <span class="comment">// Error handler</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>将组件间的耦合降到最低。另外注意这段代码中对返回结果的解析已经移到<code>DataSource</code>了。</p>
+<h4 id="减少耦合"><a href="#减少耦合" class="headerlink" title="减少耦合"></a>减少耦合</h4><p>正如上面提到的做法，之前诸多对<code>DataSource</code>直接的操作，在这一版中有许多都改为了通过Notification交互：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">init</span>()&#123;</div><div class="line">    <span class="keyword">let</span> cityComponents = getCityListFromFile()</div><div class="line">        </div><div class="line">    ... <span class="comment">// Data initialization</span></div><div class="line">        </div><div class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, #selector(<span class="type">CMDataSource</span>.didSetStart()), name: <span class="type">PropertyKeys</span>.kCMSetStartStationNotification, object: <span class="literal">nil</span>)</div><div class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, #selector(<span class="type">CMDataSource</span>.didSetEnd()), name: <span class="type">PropertyKeys</span>.kCMSetEndStationNotification, object: <span class="literal">nil</span>)</div><div class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, #selector(<span class="type">CMDataSource</span>.didRemoveStart()), name: <span class="type">PropertyKeys</span>.kCMRemoveStartNotification, object: <span class="literal">nil</span>)</div><div class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, #selector(<span class="type">CMDataSource</span>.didRemoveEnd()), name: <span class="type">PropertyKeys</span>.kCMRemoveEndNotification, object: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="keyword">deinit</span>&#123;</div><div class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().removeObserver(<span class="keyword">self</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>对于与上面谈到的改进点比较接近的页面，限于篇幅不再赘述，只在此处一并提及：</p>
+<ul>
+<li><p><code>地图View</code>，去掉了与上层的所有耦合，交互改为发<code>NSNotification</code>；同时将地图上要显示的控件统一到一个<code>protocol</code>之下，这样就可以利用Swift新提供的<code>泛型</code>特性，写出很强一致性的代码：</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func updateCoor&lt;T: TiledScrollViewOverlay where T: UIView&gt;(_view: T, zoom: Bool)&#123;</div><div class="line">    ... // Update code</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>网络请求模块</code>，上面已有提及，在移除不属于自身逻辑的同时，重新整理了解析数据的时机（原来的版本中居然重复着极为相似的三段代码！又一个车祸现场）；</p>
+</li>
+<li><p><code>分享模块</code>，之前的封装使用非常繁琐，每次还要自行加到UIWindow上去。于是又重新写了一个，弹出分享控件只需下面几步：</p>
+  <figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> shareKit: <span class="type">CMShareKit</span> = <span class="type">CMShareKit</span>.getInstance()</div><div class="line">shareKit.setup(<span class="string">"分享文字"</span>, </div><div class="line">    emailBody: <span class="string">"邮件文字"</span>, </div><div class="line">    smsBody: shareContent, </div><div class="line">    weixinTitle: appName, </div><div class="line">    weixinBody: shareContent, </div><div class="line">    weixinPengyouBody: shareContent, </div><div class="line">    weixinURL: <span class="type">CMConfig</span>.<span class="type">AppDownloadURLTrim</span>.absoluteString, </div><div class="line">    qqTitle: appName, </div><div class="line">    qqBody: shareContent, </div><div class="line">    qqURL: <span class="type">CMConfig</span>.<span class="type">AppDownloadURLTrim</span>.absoluteString, </div><div class="line">    weiboBody: shareContent, </div><div class="line">    image: <span class="keyword">self</span>.getCurrentViewShot())</div><div class="line">shareKit.show(<span class="keyword">self</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>添加/删除书签和历史模块</code>，干掉，完全移入<code>DataSource</code>。并且前一版本是把数据序列化后保存为文件，这导致了相当大的性能问题，在暴力测试疯狂增删时甚至可能导致崩溃。新版中改为只保存必要的信息（比如起点和终点），等需要时再把路线实时计算出来即可。</p>
+</li>
+</ul>
+<h2 id="一些私心"><a href="#一些私心" class="headerlink" title="一些私心"></a>一些私心</h2><p>上面基本把大块的重构页面讲完了，下面说几个旧版本中没有的页面，也算是我自己的私心。</p>
+<p>考虑到这是我最后一次负责这个项目，也是第一次有如此大的决定权，我不禁在重构之余腾出手来加了一些自己想加的页面。</p>
+<h3 id="致谢页面"><a href="#致谢页面" class="headerlink" title="致谢页面"></a>致谢页面</h3><p>作为一个有点情怀的程序员，我一直对于程序中没有对开源库的致谢这一点耿耿于怀。以前对项目没有话语权，也腾不出手做，这次怎么也得补上：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f80hpnui5cj20ku112dls.jpg" width="60%"></p>
+<p>注：由于当时在发布时CocoaPods和Swift还有些兼容性问题，所以没有用CocoaPods自动生成的，而是自己写了个HTML网页。</p>
+<h3 id="关于页"><a href="#关于页" class="headerlink" title="关于页"></a>关于页</h3><p>关于页也是夙愿之一。事实上更早的版本中有这个页面，但由于一些不可考的原因给砍掉了。</p>
+<p>我仿照之前的关于页用Photoshop作了个图，并且顺便把以前版本的关于页也加了进来，往右边滑动即可看到。虽然这么个深藏在n级页面之下的页面估计没多少人点进来，但总算还是为以前那些已经离职的曾经为地铁通出过力的同事在这个角落立了个碑。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f80hpnqbusj20ku112juz.jpg" width="60%"></p>
+<h3 id="历史版本"><a href="#历史版本" class="headerlink" title="历史版本"></a>历史版本</h3><p>这个点子我是在做好线路详情页的时候想到的：既然我做了一套可以在cell上画线路的代码，那么我可以把它复用到别的地方啊——比如整个地铁通的发展史！</p>
+<p>于是就有了下面的页面：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79gw1f80hpoji3nj20ku112ah7.jpg" width="60%"></p>
+<p>看起来很简单，其实做起来还是有点麻烦的。我在元旦跨年的时候去了趟日本休年假，途中带上了笔记本电脑，那真是一有时间就在做这个页面啊……</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7y52ic05dj21hc1z4x0s.jpg" alt=""></p>
+<h3 id="末班车提示"><a href="#末班车提示" class="headerlink" title="末班车提示"></a>末班车提示</h3><p>这也是我私心特别想做的功能，也借着这次机会做了出来：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f80j8hcb9tj20ku1120vj.jpg" width="60%"></p>
+<p>上个动图演示：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f80yq2elx9g20c80lrnpd.gif" alt=""></p>
+<p>对于地铁线路而言，首班车很简单——只需从数据库中读取起点站的首班车信息即可。可末班车却复杂得多，它既不是简单的起点站末班车时间，也不是最后一个换乘站的末班车时间，而是有点类似于木桶原理，取决于短板——也就是说，取决于整条换乘路径中收班最早的换乘站。</p>
+<p>在之前的版本中，我们实现了这个算法，但不时有用户表示疑惑：这个末班车是怎么算出来的？为什么这么诡异？</p>
+<p>上面的这个功能就是对这个问题的优雅解答，一切都是自解释的：在用户操作的时候就能注意到变化，一句多余的说明都不用。</p>
+<p>只要赶上标红字的站点的末班车，整条末班车线路就能成立。</p>
+<p>事实上，之前的产品经理曾经做出过一版设计：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f810g7ergvj20hs0vkdil.jpg" width="60%"></p>
+<p>我不喜欢这个设计，因为它割裂了上下文。弹窗是个十分影响交互体验的设计模式，除非你一定要显式地引起用户注意，否则引入弹窗就是错误的。电脑出栈入栈尚且有开销，何况人脑？（另外注意这个页面里的“首班车”和“末班车”按钮——没有比这俩按钮更突兀的设计了）</p>
+<p>后来这个功能在反对声中索性被砍掉了，但我还是觉得这个需求是有必要的，只是需要找到更合理的设计。</p>
+<p>在找到现在这个解决方案之前也纠结了很久，最终在某个凌晨能很快实现还是要归功于这次合理的架构设计，很难想象在之前那一坨3000行的代码里加个这种功能要抓狂到什么地步。</p>
+<h3 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h3><p>是的，作为一个有着不止一点情怀的程序员……我还埋了个彩蛋，估计没人发现过，即使如此我也不想说xD</p>
+<p>PS. 那些大公司的软件里彩蛋到底是怎么埋的？一Code Review不是就直接被辞退了吗？</p>
+<h2 id="跋"><a href="#跋" class="headerlink" title="跋"></a>跋</h2><p>基本写完了程序主体，然后我又开始做起了市场。</p>
+<p>当时赶工时每天唯一的娱乐是伴饭看一集《广告狂人》，所以到这个想广告词的环节觉得特别带感，感觉Don Draper（《广告狂人》男主角）上身。</p>
+<p>于是就有了我用Photoshop做的下面这一批AppStore宣传图：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f811hg8q9kj21kw0k7dnk.jpg" alt=""></p>
+<p>扶上驴，送一程。至此，对于这个项目，我的任务差不多完成了。</p>
+<p>用户反馈差不多是这样：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f811mnjoolj20ku112wjk.jpg" width="60%"></p>
+<p>就用刚项目开始时我在豆瓣发的一条广播来结束本文吧：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f811ovmy91j20ku112777.jpg" width="60%"></p>
+<p>希望能给你带来一些启发，欢迎提出意见和批评。</p>
+<p>感谢观赏。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      在从TouchChina离职前，我决定完成一件一直想做却一直受制于进度与需求的事：将已经开发了三四年的地铁通进行一次彻底的重构。&lt;br&gt;本文从重构动机、重构思路以及重构后的对比几个角度，剖析了在程序开发以及架构设计中可能有所提高的地方。
+    
+    </summary>
+    
+      <category term="Code" scheme="http://jonshowing.com/categories/Code/"/>
+    
+    
+      <category term="iOS" scheme="http://jonshowing.com/tags/iOS/"/>
+    
+      <category term="产品设计" scheme="http://jonshowing.com/tags/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="架构" scheme="http://jonshowing.com/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="Swift" scheme="http://jonshowing.com/tags/Swift/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Basic Loveology</title>
     <link href="http://jonshowing.com/2016/08/11/Basic-Loveology/"/>
     <id>http://jonshowing.com/2016/08/11/Basic-Loveology/</id>
     <published>2016-08-11T03:26:21.000Z</published>
-    <updated>2016-09-16T14:29:33.000Z</updated>
+    <updated>2016-09-19T01:56:55.000Z</updated>
     
-    <content type="html"><![CDATA[<p>*题目是致敬美剧<community>每集的标题命名风格。</community></p>
+    <content type="html"><![CDATA[<p><em>*题目是致敬美剧&lt;Community>每集的标题命名风格。</em></p>
 <p>我觉得，一段经得起推敲的感情，大致有两个分类。</p>
 <p>一种是邂逅型，一种是养成型。</p>
 <p>前者代表一类爱情电影：一次惊天地泣鬼神的邂逅，两个人发现他俩各种搭，究级搭，搭成狗，接下来就是各种无中生有的变故最后俩人没羞没臊地生活在一起。</p>
@@ -65,9 +421,9 @@
     <link href="http://jonshowing.com/2016/08/06/Advanced-Self-Examination-and-Status-Analyze/"/>
     <id>http://jonshowing.com/2016/08/06/Advanced-Self-Examination-and-Status-Analyze/</id>
     <published>2016-08-05T17:01:53.000Z</published>
-    <updated>2016-09-16T14:52:02.000Z</updated>
+    <updated>2016-09-19T01:57:53.000Z</updated>
     
-    <content type="html"><![CDATA[<p><em>*题目是致敬美剧<community>每集的标题命名风格。</community></em></p>
+    <content type="html"><![CDATA[<p><em>*题目是致敬美剧&lt;Community&gt;每集的标题命名风格。</em></p>
 <p>回顾了一下之前的文字，上一次真正认真打些东西还是元旦跨年的时候，再早一些就要追溯到去年这个时候了。比起动不动就一个月加起来打几万字日志的大学时代，现在的我还真是惊人的沉默。</p>
 <p>当年我说，我之所以喜欢码字，是因为谋篇布局这件事能让我快乐。</p>
 <blockquote>
@@ -126,7 +482,92 @@
       <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
     
     
-      <category term="Life, Career, 自我剖析" scheme="http://jonshowing.com/tags/Life-Career-%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
+      <category term="Life" scheme="http://jonshowing.com/tags/Life/"/>
+    
+      <category term="Career" scheme="http://jonshowing.com/tags/Career/"/>
+    
+      <category term="自我剖析" scheme="http://jonshowing.com/tags/%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>地铁通4.0发布</title>
+    <link href="http://jonshowing.com/2016/02/09/ChinaMetro-V-4-0-Released/"/>
+    <id>http://jonshowing.com/2016/02/09/ChinaMetro-V-4-0-Released/</id>
+    <published>2016-02-09T12:02:28.000Z</published>
+    <updated>2016-09-18T15:10:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>过去三个多月一直在做的项目AppStore审核通过了，我的感觉其实是做了一个自选题目的毕业设计。</p>
+<p>从八月份开始萌生想法一步步执行到最后上线，除从头搭程序框架外还做了策划、设计、产品、文案的活儿（当然好多都是站在先贤的肩膀儿上），算是过了各种瘾。</p>
+<p>出于私心还加上了致敬之前参与项目的同事的页面，虽然在关于页面的深处藏着，总算得上是力所能及的一点心意。</p>
+<p>这次重写给了自己一次改正错误的机会，因为一个一线程序员在意识到他在架构上犯错的时候通常是没机会弥补的，只能默默记下来，而这是因为重写（注意不是重构）这件事通常对公司不构成合理的产值贡献。事实也确实如此，跑完完整测试流程的情况下，架构是否合理与用户关系不大，它影响到的是维护性和扩展性，这两点在这次项目的最后阶段有所体验，由于架构分得合理，紧耦合也按经验拆得差不多，最后关头才加的几个功能所需时间之少令我自己都瞠目结舌。</p>
+<p>除此之外，这也可以算得上是一次社会公益活动，毕竟目前这个App的日活跃用户有大概几万，总用户数几百万，给他们留下一个漏洞百出的陈年老App，我是不太愿意的；尤其再说是我曾经写过这个App，我是不太甘心的。</p>
+<p>当然，再剩下的就是上面提到的过瘾的机会，琢磨功能，打磨流程，憋宣传文案（带感的是我在同一时间里在补《广告狂人》，代入感非常强），用PS和AI作素材图和效果图等等，都我一个人来。其实由于我一直在过度乐观地估计工作量（最开始我甚至以为这事自己在私底下就能偷偷摸摸干完了），导致出去玩的时候我也带上了电脑赶工，但这也是一种过瘾啊——这不是在体验自由职业的生活么：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7y52ic05dj21hc1z4x0s.jpg" alt=""></p>
+<p>最后，利用这次机会还从零掌握了一门语言Swift。</p>
+<p>总之，几个月只看了两部电影，推了好多饭局，买了无数外卖，结果算是没白忙，看起来AppStore的反馈还算不错。一些细节因为实在没时间，有些疏漏，就要交给李叔来修了。</p>
+<p>时间表复盘：</p>
+<ul>
+<li>2015.8 - 原始想法</li>
+<li>2015.9 - 其他项目</li>
+<li>2015.10.6 - Git Initial Commit，导入各种库，搜索Swift编码最佳实践</li>
+<li>2015.10.19 - 正式开始编码工作</li>
+<li>2015.11.23 - 将项目写进公司工作周报，李林超加入</li>
+<li>2015.12.1 -<br>  <img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7y54u35oxj21kw0umgzk.jpg" alt=""></li>
+<li>2015.12.11 - “12月21号提交”</li>
+<li>2015.12.20 - 决定延期提交</li>
+<li>2016.1.28 - 做完所有预期功能</li>
+<li>2016.2.1 - 提交</li>
+<li>2016.2.3 - The last day</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      在地铁通4.0终于审核通过的时刻，回顾了过去几个月的经历。
+    
+    </summary>
+    
+      <category term="Code" scheme="http://jonshowing.com/categories/Code/"/>
+    
+    
+      <category term="Code" scheme="http://jonshowing.com/tags/Code/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Bye, 2015</title>
+    <link href="http://jonshowing.com/2016/01/01/Summary-of-2015/"/>
+    <id>http://jonshowing.com/2016/01/01/Summary-of-2015/</id>
+    <published>2015-12-31T16:21:30.000Z</published>
+    <updated>2016-09-18T14:59:36.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>翻了半天微博和豆瓣的记录，终于想起来今年年初都在干什么了……</p>
+<p><br></p>
+<p>2015年大致分为3个阶段：</p>
+<p>第一阶段是闲云野鹤般的第一季度，比如一月的观影量是奇迹般的29部，比如三月和四月几乎把公司图书室感兴趣的书都看完了，比如三月一个月没事儿闲的跑了98.7公里……</p>
+<p>第二阶段是参与高中返校的筹备工作，真正投入这件事大概就是四月底五月初，当我意识到没人能接手做这件事的时候，只能硬着头皮上。没想到最后的结果算是相当不错，是一次偏离现有生活主线的歪打正着的难得收获，也结实了不少可靠的朋友。它直接增加了我心中往其他方向尝试的筹码。</p>
+<p>之后的生活又闲散了一段时间，比如就在这期间我看了今年最爱的一系列电影：《小森林》，比如我把公司图书室剩下的感兴趣的书也读完了，比如我还去故宫看了个清明上河图……</p>
+<p>第三阶段是App重写，日记显示是10月19日正式开始正经的coding，不过之前已经筹划一阵子了，是一个完全自己立项筹划推进的项目。因为突发的牙疼导致中间损失了好多天，到12月22日之前，除了看牙医之外的时间基本上全贡献给了这个项目，绝对废寝忘食。不过即使这样进度还是堪忧lol</p>
+<p>“人呐，就都不知道，命运不可以预料”。在年初的时候，我绝对想象不到这一年会经历些什么，年末时会做出怎样的选择，现在会在哪里打下这些话。</p>
+<p>觉得自己这一年做得还不错，两段忙的时间真的努力到每天没有休息的时候，现学现用Adobe Illustrator和SketchUp也很酸爽，相比主要在恢复元气的2014，是真正有点收获的一年。</p>
+<p><br></p>
+<p>2016年当然首先要把手头的项目发出去23333</p>
+<p>然后要做什么呢？</p>
+<p>I don’t know.</p>
+<p>That’s the best part, right?</p>
+]]></content>
+    
+    <summary type="html">
+    
+      2015年度年终总结。
+    
+    </summary>
+    
+      <category term="年终总结" scheme="http://jonshowing.com/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="总结" scheme="http://jonshowing.com/tags/%E6%80%BB%E7%BB%93/"/>
     
   </entry>
   
@@ -453,6 +894,55 @@
   </entry>
   
   <entry>
+    <title>Superfly - My Best Of My Life</title>
+    <link href="http://jonshowing.com/2015/05/28/Superfly-My-Best-Of-My-Life/"/>
+    <id>http://jonshowing.com/2015/05/28/Superfly-My-Best-Of-My-Life/</id>
+    <published>2015-05-27T17:20:10.000Z</published>
+    <updated>2016-09-18T15:33:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>那天傍晚，天已擦黑却又泛着神奇的亮蓝色，我骑车飞驰在路上，脑子里蹦出的是这首歌的前奏。<br>如果你听过这首歌，你就知道这是件顺理成章的事情——每次《Boss》那部剧演到最后这首歌响起的时候，我脑子里就会脑补出傍晚的亮蓝色。</p>
+<p>然而我要说的不是这个。</p>
+<p>最近因为机缘巧合，经常想起500多天前那段时间。</p>
+<p>在一篇2013年11月4日的<a href="http://spacesoaring.blogbus.com/logs/236796474.html" target="_blank" rel="external">blog</a>里，我写道：</p>
+<blockquote>
+<p>我面对的是26年来最让自己不满意的一个自己。</p>
+</blockquote>
+<p>那时的我不仅是不满意，而且是束手无策，坐以待毙，疾病缠身，还正赶上公司有个大新闻……啊是大项目，周末加班，平时时不时地还得在家继续在dropbox同步过来的工程上工作到凌晨去，盆友们，女四们，先生们，全果过族人民，这是闷声大作死的节奏。</p>
+<p>那篇blog的最后我是这么写的：</p>
+<blockquote>
+<p>其实现在最想恢复的是，那种喷薄的创造力，好久都没有创造过什么人世间不存在的东西出来了。</p>
+</blockquote>
+<p>通常在那种境况下的心理活动才最纯粹和真实，把这篇blog淡忘许久之后再回过头来看，我才发现我一直在追求，也最给我满足感的，正是这种创造感。</p>
+<p>然而我也暂时不想说这个。</p>
+<p>我想说的是，今天好几个人通过各种方式发来滋瓷，问啥叫end of era？</p>
+<p>我的解答是，因为一个同事昨天离职，一共工作500多天，那位同事刚来公司的时候，恰好是我坠不吼的时候。现在回过头看，简直就是一个时代的终结。</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7y5syal9lj20t70ootau.jpg" alt=""></p>
+<p>500天前的自己大概很难想象现在的状态。</p>
+<p>之前一直很喜欢刘慈欣的一个观点，“美好人生的关键，在于你有没有迷上什么事物”。现在我更进一步觉得，人生的本质其实就是个对时间资源的分配。你会欣然把你的时间放到你迷上的事物上面，并且不愿意在不够喜欢的事物上多花费一分钟时间。</p>
+<p>比如看张佳玮张公子写料理，并不是不饕餮，而是觉得一碗煮馄饨花的时间刚好符合自己对吃饭这件事的预期；<br>比如看文章里写每天要跑够40分钟以上才叫有效锻炼，并不是不想有效锻炼，只是觉得我对锻炼这事的容忍度也就仅于此（现在已改为骑车，完全不占时间，顺便就上班了=.=）；<br>比如一波一波的美国大片袭来，并不是完全不想去电影院看，只是对看电影这件事所花费的时间非常在意，口碑差的就会觉得去电影院很不值。</p>
+<p>能挑起我兴趣的，从始至终，就是创造个什么新东西。任何种类都算。</p>
+<p>我觉得活到现在才刚刚算活明白点儿。</p>
+<p><br><br>现在？</p>
+<p>听听开头提到的那首歌吧。</p>
+<p>然后感激一切人和事。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      一首歌，一点人生感悟。
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://jonshowing.com/tags/Life/"/>
+    
+      <category term="Music" scheme="http://jonshowing.com/tags/Music/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Bye，经理</title>
     <link href="http://jonshowing.com/2015/05/18/bye-manager/"/>
     <id>http://jonshowing.com/2015/05/18/bye-manager/</id>
@@ -498,6 +988,44 @@
   </entry>
   
   <entry>
+    <title>出游前夜</title>
+    <link href="http://jonshowing.com/2014/10/16/Night-before-travelling/"/>
+    <id>http://jonshowing.com/2014/10/16/Night-before-travelling/</id>
+    <published>2014-10-16T15:24:43.000Z</published>
+    <updated>2016-09-19T03:53:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>休假之前居然有几个小时的闲暇时间，这显得很不真实。</p>
+<p>事实上，这周一起这种不真实感就在积聚。休假是一回事，休假之前要忙死是另一回事。我看了一下昨天才从杂物堆里翻出来的去年的记录本，有关去年日本行前的状态是这么写的：</p>
+<blockquote>
+<p>……之前是一串连续的加班动作，而且在周六前甚至一直以为出发时间是在下周二。</p>
+<p>周六晚上还去了国家大剧院看话剧，10点半才到家。此时还得改程序、把酒店都缕好、收拾行李。干完这些，又到了凌晨四五点钟。<br>在一身的疲惫中睡了过去，定了6：30的闹钟。</p>
+<p>……</p>
+</blockquote>
+<p>这一年多以来，好像是没有真正放空的时候，总是一件事接着另一件。除了旅行相关的准备不谈，工作任务的deadline，去4S店看车，帮朋友做网页，各种必须出席的事情……记得2012年曾经有过一段平均一两天看一部电影的日子，正是那时我的观影量从200部以下整整翻了一倍；今年则在大部分时间只能拿出每天的15分钟时间看一集《海女》，看剧的时间太多就会心下不安，因为还有那么多积压着要去做的事情。</p>
+<p>我屋里最明显的例证大概就是，去年从日本带回来的东西，用两个塑料袋装着，原封不动地摆在地上，一直没顾得上去整理。</p>
+<p>不过总的来说过得还是充实又开心的哈哈，从沉重的色调拉回来，扯了这么多才想到，说是这次和之前不同，其实更深一层是觉得现在的状态似曾相识，这才想起要去打下一些文字。</p>
+<p>想起一年前去日本的那次，之所以印象深刻，是因为那是我第一次出国。看爸爸去哪儿相关的节目，那些小孩子很小就满世界转悠，那样绝对是好处多多，可能唯一的缺点就是让人没法深切地体会自己第一次出国是什么状态。</p>
+<p>说实话当时自从我从机场出来一直到进旅馆打开电视休息，我一直都处于一种难以置信的状态。这种难以置信与周围的任何景物都无关，我只是一直在问自己这个问题：“我这就在国外了吗？”然后平均10秒钟确认这一点一次……</p>
+<p>明天抵达ROC的体验，怕是不会再复制上面的那种感受了。这就像冲破了一层结界，只要走出国门一步，这一层就被你攻破，下一次再有类似的感觉，怕是得登月了啊……</p>
+<p>写到这里，觉得那些小孩子们错过了相当重要的体验呢【抠鼻】。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      去台湾休年假前的一些碎碎念。
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://jonshowing.com/tags/Life/"/>
+    
+      <category term="旅行" scheme="http://jonshowing.com/tags/%E6%97%85%E8%A1%8C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Words on Photography 2013</title>
     <link href="http://jonshowing.com/2013/12/22/Words-on-Photography-2013/"/>
     <id>http://jonshowing.com/2013/12/22/Words-on-Photography-2013/</id>
@@ -537,15 +1065,57 @@
   </entry>
   
   <entry>
+    <title>Inner Peace</title>
+    <link href="http://jonshowing.com/2013/05/27/Inner-Peace/"/>
+    <id>http://jonshowing.com/2013/05/27/Inner-Peace/</id>
+    <published>2013-05-27T13:04:41.000Z</published>
+    <updated>2016-09-19T03:45:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>改bug间隙来透口气。</p>
+<p>有个问题每隔一段时间就会浮上我的脑海——在过去的时光中，哪段时间是最值得让你怀念的？晚上在下班回家的地铁上，这个问题又一次莫名闯进心头。</p>
+<p>记得在高中和大学时还经常会想在睡前要想些什么才能更好地入睡，这个毛病在大学毕业前已经不治而愈（主要那时每天都是困到一沾枕头就着的地步才去睡觉OTL）；但上面的那个问题一直伴随了下来。</p>
+<p>其实并没有仔细想过为什么会去想这个，也不知道其他人会不会去想它，对于我来说，这个问题的最大特点是它一直没有确定的答案，之前的每段时光，哪怕是高三和朋友间关系最好的时候，也都有某件事情压在心底，阻碍了那种纯粹的快乐。所以，每次考虑这个问题时都会在几段时间中对比一阵然后作罢。</p>
+<p>不过刚才，我却发现，这个问题其实有了答案。其实答案就是，工作之后半年到一年多的那段时光。</p>
+<p>那段时间虽然没有太过让人兴奋以至于睡前会想着的事情，但却是难得的心底没有半点事情压着的放松时间=v= 在那段时间里，我终于有钱去买了PS3，买了捷安特ATX770，败了箱子，败了大耳机，换了大电视，买了Kindle，买了许多之前一直想买的东西；我从《美国丽人》和《盗梦空间》的启蒙开始，放下了对烂片的恐惧，进入如痴如醉的狂补电影的状态；我每天吃晚饭时一集美剧/日剧/动画；周末朋友会来家里一起玩PS3（现在已经不来了嗯），这也算是赶上了末班车吧……我还会在京东每次搞活动的时候囤书然后开心地等待收货……</p>
+<p>当年得瑟的微博：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7ypli8kjcj20ss0os0zo.jpg" alt=""></p>
+<p>这大概是我头一次，心安理得地花大把的时间去做这些“无用”的但是自己喜欢的事儿（大四的时候颇不心安理得），也是头一次，有能力去随心所欲且无负罪感地购买自己喜欢的东西。</p>
+<p>这时的我感觉自己真正在支配自己的时间，也感觉自己能做成任何事，因为只要有时间，我就能掌控我的未来。</p>
+<p>写到这里时其实还有点不甘心，毕竟怀念这么宅的一段时光没什么光彩的，但也许对我来说，内心的平静确实非常难得。</p>
+<p>嗯，胡乱写点东西。看来只能去睡觉了。</p>
+<p>以上。</p>
+<hr>
+<p><em>附一篇相关的短文，写于2015年12月19日：</em></p>
+<p>下午三点多的时候撑不住去休息室躺了一会儿，其实也并没有完全睡实，就是处于半梦半醒的那种状态。</p>
+<p>然后好像就梦见了高二还是高三时的那间教室。</p>
+<p>没有梦见任何一个人，就是简单的一个场景。可能是一个阳光满地的初夏午后。</p>
+<p>我没有系统学过心理学，不过感觉潜意识这种东西非常实用主义且简单粗暴。你需要什么，它就找个最符合的意象给你。</p>
+<p>大概那间教室所对应的环境，就是迄今为止最放松的状态吧。不知道其他人在类似情况下会想起什么，反正几乎每次很累或者压力很大的时候，系统都会自动调起这段记忆——谁知道呢，没准，压根就是在记忆的基础上生造出了一个理想化的什么岁月静好的场景罢了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      回顾了最让我感到内心安定的时刻。
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://jonshowing.com/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
     <title>iOS App“格子箱”试用研究</title>
     <link href="http://jonshowing.com/2012/07/18/analyze-about-the-ios-app-gezbox/"/>
     <id>http://jonshowing.com/2012/07/18/analyze-about-the-ios-app-gezbox/</id>
     <published>2012-07-18T03:13:00.000Z</published>
-    <updated>2016-09-16T15:47:34.000Z</updated>
+    <updated>2016-09-18T14:24:05.000Z</updated>
     
     <content type="html"><![CDATA[<p>现在每天新出的移动端app众多，但随之能让人真正驻足留意，以至花时间投入其中的app就太少了。也正是因此，当我发现自己居然在没人推荐的情况下，被一个完全没有熟人的社区吸引的时候，我就暗暗震惊，并且出于敏感开始收集这个app是如何做到这一点的。</p>
 <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最开始发现这款app，神奇地与任何app推广形式都没关系，而是起始于我搜索相机信息时，搜到了一篇对微单和单反的对比文章<a href="https://www.douban.com/note/202625985/" target="_blank" rel="external">《单反还是微单？他们选择了……》</a><strong>（2016年注：原链接已挂，只能搜到该团队在豆瓣运营的帐号发表的同名日志）</strong>：</p>
-<p><img src="http://filer.blogbus.com/1411463/1411463_1342604307n.png" alt=""></p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7y3bnmlsij20hs0eiq44.jpg" alt=""></p>
 <p>仅就这篇文章来讲，初看之下其成文角度非常新颖，在众多疑似枪文的评测之中，这篇文章在少量讲解之后配以大量的实例，而“在格子箱内，所有使用微单相机的用户，有40%的人选择购买了索尼Nex-5系列”这样的数据流风格，也完全符合我数据控的口味。</p>
 <p>于是我开始翻看这个博主的其他文章。</p>
 <p>在<a href="http://www.19lou.com/forum-1440-thread-9901329960441003-1-1.html" target="_blank" rel="external">《有了iPhone和Mac，还需要……？》</a><strong>（2016年注：这篇更是只能在一个莫名其妙的社区的转帖中才能找到尸体）</strong>这篇文章中，这种数据流发挥到了极致。“21%的Mac用户购买了Lamy笔”，“10%的用户购买了参天 Sante FX Neo眼药水”这样的统计数据彻底撩起了我的兴趣，虽然我还没搞清楚这个app究竟是干什么的，对这种细致分析的认同和追随也促使我去下载了这款app。这时是6月19日。</p>
@@ -554,27 +1124,27 @@
 <h3 id="第一印象"><a href="#第一印象" class="headerlink" title="第一印象"></a>第一印象</h3><p>格子箱app（v2.0以前）打开之后如图所示：</p>
 <p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vuxgsj1ej21kw0sstna.jpg" alt=""></p>
 <p>最上面的大图就是前面提到的专题。如果说网上的文章是导火索，在程序中对应的专题则起到了巩固作用。这些专题让我觉得真的得到了一些新鲜的（而且在不断更新的）消息，是一个蛮特别且颇专业的RSS feed。(下图：往期专题内容）</p>
-<p><img src="http://filer.blogbus.com/1411463/1411463_1342606064d.png" alt=""></p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7y3d96i1jj20hs0qo77i.jpg" alt=""></p>
 <p>而下面的列表则采取了非常灵活的组织方式，在我试用的十几天里变换了若干次，有些section是突然出现的（当然这也是运营人员在不断地摸索，最近一两周内已经趋于稳定），而所有的section都在不定时更新。其更新策略我不太确定，但推测也是人工干预主推内容的。</p>
 <p>到目前为止我们已经看到了这个程序在内容展现上的一大特点：有一双看不见的手在精心安排。哪怕（除了“专题”外）几乎所有的内容都是用户自己产生的，在展现上也是经过了足够的权衡而成。</p>
 <h3 id="互动"><a href="#互动" class="headerlink" title="互动"></a>互动</h3><p>内容吸引人，展现得有趣，这些只是吸引用户驻足的一面，而让用户真正扎下根来，靠的还是互动。</p>
 <p>程序中有许多网友自己建立的小组，在安装程序当天我就加入了一个：</p>
-<p><img src="http://filer.blogbus.com/1411463/1411463_13426070113.png" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7y3du7aifj20hs0qo75j.jpg" alt=""></p>
 <p>不过小组只是作为内容聚合的另一种纬度存在的，也相当于在程序内增加了一个自己感兴趣的RSS feed。</p>
 <p>在潜水了多天之后，7月2号，我上传了自己的第一批东西，没想到迅速收到了几条回复，这促使我发了一条微博：</p>
 <blockquote>
 <p>这个格子箱做得很好啊，最开始是觉得各种编辑专题很不错（包括相机显示器等东西的选购，最近甚至有剃须刀和Lamy笔），后来发现社区也颇活跃，刚试着传了几个东西就一堆回复……之前完全没有听说过，哪儿来的这么多用户= =</p>
 </blockquote>
-<p><img src="http://filer.blogbus.com/1411463/1411463_1342607316x.png" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7y3ezv8c4j20b60hswfe.jpg" alt=""></p>
 <p>这与上次产品会中讨论的，用户在得到来自别人的认同感时会产生继续分享的愿望，是一致的。</p>
 <p>所以再往后就是一个良性循环。</p>
 <p>7月2日上传物品3件，7月4日13件，7月5日发状态一条，物品2件，7月7日发物品6件，7月8日12件，7月9日8件，7月11日3件，7月12日3件，7月13日1件，7月14日13件……</p>
 <p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vttdwg6cj21kw10jafk.jpg" alt=""></p>
 <p>你分享的东西越多，收到的回复就越多，于是你就越有动力继续发。甚至，你会发现与自己兴趣类似的人，当他们更新了某些东西时，你会想到自己也有相关的东西，于是也会找出来分享：</p>
-<p><img src="http://filer.blogbus.com/1411463/1411463_13426095178.png" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7y3g63x9zj20hs0qo428.jpg" alt=""></p>
 <p>在此图中，因为我在前几天刚刚传了一大堆收藏的科幻小说上去，并且与几个人聊了不少，所以这位“思思”看到又有人传科幻时便想起了我，而我在看到这张时则又去找了几本前几天懒得拍照上传的科幻书分享。这就是良性循环的开始。</p>
 <p>而这里面最关键的第一推动力，就是最开始的那几条回复。（我后来很怀疑其中有该公司内部人士）<br>互动还包括一种形式，就是与App运营人员的互动。在对这款app的试用中，我多次感到（虽然是隐式的）在受到运维人员的影响。如图：</p>
-<p><img src="http://filer.blogbus.com/1411463/1411463_1342606026p.png" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7y3ip4jmkj20hs0qo40o.jpg" alt=""></p>
 <p>截图日期是7月10日，即运营人员发现我在几天之内上传了若干物品，比较活跃后，立即将我加入了“人物”这个section。毋庸置疑，这对一个新人的正面影响还是比较大的。</p>
 <p>7月11日，我则发现自己又进入了“热门人物”：</p>
 <p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vu4d8l5dj216o1kwdmj.jpg" alt=""></p>
@@ -591,6 +1161,7 @@
 <h3 id="理念"><a href="#理念" class="headerlink" title="理念"></a>理念</h3><p>翻回头来，让我们从底层探讨一下——这款app的理念是什么，它怎么就笃定用户有分享的欲望？</p>
 <p>仅说我个人的体会，我认为每个人都会有自己的爱好，有自己的倾向性，正是这些让你成了你自己而不是其他人。在不同的人到当下或长或短的人生中，或多或少会有些自己的收藏，像手办这样正式的也好，过生日时别人送的随便什么东西也好，家中的每一个藏品实际上都是一个故事。</p>
 <p>那么问题就来了，收藏一直以来就是个颇个人化的体验，只对自己有纪念意义的不说，就算是大众能理解的物品，真正至于邀请别人到家中欣赏的也毕竟是少数。结果就是，我收集了许多东西，却只能孤芳自赏。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f7y3lis99dj216o1kw7jf.jpg" alt=""></p>
 <p>SNS带来了一些改变，但他们无法解决的问题是，SNS唯一的纬度是时间即Timeline，3天之前的新鲜事是无人问津的。从组织形式上讲，这就与物品和故事的分享相悖。当然还有个问题，过分在SNS上晒物品有装逼嫌疑。</p>
 <p>“格子箱”不属于创新，“格子”的概念来源于现实，这与苹果具象化的设计理念直接对应，其效果也非常好，用法一目了然。在最开始，该app一直宣称是“整理强迫症人士必备的软件”云云，口号是“生活、购物、分享”，这个定位非常狭窄。我曾经在微博说，我完全懒得整理，只喜欢收集。结果到最新的2.2版，口号已经换成了“用‘物’感受生活”，这与我上面说的“藏品背后有故事”已经非常接近。</p>
 <p>实际上，在旅行的体验上，也有着相似的情况。首先，旅行体验实际上也是个非常个人化的过程。每个人在每个地方都有自己的经历和故事，但这些经历大多只和当时有关。你在青旅偶遇了什么旅伴，你在当地碰巧赶上焰火表演，这是人愿意分享的，但与其他人并无太大关系。其次，在SNS上的Timeline flood情况依然存在，我这次去广州的事儿总不能说半年吧，那过后的这些故事难道就被掩埋在几千条微博之中了吗？</p>
@@ -600,6 +1171,12 @@
 <blockquote>
 <p>微博上营销帐号的策略实在是……我关注你是为了看你贴这些三流笑话的么 可好像大部分的官微都是这德性= = 我觉得还是要发和自己相关的东西，提供信息；信息量不够维持的话就互动；还不够维持的话像当年大众软件那样编编辑部故事也好啊！当年买大软一半的原因是看他们编辑部又发生什么了！</p>
 </blockquote>
+<hr>
+<h3 id="来自2016年的补充"><a href="#来自2016年的补充" class="headerlink" title="来自2016年的补充"></a>来自2016年的补充</h3><p>格子箱倒掉很久了，联想到我上一家公司的经历，这样的结果并不意外。</p>
+<p>一款产品，有核心用户是好的，但是又是没什么用的——我们之前的产品Boss经常说类似的观点，虽然听起来有些刺耳，但不得不承认有一些道理。</p>
+<p>作为创业公司，只有能让你盈利的用户才是好用户。这是颠簸不破的真理。</p>
+<p>事实上，现在想起来，格子箱和什么值得买在最初时有迥异的切入点，最后什么值得买活了下来，还把格子箱之前做的东西（晒物、购物比较）给做了。</p>
+<p>原因就在于，什么值得买的切入点，自带盈利属性啊。</p>
 ]]></content>
     
     <summary type="html">
@@ -620,11 +1197,50 @@
   </entry>
   
   <entry>
+    <title>在路上</title>
+    <link href="http://jonshowing.com/2010/08/23/on-the-road/"/>
+    <id>http://jonshowing.com/2010/08/23/on-the-road/</id>
+    <published>2010-08-23T02:24:11.000Z</published>
+    <updated>2016-09-19T03:48:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>是的，那句话叫<em>“Everything that has a beginning has an end”</em>。</p>
+<p>“Beginning”的那天我记得还很清楚，记忆里那天似乎特别的长，我办了一堆一堆的事儿，见了一堆一堆的人（这其中就包括振奋人心的同乡会乡长Noldo大人扫楼^^），最后是在一片灿烂的夕阳下，俺从思源湖畔把爹娘送出校门。虽然回到宿舍后心情确实有点空落落的，但似乎晚上就在语文能力测试中奋笔疾书写下了篇气势雄浑的作文，紧接着第二天就去ACM补招现场跃跃欲试……那时的我，就像早上八九点钟的太阳，觉得世界是我的，也是他们的，但终究结底是会属于我的。</p>
+<p>正如每个好的剧本，接下来的事情有些曲折。由于各位看官对于这些已经熟知，那么可以简而化之分为几个阶段：</p>
+<ul>
+<li><p>挣扎期<br>  <em>2005.9 - 2008.4</em><br>  时间标志是GRE机考考完（这段时间里其中有多个起伏，不细分） 这段时间里的典型事件是一直在不停地歇斯底里地尝试把包括GPA、托福和GRE在内的分数搞上去。</p>
+</li>
+<li><p>放弃并重新思考期<br>  <em>2008.4 - 2008.10 - 2008.11</em><br>  时间标志是1.十一从北京回来；2.开始钻研Photoshop并制作BBS进站画面 这段时间的典型事件是对于一切成绩均放弃追求高分，不在乎其高低，以及一系列思考文章的诞生，其中《钟鼓楼》等文章和后面的讨论令我至今记忆犹新，甚至我觉得以前的生活都是糊里糊涂，直到这时才真正动脑子开始想人活一世到底该怎么活、为什么活。</p>
+</li>
+<li><p>“在路上”时期<br>  <em>2008.11至今</em><br>  这段时期的典型事件是：抓紧闲暇时间进行频繁的不惜命的旅行（毫不夸张，随便挑一个月的旅行次数就超过05到08年的总和，因为那时处于疯狂学习状态）、疯狂攫取各种知识、反复尝试包括PS、写作、摄影在内的各种工作，等等。</p>
+</li>
+</ul>
+<p>也正因此，现在虽然到了“The end”，我却不用这个作题目，我用“在路上”。</p>
+<p>我承认这个词的来源很俗套，是电视剧《血色浪漫》中形容钟跃民的处事风格的。当时只是觉得受震动，而把它真正作为自己的行事准则是在思考期的讨论之后，尤其是<a href="https://zshowing.wordpress.com/2009/07/01/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%A9%AC%E5%A7%90%E7%9A%84%E5%9B%9E%E5%A4%8D/" target="_blank" rel="external">马姐对于《钟鼓楼》的回复</a>，让我受益颇多。“在路上”是一种处世的态度，他从不把自己固定在同一个位置过久，从不错过任何没有经历过的新奇。人生是为了什么？这一派人的答案是，人生是为了体验，体验是为了创造。</p>
+<p>另外要感谢<a href="http://www.houxiaodi.com/" target="_blank" rel="external">朋哥</a>，大三开学不久（2007.9）认识的他，当即被他的经历和谈吐震撼；而后来对某手册更是相见恨晚，因为该书完全解决了我在挣扎期（主要是大一）的首要矛盾——课堂和考试的低效、无用、无聊却又“不得不好好学”与本身想学习真金白银能用得上的知识的矛盾。该书的核心思想对于我最后行事风格的确立有重要作用。</p>
+<p>永远不安定，永远在路上。我是这么提醒自己的——我把“在路上”用作我豆瓣上的签名，得有快两年了吧，一直没有更换过；而我基本上也是这么做的。回北京之后我会最终如何？我现在猜不到，也许任何人都猜不到，因为路，并不是铺就好的。</p>
+<p>那么现在我只知道，我已走完了这五年在上海的这段路。这条路走下来，我没有什么名堂，没有太大能力，但却比以往的任何时候都有主心骨。</p>
+<p>而这路上的下一站，是北京。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      大学毕业回京之前，对整个大学生活的回顾。
+    
+    </summary>
+    
+      <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://jonshowing.com/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
     <title>沟通障碍有福音</title>
     <link href="http://jonshowing.com/2010/06/15/cure-for-those-who-had-difficulties-with-communication/"/>
     <id>http://jonshowing.com/2010/06/15/cure-for-those-who-had-difficulties-with-communication/</id>
     <published>2010-06-15T04:42:41.000Z</published>
-    <updated>2016-09-16T14:52:38.000Z</updated>
+    <updated>2016-09-17T12:47:33.000Z</updated>
     
     <content type="html"><![CDATA[<p>最早关注邵小毛是因为她的才气和声音，当然，还有各种萌=.=<br>（参见我的“聪明大于身高，才气胜过身材，萌压倒一切”三定律）</p>
 <p>不过去了她的巡演才发现，这姐们儿和我一样，居然也是个沟通障碍……</p>
@@ -667,7 +1283,11 @@
       <category term="Life" scheme="http://jonshowing.com/categories/Life/"/>
     
     
-      <category term="Music, Life, 自我剖析" scheme="http://jonshowing.com/tags/Music-Life-%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
+      <category term="Life" scheme="http://jonshowing.com/tags/Life/"/>
+    
+      <category term="自我剖析" scheme="http://jonshowing.com/tags/%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
+    
+      <category term="Music" scheme="http://jonshowing.com/tags/Music/"/>
     
   </entry>
   
