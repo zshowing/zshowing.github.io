@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jonshowing.com/"/>
-  <updated>2016-09-21T03:30:58.000Z</updated>
+  <updated>2016-09-21T03:43:59.000Z</updated>
   <id>http://jonshowing.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://jonshowing.com/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/"/>
     <id>http://jonshowing.com/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/</id>
     <published>2016-09-21T03:30:22.000Z</published>
-    <updated>2016-09-21T03:30:58.000Z</updated>
+    <updated>2016-09-21T03:43:59.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p><a href="https://itunes.apple.com/cn/app/tie-tong-touchchina-quan-guo/id530096786?mt=8" target="_blank" rel="external">地铁通</a>是一款覆盖了国内全部和国外部分已开通地铁城市的导航类应用，入选了苹果的AppStore精华，至今仍在地铁关键字搜索排名第一。迄今为止（注：2016年2月）iOS版的总下载数为237万，苹果后台显示的日活跃用户约为5万。</p>
 <p>我是从2013年起接手的这个应用，在那之前是一个在中国定居的法国同事<a href="https://www.linkedin.com/in/kevintingwingyuen" target="_blank" rel="external">Kevin</a>搭起的总体架构，在SVN显示的第一次提交是2012年6月14日。在这漫长的时间里，由于可以想象的项目进度和迭代压力，重写架构这种费力不讨好的事儿自然一直没法安排。</p>
@@ -350,6 +350,10 @@
 <p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f811ovmy91j20ku112777.jpg" width="60%"></p>
 <p>希望能给你带来一些启发，欢迎提出意见和批评。</p>
 <p>感谢观赏。</p>
+<hr>
+<p>广告：</p>
+<p>我现在正在找工作，希望加入一个比较大的团队继续学习。</p>
+<p>如果您觉得我比较合适，可以联系：zshowing[at]gmail.com</p>
 ]]></content>
     
     <summary type="html">
@@ -540,7 +544,7 @@
     <link href="http://jonshowing.com/2016/01/01/Summary-of-2015/"/>
     <id>http://jonshowing.com/2016/01/01/Summary-of-2015/</id>
     <published>2015-12-31T16:21:30.000Z</published>
-    <updated>2016-09-18T14:59:36.000Z</updated>
+    <updated>2016-09-21T03:40:27.000Z</updated>
     
     <content type="html"><![CDATA[<p>翻了半天微博和豆瓣的记录，终于想起来今年年初都在干什么了……</p>
 <p><br></p>
@@ -556,6 +560,7 @@
 <p>然后要做什么呢？</p>
 <p>I don’t know.</p>
 <p>That’s the best part, right?</p>
+<p>2016.1.1凌晨，<br>于日本东京·六本木 星巴克</p>
 ]]></content>
     
     <summary type="html">
