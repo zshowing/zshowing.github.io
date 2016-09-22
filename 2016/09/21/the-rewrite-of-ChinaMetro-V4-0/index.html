@@ -89,7 +89,7 @@
 <meta name="description" content="在从TouchChina离职前，我决定完成一件一直想做却一直受制于进度与需求的事：将已经开发了三四年的地铁通进行一次彻底的重构。本文从重构动机、重构思路以及重构后的对比几个角度，剖析了在程序开发以及架构设计中可能有所提高的地方。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="地铁通4.0版iOS客户端重写中的一些经验">
-<meta property="og:url" content="http://jonshowing.com/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/index.html">
+<meta property="og:url" content="http://zshowing.github.io/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/index.html">
 <meta property="og:site_name" content="Design & Code">
 <meta property="og:description" content="在从TouchChina离职前，我决定完成一件一直想做却一直受制于进度与需求的事：将已经开发了三四年的地铁通进行一次彻底的重构。本文从重构动机、重构思路以及重构后的对比几个角度，剖析了在程序开发以及架构设计中可能有所提高的地方。">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f7wyleayk0j20z00iwjsq.jpg">
@@ -119,7 +119,7 @@
 <meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f811hg8q9kj21kw0k7dnk.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f811mnjoolj20ku112wjk.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f811ovmy91j20ku112777.jpg">
-<meta property="og:updated_time" content="2016-09-21T03:43:59.000Z">
+<meta property="og:updated_time" content="2016-09-21T07:41:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="地铁通4.0版iOS客户端重写中的一些经验">
 <meta name="twitter:description" content="在从TouchChina离职前，我决定完成一件一直想做却一直受制于进度与需求的事：将已经开发了三四年的地铁通进行一次彻底的重构。本文从重构动机、重构思路以及重构后的对比几个角度，剖析了在程序开发以及架构设计中可能有所提高的地方。">
@@ -144,7 +144,7 @@
 
 
 
-  <link rel="canonical" href="http://jonshowing.com/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/"/>
+  <link rel="canonical" href="http://zshowing.github.io/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/"/>
 
   <title> 地铁通4.0版iOS客户端重写中的一些经验 | Design & Code </title>
 </head>
@@ -611,7 +611,7 @@
 </ol>
 <p>又要凭借状态变量进行判断，又要记得时刻更新它们，还得防止考虑不周更新错了状态，简直是车祸现场。</p>
 <h4 id="改进-2"><a href="#改进-2" class="headerlink" title="改进"></a>改进</h4><h5 id="合并两个页面"><a href="#合并两个页面" class="headerlink" title="合并两个页面"></a>合并两个页面</h5><p>我直接把两个页面合并到了一起，由入口参数决定最终显示哪个界面。</p>
-<p>但后来意识到，这并不是最好的解决方案。弊端是，原来是毫无耦合造成重复，现在两个页面的耦合又太紧了，虽然这这版的需求中工作得很好，再有调整又会比较棘手。更好的做法是使用<code>组合</code>，把公共的列表提取出来。</p>
+<p>但后来意识到，这并不是最好的解决方案。弊端是，原来是毫无耦合造成重复，现在两个页面的耦合又太紧了，虽然在这版的需求中工作得很好，再有调整又会比较棘手。更好的做法是使用<code>组合</code>，把公共的列表提取出来。</p>
 <p>这一点在Casa的<a href="http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html" target="_blank" rel="external">《跳出面向对象思想(一) 继承》</a>中解释得非常好，我就不再赘述。</p>
 <h5 id="新定义数据对象"><a href="#新定义数据对象" class="headerlink" title="新定义数据对象"></a>新定义数据对象</h5><p>在前面提到的<code>DataModel</code>中增加了<code>POI</code>对象，包含<code>Station</code>作为它的一个property。</p>
 <p>这代表，现在整个界面中，甚至整个app运行期间，都只有一种数据对象——<code>CMPOI</code>，清爽，干净，不紧绷。</p>
@@ -692,7 +692,7 @@
 <p>扶上驴，送一程。至此，对于这个项目，我的任务差不多完成了。</p>
 <p>用户反馈差不多是这样：</p>
 <p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f811mnjoolj20ku112wjk.jpg" width="60%"></p>
-<p>就用刚项目开始时我在豆瓣发的一条广播来结束本文吧：</p>
+<p>就用项目刚开始时我在豆瓣发的一条广播来结束本文吧：</p>
 <p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f811ovmy91j20ku112777.jpg" width="60%"></p>
 <p>希望能给你带来一些启发，欢迎提出意见和批评。</p>
 <p>感谢观赏。</p>
@@ -745,6 +745,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2016/09/22/Advanced-Self-Examination-and-Status-Analyze-II/" rel="prev" title="Advanced Self-Examination and Status Analyze II">
+                Advanced Self-Examination and Status Analyze II <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -770,7 +774,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2016/09/21/the-rewrite-of-ChinaMetro-V4-0/"
-           data-title="地铁通4.0版iOS客户端重写中的一些经验" data-url="http://jonshowing.com/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/">
+           data-title="地铁通4.0版iOS客户端重写中的一些经验" data-url="http://zshowing.github.io/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/">
       </div>
     
   </div>
@@ -815,7 +819,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -832,7 +836,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
