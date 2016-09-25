@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zshowing.github.io/"/>
-  <updated>2016-09-22T09:35:34.000Z</updated>
+  <updated>2016-09-25T03:12:09.000Z</updated>
   <id>http://zshowing.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://zshowing.github.io/2016/09/22/Advanced-Self-Examination-and-Status-Analyze-II/"/>
     <id>http://zshowing.github.io/2016/09/22/Advanced-Self-Examination-and-Status-Analyze-II/</id>
     <published>2016-09-22T07:01:52.000Z</published>
-    <updated>2016-09-22T09:35:34.000Z</updated>
+    <updated>2016-09-25T03:12:09.000Z</updated>
     
     <content type="html"><![CDATA[<p>是的，本课程在<a href="/2016/08/06/Advanced-Self-Examination-and-Status-Analyze/">第一级</a>落幕仅仅一个月之后，就迎来了第二级。</p>
 <p>上一篇的视角比较高，是从迄今为止的所有人生中总结的经验，而这一篇的视角则聚焦在今年3月辞职后到现在的半年间，准备记录一些尝试和相关的思考。</p>
@@ -504,7 +504,7 @@
     <link href="http://zshowing.github.io/2016/08/11/Basic-Loveology/"/>
     <id>http://zshowing.github.io/2016/08/11/Basic-Loveology/</id>
     <published>2016-08-11T03:26:21.000Z</published>
-    <updated>2016-09-19T01:56:55.000Z</updated>
+    <updated>2016-09-25T03:03:44.000Z</updated>
     
     <content type="html"><![CDATA[<p><em>*题目是致敬美剧&lt;Community>每集的标题命名风格。</em></p>
 <p>我觉得，一段经得起推敲的感情，大致有两个分类。</p>
@@ -537,7 +537,7 @@
     
     </summary>
     
-      <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
+      <category term="理论" scheme="http://zshowing.github.io/categories/%E7%90%86%E8%AE%BA/"/>
     
     
       <category term="Love" scheme="http://zshowing.github.io/tags/Love/"/>
@@ -726,7 +726,7 @@
     <link href="http://zshowing.github.io/2016/01/01/Summary-of-2015/"/>
     <id>http://zshowing.github.io/2016/01/01/Summary-of-2015/</id>
     <published>2015-12-31T16:21:30.000Z</published>
-    <updated>2016-09-21T14:58:13.000Z</updated>
+    <updated>2016-09-25T03:05:48.000Z</updated>
     
     <content type="html"><![CDATA[<p>翻了半天微博和豆瓣的记录，终于想起来今年年初都在干什么了……</p>
 <p><br></p>
@@ -751,7 +751,7 @@
     
     </summary>
     
-      <category term="年终总结" scheme="http://zshowing.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
+      <category term="总结" scheme="http://zshowing.github.io/categories/%E6%80%BB%E7%BB%93/"/>
     
     
       <category term="总结" scheme="http://zshowing.github.io/tags/%E6%80%BB%E7%BB%93/"/>
@@ -763,7 +763,7 @@
     <link href="http://zshowing.github.io/2015/09/27/Project-RDFZ-the-Documentary-Part-II/"/>
     <id>http://zshowing.github.io/2015/09/27/Project-RDFZ-the-Documentary-Part-II/</id>
     <published>2015-09-27T10:50:08.000Z</published>
-    <updated>2016-09-21T15:00:25.000Z</updated>
+    <updated>2016-09-25T03:07:43.000Z</updated>
     
     <content type="html"><![CDATA[<p>大家好，这里是人大附中2005届学生毕业十周年返校活动的现场，我是记者小张儿。</p>
 <p>接下来请您跟随我的镜头一起，深入到活动的各个环节。</p>
@@ -810,9 +810,13 @@
       <category term="Design" scheme="http://zshowing.github.io/categories/Design/"/>
     
     
+      <category term="RDFZ" scheme="http://zshowing.github.io/tags/RDFZ/"/>
+    
       <category term="Design" scheme="http://zshowing.github.io/tags/Design/"/>
     
-      <category term="RDFZ" scheme="http://zshowing.github.io/tags/RDFZ/"/>
+      <category term="Logo" scheme="http://zshowing.github.io/tags/Logo/"/>
+    
+      <category term="视觉设计" scheme="http://zshowing.github.io/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
@@ -821,7 +825,7 @@
     <link href="http://zshowing.github.io/2015/09/26/Project-RDFZ-The-Documentary-Part-I/"/>
     <id>http://zshowing.github.io/2015/09/26/Project-RDFZ-The-Documentary-Part-I/</id>
     <published>2015-09-26T10:50:08.000Z</published>
-    <updated>2016-09-17T09:58:41.000Z</updated>
+    <updated>2016-09-25T03:08:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>本着没有总结就没有进步的原则，早就想写这么一篇了（咱能不每篇都用这句话开篇么……）。嗯，接下来就是给今年十周年返校聚会做设计的一些记录。</p>
 <p>题目来自于素材文件的文件夹名。在我的Evernote里面还有好多其他Project XXX，这种命名方式感觉是被日本人带坏了……</p>
@@ -956,6 +960,16 @@
     
       <category term="Design" scheme="http://zshowing.github.io/tags/Design/"/>
     
+      <category term="Logo" scheme="http://zshowing.github.io/tags/Logo/"/>
+    
+      <category term="视觉设计" scheme="http://zshowing.github.io/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="Photoshop" scheme="http://zshowing.github.io/tags/Photoshop/"/>
+    
+      <category term="SketchUp" scheme="http://zshowing.github.io/tags/SketchUp/"/>
+    
+      <category term="Illustrator" scheme="http://zshowing.github.io/tags/Illustrator/"/>
+    
   </entry>
   
   <entry>
@@ -963,7 +977,7 @@
     <link href="http://zshowing.github.io/2015/07/27/lessons-that-girls-taught-me/"/>
     <id>http://zshowing.github.io/2015/07/27/lessons-that-girls-taught-me/</id>
     <published>2015-07-27T10:55:56.000Z</published>
-    <updated>2016-09-24T15:45:21.000Z</updated>
+    <updated>2016-09-25T03:10:02.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>这是个早就想写但一直不知怎么下笔的题目，记得不久前曾经努力开过一个头，刚才找了一下，发现正好是半，年，前……</p>
 <p>题目出自胖哥当年在KTV特别爱点的一首歌，但严格说来要写的内容基本上还是自己悟出来的。</p>
@@ -1075,7 +1089,7 @@
     
     </summary>
     
-      <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
+      <category term="理论" scheme="http://zshowing.github.io/categories/%E7%90%86%E8%AE%BA/"/>
     
     
       <category term="Love" scheme="http://zshowing.github.io/tags/Love/"/>
@@ -1136,7 +1150,7 @@
     <link href="http://zshowing.github.io/2015/05/18/bye-manager/"/>
     <id>http://zshowing.github.io/2015/05/18/bye-manager/</id>
     <published>2015-05-18T13:46:50.000Z</published>
-    <updated>2016-09-16T13:02:34.000Z</updated>
+    <updated>2016-09-25T03:11:35.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>5月12日，天高云淡，惠风和畅，正在我鱼块地和PM同学讨论问题的时候，突然看到了这么一行：</p>
 <p><img src="http://ww1.sinaimg.cn/large/5613ec79gw1f7ve8uabo0j205509xdg1.jpg" alt=""></p>
@@ -1173,6 +1187,8 @@
     
     
       <category term="Design" scheme="http://zshowing.github.io/tags/Design/"/>
+    
+      <category term="Photoshop" scheme="http://zshowing.github.io/tags/Photoshop/"/>
     
   </entry>
   
@@ -1258,7 +1274,7 @@
     <link href="http://zshowing.github.io/2013/05/27/Inner-Peace/"/>
     <id>http://zshowing.github.io/2013/05/27/Inner-Peace/</id>
     <published>2013-05-27T13:04:41.000Z</published>
-    <updated>2016-09-19T03:45:48.000Z</updated>
+    <updated>2016-09-25T03:10:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>改bug间隙来透口气。</p>
 <p>有个问题每隔一段时间就会浮上我的脑海——在过去的时光中，哪段时间是最值得让你怀念的？晚上在下班回家的地铁上，这个问题又一次莫名闯进心头。</p>
@@ -1292,6 +1308,8 @@
     
     
       <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
+    
+      <category term="RDFZ" scheme="http://zshowing.github.io/tags/RDFZ/"/>
     
   </entry>
   
@@ -1390,7 +1408,7 @@
     <link href="http://zshowing.github.io/2010/08/23/on-the-road/"/>
     <id>http://zshowing.github.io/2010/08/23/on-the-road/</id>
     <published>2010-08-23T02:24:11.000Z</published>
-    <updated>2016-09-19T03:48:50.000Z</updated>
+    <updated>2016-09-25T03:09:08.000Z</updated>
     
     <content type="html"><![CDATA[<p>是的，那句话叫<em>“Everything that has a beginning has an end”</em>。</p>
 <p>“Beginning”的那天我记得还很清楚，记忆里那天似乎特别的长，我办了一堆一堆的事儿，见了一堆一堆的人（这其中就包括振奋人心的同乡会乡长Noldo大人扫楼^^），最后是在一片灿烂的夕阳下，俺从思源湖畔把爹娘送出校门。虽然回到宿舍后心情确实有点空落落的，但似乎晚上就在语文能力测试中奋笔疾书写下了篇气势雄浑的作文，紧接着第二天就去ACM补招现场跃跃欲试……那时的我，就像早上八九点钟的太阳，觉得世界是我的，也是他们的，但终究结底是会属于我的。</p>
@@ -1417,10 +1435,43 @@
     
     </summary>
     
-      <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
+      <category term="总结" scheme="http://zshowing.github.io/categories/%E6%80%BB%E7%BB%93/"/>
     
     
       <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>审美理论</title>
+    <link href="http://zshowing.github.io/2010/06/30/new-theory-about-beauty/"/>
+    <id>http://zshowing.github.io/2010/06/30/new-theory-about-beauty/</id>
+    <published>2010-06-30T12:54:22.000Z</published>
+    <updated>2016-09-25T02:59:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天偶然接受到了个冲击信号，随后很自然地开始了冲击响应。下面这堆微博就是冲击响应中得到的一些分量。</p>
+<p>我现在倾向一种想法：<strong>审美并不是一开始就定型的，而是被“训练”出来的</strong>，训练集是那些你喜欢过的女生。因为喜欢上一个人并非只因为相貌，但一旦喜欢上以后，心里就会觉得有着类似这种相貌的女生是最美的。<br><em>通过 web 约7小时前</em></p>
+<p>这个想法以前就有模糊的念头，来自于我自己的体会，但直到今天才想通整个因果关系，和怎么精确表述。最明显的例子就是我对Yui这种“眼神凌厉”的女生在审美上的大转变，更包括我现在整个的审美观。我觉得现在和05年的我对同一批人打分，可能会有天壤之别了。<br><em>通过 web 约6小时前</em></p>
+<p>从维护婚姻的角度说，这种机制可以在很大程度上湮灭男人移情别恋的可能性，因为他的审美观告诉他：天下最美的女人是他老婆。当然，前提是他真的很喜欢她，毕竟这世界上还有许多不是因爱而结合的婚姻。<br><em>通过 web 约6小时前</em></p>
+<p>刚才那个理论乍一听很废话，但它颠覆了一个一直以来我默认的因果：原来不是审美决定你喜欢谁，而是你喜欢谁决定了你的审美。这也是我到今天才偶然把这事想通的原因。<br><em>通过 web 约5小时前</em></p>
+]]></content>
+    
+    <summary type="html">
+    
+      一种新型的审美理论。
+    
+    </summary>
+    
+      <category term="理论" scheme="http://zshowing.github.io/categories/%E7%90%86%E8%AE%BA/"/>
+    
+    
+      <category term="Love" scheme="http://zshowing.github.io/tags/Love/"/>
+    
+      <category term="理论" scheme="http://zshowing.github.io/tags/%E7%90%86%E8%AE%BA/"/>
+    
+      <category term="美感" scheme="http://zshowing.github.io/tags/%E7%BE%8E%E6%84%9F/"/>
+    
+      <category term="女人" scheme="http://zshowing.github.io/tags/%E5%A5%B3%E4%BA%BA/"/>
     
   </entry>
   
@@ -1485,7 +1536,7 @@
     <link href="http://zshowing.github.io/2010/05/07/The-ultimate-statistic/"/>
     <id>http://zshowing.github.io/2010/05/07/The-ultimate-statistic/</id>
     <published>2010-05-06T16:20:18.000Z</published>
-    <updated>2016-09-24T16:39:28.000Z</updated>
+    <updated>2016-09-25T03:06:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>断断续续持续了一周左右的统计工作在昨晚搞定了Space方面的数据，遂简略发文总结一下。</p>
 <p>在这<strong>58</strong>个月中，Space总日志数<strong>663</strong>篇，月均<strong>11.4</strong>篇；总字符数<strong>518180</strong>（估计值），月均<strong>8934</strong>字符。</p>
@@ -1521,56 +1572,12 @@
     
     </summary>
     
-      <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
+      <category term="总结" scheme="http://zshowing.github.io/categories/%E6%80%BB%E7%BB%93/"/>
     
+    
+      <category term="总结" scheme="http://zshowing.github.io/tags/%E6%80%BB%E7%BB%93/"/>
     
       <category term="统计" scheme="http://zshowing.github.io/tags/%E7%BB%9F%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>救赎</title>
-    <link href="http://zshowing.github.io/2010/04/29/Salvation/"/>
-    <id>http://zshowing.github.io/2010/04/29/Salvation/</id>
-    <published>2010-04-28T16:12:29.000Z</published>
-    <updated>2016-09-24T16:16:01.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>写作，是我的救赎。</p>
-<p>在Google搜了一下（语法是“关键字 site:zshowing.spaces.live.com”），这句话虽然在我的心里早已出现，却一直没真正写在日志里过。尽管如此，我们仍然可以在一些细节中找到与之有关的表述。</p>
-<p>2009年4月30日的《因为快乐》中：</p>
-<blockquote>
-<p>不管是写什么，也不管有没有人看，只要我可以遣词造句，只要我能够布局谋篇，我就能体会到那种不能言喻的快乐。至于得到了谁谁的认可，或是受到了某某的赞赏，那倒都是些锦上添花的东西了。</p>
-<p>归根结底，写作，是因为快乐。仅此而已。</p>
-</blockquote>
-<p>2005年10月15日的《Mid-term…Once Again…》中则有这么几句：</p>
-<blockquote>
-<p>我从不习惯把自己的想法和心情完全暴露给别人，哪怕是父母或最好的朋友。任何时候，只要我手头有一支笔、一个本，我就足以释放并附带记录下自己的全部心情。</p>
-<p>我越来越清楚地认识到我也许真的并不算“擅长文学”的那种人，不过我确实很爱自己写些东西。不管写得怎么样，那是种享受。像刘若英说的：“也许我并不是最会唱歌的，但我肯定我是最爱唱歌的。”唱歌，是心灵在歌唱；写作，是思想在流淌。</p>
-</blockquote>
-<p>某年4月17日的《8 mins update》（Space只显示月份不显示年份这点真的很让人崩溃）：</p>
-<blockquote>
-<p>“最近回想自己一路的轨迹，觉得似乎自己最爱做的事，不是别的，倒是码字。——没错，就是一张纸一杆笔或者一双手一个键盘任思绪驰骋的那种感觉，我真的很喜欢那种感觉。</p>
-</blockquote>
-<p>某年10月11日的《当…》，有一长段完整的叙述：</p>
-<blockquote>
-<p>当我心乱如麻、情感满溢之时，我会拿起手旁的笔，在纸上用一行行的文字倾泻下自己的心路历程。每当这个时候，面前的纸笔彷佛就成了自己的知交好友，可以知无不谈、谈无不尽，它可以听得进去我的每一句话、每一个想法，可以理解我灵魂最深处的任何异动。每到这个时候，手中的那支笔又像是一根救命的稻草。握着它，我才感到自己呼吸到了空气，才感觉心中的憋闷稍减。我之所以如此热爱写东西，很大程度是因为这点。——对待好友，岂有亏待之理？</p>
-</blockquote>
-<p>其中最后这一段说得最为透彻，也最能体现“救赎”二字的意义——在这找不到一个能理解自己的人聊天的学校里摸爬滚打四年，我能保持自己不疯就全指着把自己的心情和思想通过写作表达出来了。所以我的文字归根结底不是给人看的，只是心灵倾倒出来的（就像没有朋友、没有恋人的凡高在阿尔时会玩儿命画画一样，绘画就是凡高的救赎）；但也正因此，那些固定的读者更让我感动。</p>
-<p>到了后来，写作几乎成了我本能的调节心情的工具。甚至每当我要进行一项不想做的恼人工作之前，我都会写些什么——随便写些不管什么东西都行——好产生一种比较舒爽的心境，再用培养出来的这种心境去死磕恼人工作。这个例子有很多，最近比较明显的例子就是今年1月9号一直到12号我连发的5篇日志，以及18、19号两天内连发的3篇日志，那都是在艰苦赶工过程中平衡心态用的。</p>
-<p>我一直很感激我能写作，老天赋予我的这项能力使我的生活有了一种至关重要的调节机制。我实在不能想象，如果我不是这么能写东西，我还会“精神还算正常、四肢还算完整”地活在这世上吗？</p>
-<p>所以所以，写作真的是我的救赎，是它从深渊中一次次地把我救了出来，是它让我安于周围没有好友的生活，更是他让我茁壮地生活下去。</p>
-<p><br></p>
-<p>因为你知道，文字是永远不会背弃你的。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      写作，是我的救赎。
-    
-    </summary>
-    
-      <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
-    
     
   </entry>
   
