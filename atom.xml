@@ -133,9 +133,9 @@
       <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
     
     
-      <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
-    
       <category term="Career" scheme="http://zshowing.github.io/tags/Career/"/>
+    
+      <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
     
   </entry>
   
@@ -144,7 +144,7 @@
     <link href="http://zshowing.github.io/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/"/>
     <id>http://zshowing.github.io/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/</id>
     <published>2016-09-21T03:30:22.000Z</published>
-    <updated>2016-09-21T07:41:35.000Z</updated>
+    <updated>2016-09-26T16:24:15.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p><a href="https://itunes.apple.com/cn/app/tie-tong-touchchina-quan-guo/id530096786?mt=8" target="_blank" rel="external">地铁通</a>是一款覆盖了国内全部和国外部分已开通地铁城市的导航类应用，入选了苹果的AppStore精华，至今仍在地铁关键字搜索排名第一。迄今为止（注：2016年2月）iOS版的总下载数为237万，苹果后台显示的日活跃用户约为5万。</p>
 <p>我是从2013年起接手的这个应用，在那之前是一个在中国定居的法国同事<a href="https://www.linkedin.com/in/kevintingwingyuen" target="_blank" rel="external">Kevin</a>搭起的总体架构，在SVN显示的第一次提交是2012年6月14日。在这漫长的时间里，由于可以想象的项目进度和迭代压力，重写架构这种费力不讨好的事儿自然一直没法安排。</p>
@@ -301,6 +301,11 @@
 <p>这样的灵活度基本上算是达标了:)</p>
 <p>PS. 在完成整个项目之后，我试着把新版app在iPad上跑了一下，惊讶地发现，在我没有改动任何地方的情况下，居然所有页面的UI都显示正常！这在引入约束条件生成UI之前简直是不可想象的。</p>
 <h5 id="只更新数据源，不操作控件"><a href="#只更新数据源，不操作控件" class="headerlink" title="只更新数据源，不操作控件"></a>只更新数据源，不操作控件</h5><p>事实上，这就是最基本的MVC分层在实际中的应用——当数据变化时，产生变化的组件只负责更新<code>DataModel</code>，然后简单地调用<code>tableView.reloadData()</code>搞定。剩下的问题都由<code>View</code>层自行负责。</p>
+<p>后来在浏览博客时发现有关这样的改动，Eden有一篇<a href="http://studentdeng.github.io/blog/2014/08/29/ios-architecture/" target="_blank" rel="external">《iOS APP 架构漫谈》</a>差不多是同样的场景，在那篇文章中解释得非常详尽，尤其是：</p>
+<blockquote>
+<p>我们可以借鉴很多”内存管理中的规则”，比如<code>谁创建，谁销毁</code>。同样，在我们的information flow中，我们希望<code>谁创建Cache，谁更新Cache变化</code></p>
+</blockquote>
+<p>这一句，道破本质。有兴趣的可去观摩。</p>
 <h5 id="成果-1"><a href="#成果-1" class="headerlink" title="成果"></a>成果</h5><table>
 <thead>
 <tr>
@@ -463,6 +468,9 @@
 <p>在找到现在这个解决方案之前也纠结了很久，最终在某个凌晨能很快实现还是要归功于这次合理的架构设计，很难想象在之前那一坨3000行的代码里加个这种功能要抓狂到什么地步。</p>
 <h3 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h3><p>是的，作为一个有着不止一点情怀的程序员……我还埋了个彩蛋，估计没人发现过，即使如此我也不想说xD</p>
 <p>PS. 那些大公司的软件里彩蛋到底是怎么埋的？一Code Review不是就直接被辞退了吗？</p>
+<h2 id="未竟事业"><a href="#未竟事业" class="headerlink" title="未竟事业"></a>未竟事业</h2><p>事实上，我还抽空稍微规划了一下iPad版本的地铁通：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f87g7fusumj21kw11xk57.jpg" alt=""></p>
+<p>但由于时间实在是不够用，最终作罢。</p>
 <h2 id="跋"><a href="#跋" class="headerlink" title="跋"></a>跋</h2><p>基本写完了程序主体，然后我又开始做起了市场。</p>
 <p>当时赶工时每天唯一的娱乐是伴饭看一集《广告狂人》，所以到这个想广告词的环节觉得特别带感，感觉Don Draper（《广告狂人》男主角）上身。</p>
 <p>于是就有了我用Photoshop做的下面这一批AppStore宣传图：</p>
@@ -610,9 +618,9 @@
       <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
     
     
-      <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
-    
       <category term="Career" scheme="http://zshowing.github.io/tags/Career/"/>
+    
+      <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
     
       <category term="自我剖析" scheme="http://zshowing.github.io/tags/%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
     
@@ -810,9 +818,9 @@
       <category term="Design" scheme="http://zshowing.github.io/categories/Design/"/>
     
     
-      <category term="RDFZ" scheme="http://zshowing.github.io/tags/RDFZ/"/>
-    
       <category term="Design" scheme="http://zshowing.github.io/tags/Design/"/>
+    
+      <category term="RDFZ" scheme="http://zshowing.github.io/tags/RDFZ/"/>
     
       <category term="Logo" scheme="http://zshowing.github.io/tags/Logo/"/>
     
@@ -1467,11 +1475,11 @@
     
       <category term="Love" scheme="http://zshowing.github.io/tags/Love/"/>
     
-      <category term="理论" scheme="http://zshowing.github.io/tags/%E7%90%86%E8%AE%BA/"/>
-    
       <category term="美感" scheme="http://zshowing.github.io/tags/%E7%BE%8E%E6%84%9F/"/>
     
       <category term="女人" scheme="http://zshowing.github.io/tags/%E5%A5%B3%E4%BA%BA/"/>
+    
+      <category term="理论" scheme="http://zshowing.github.io/tags/%E7%90%86%E8%AE%BA/"/>
     
   </entry>
   
