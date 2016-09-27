@@ -120,7 +120,7 @@
 <meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f811hg8q9kj21kw0k7dnk.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f811mnjoolj20ku112wjk.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f811ovmy91j20ku112777.jpg">
-<meta property="og:updated_time" content="2016-09-27T07:58:15.000Z">
+<meta property="og:updated_time" content="2016-09-27T15:05:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="地铁通4.0版iOS客户端重写中的一些经验">
 <meta name="twitter:description" content="在从TouchChina离职前，我决定完成一件一直想做却一直受制于进度与需求的事：将已经开发了三四年的地铁通进行一次彻底的重构。本文从重构动机、重构思路以及重构后的对比几个角度，剖析了在程序开发以及架构设计中可能有所提高的地方。">
@@ -381,6 +381,10 @@
 <p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wylby2xej20z00iwt8s.jpg" alt=""></p>
 <p>（此处有掌声）  </p>
 <p>尽管如此，更大规模，或者说，更底层的架构级重构还是一直没时间进行。由于横跨多个业务场景，这种级别的重构工作势必占用几周的完整时间，还要进行彻底的测试。作为一家创业公司是承受不起的。</p>
+<p>正如Pinterest在介绍他们重写程序架构的blog（<a href="https://engineering.pinterest.com/blog/re-architecting-pinterests-ios-app" target="_blank" rel="external">《Re-architecting Pinterest’s iOS app》</a>）里面写的：</p>
+<blockquote>
+<p>A small team of Pinterest iOS engineers was recently given <strong>the opportunity every engineer dreams of</strong> - completely rethinking and rebuilding our app.</p>
+</blockquote>
 <p>直到我决定要离职，出于一种代码洁癖和少许的社会责任感（我觉得在我之后怕是没人能做得起这种量级的代码调整了，难道就把这一坨四年历史的充满补丁的垃圾留给200多万用户吗？），外加一股想要自我救赎的冲动（我认为，能自己把自己的烂代码改掉是一种自我救赎），我向Boss提出了重构申请，作为离职前的最后一个项目。</p>
 <p>地铁通4.0项目就这么立项了。</p>
 <h2 id="程序概貌"><a href="#程序概貌" class="headerlink" title="程序概貌"></a>程序概貌</h2><p>在深入讲解之前，我先整体介绍一下地铁通这款app的大致组成。</p>

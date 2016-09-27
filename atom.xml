@@ -144,7 +144,7 @@
     <link href="http://zshowing.github.io/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/"/>
     <id>http://zshowing.github.io/2016/09/21/the-rewrite-of-ChinaMetro-V4-0/</id>
     <published>2016-09-21T03:30:22.000Z</published>
-    <updated>2016-09-27T07:58:15.000Z</updated>
+    <updated>2016-09-27T15:05:18.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p><a href="https://itunes.apple.com/cn/app/tie-tong-touchchina-quan-guo/id530096786?mt=8" target="_blank" rel="external">地铁通</a>是一款覆盖了国内全部和国外部分已开通地铁城市的导航类应用，入选了苹果的AppStore精华，至今仍在地铁关键字搜索排名第一。迄今为止（注：2016年2月）iOS版的总下载数为237万，苹果后台显示的日活跃用户约为5万。</p>
 <p>我是从2013年起接手的这个应用，在那之前是一个在中国定居的法国同事<a href="https://www.linkedin.com/in/kevintingwingyuen" target="_blank" rel="external">Kevin</a>搭起的总体架构，在SVN显示的第一次提交是2012年6月14日。在这漫长的时间里，由于可以想象的项目进度和迭代压力，重写架构这种费力不讨好的事儿自然一直没法安排。</p>
@@ -158,6 +158,10 @@
 <p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wylby2xej20z00iwt8s.jpg" alt=""></p>
 <p>（此处有掌声）  </p>
 <p>尽管如此，更大规模，或者说，更底层的架构级重构还是一直没时间进行。由于横跨多个业务场景，这种级别的重构工作势必占用几周的完整时间，还要进行彻底的测试。作为一家创业公司是承受不起的。</p>
+<p>正如Pinterest在介绍他们重写程序架构的blog（<a href="https://engineering.pinterest.com/blog/re-architecting-pinterests-ios-app" target="_blank" rel="external">《Re-architecting Pinterest’s iOS app》</a>）里面写的：</p>
+<blockquote>
+<p>A small team of Pinterest iOS engineers was recently given <strong>the opportunity every engineer dreams of</strong> - completely rethinking and rebuilding our app.</p>
+</blockquote>
 <p>直到我决定要离职，出于一种代码洁癖和少许的社会责任感（我觉得在我之后怕是没人能做得起这种量级的代码调整了，难道就把这一坨四年历史的充满补丁的垃圾留给200多万用户吗？），外加一股想要自我救赎的冲动（我认为，能自己把自己的烂代码改掉是一种自我救赎），我向Boss提出了重构申请，作为离职前的最后一个项目。</p>
 <p>地铁通4.0项目就这么立项了。</p>
 <h2 id="程序概貌"><a href="#程序概貌" class="headerlink" title="程序概貌"></a>程序概貌</h2><p>在深入讲解之前，我先整体介绍一下地铁通这款app的大致组成。</p>
