@@ -120,7 +120,7 @@
 <meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f811hg8q9kj21kw0k7dnk.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f811mnjoolj20ku112wjk.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f811ovmy91j20ku112777.jpg">
-<meta property="og:updated_time" content="2016-09-26T16:24:15.000Z">
+<meta property="og:updated_time" content="2016-09-27T07:58:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="地铁通4.0版iOS客户端重写中的一些经验">
 <meta name="twitter:description" content="在从TouchChina离职前，我决定完成一件一直想做却一直受制于进度与需求的事：将已经开发了三四年的地铁通进行一次彻底的重构。本文从重构动机、重构思路以及重构后的对比几个角度，剖析了在程序开发以及架构设计中可能有所提高的地方。">
@@ -659,9 +659,18 @@
 </li>
 <li><p><code>分享模块</code>，之前的封装使用非常繁琐，每次还要自行加到UIWindow上去。于是又重新写了一个，弹出分享控件只需下面几步：</p>
   <figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> shareKit: <span class="type">CMShareKit</span> = <span class="type">CMShareKit</span>.getInstance()</div><div class="line">shareKit.setup(<span class="string">"分享文字"</span>, </div><div class="line">    emailBody: <span class="string">"邮件文字"</span>, </div><div class="line">    smsBody: shareContent, </div><div class="line">    weixinTitle: appName, </div><div class="line">    weixinBody: shareContent, </div><div class="line">    weixinPengyouBody: shareContent, </div><div class="line">    weixinURL: <span class="type">CMConfig</span>.<span class="type">AppDownloadURLTrim</span>.absoluteString, </div><div class="line">    qqTitle: appName, </div><div class="line">    qqBody: shareContent, </div><div class="line">    qqURL: <span class="type">CMConfig</span>.<span class="type">AppDownloadURLTrim</span>.absoluteString, </div><div class="line">    weiboBody: shareContent, </div><div class="line">    image: <span class="keyword">self</span>.getCurrentViewShot())</div><div class="line">shareKit.show(<span class="keyword">self</span>)</div></pre></td></tr></table></figure>
+<p>  后来看到Matt Gemmell在他的<a href="http://mattgemmell.com/api-design/" target="_blank" rel="external">《API Design》</a>这篇blog中也不谋而合地提到了这一点：</p>
+<blockquote>
+<p>Rule 6: <strong>Get up and running in 3 lines</strong><br>Excluding delegate methods, you should aim to make it usable at least for testing purposes with only 3 lines of code.<br>Those lines are:</p>
+<blockquote>
+<p>Instantiate it.<br>Basically configure, so it will show and/or do something.<br>Display or otherwise activate it.  </p>
+</blockquote>
+<p>That should be it. Anything substantially more onerous is a code smell.</p>
+</blockquote>
 </li>
-<li><p><code>添加/删除书签和历史模块</code>，干掉，完全移入<code>DataSource</code>。并且前一版本是把数据序列化后保存为文件，这导致了相当大的性能问题，在暴力测试疯狂增删时甚至可能导致崩溃。新版中改为只保存必要的信息（比如起点和终点），等需要时再把路线实时计算出来即可。</p>
-</li>
+</ul>
+<ul>
+<li><code>添加/删除书签和历史模块</code>，干掉，完全移入<code>DataSource</code>。并且前一版本是把数据序列化后保存为文件，这导致了相当大的性能问题，在暴力测试疯狂增删时甚至可能导致崩溃。新版中改为只保存必要的信息（比如起点和终点），等需要时再把路线实时计算出来即可。</li>
 </ul>
 <h2 id="一些私心"><a href="#一些私心" class="headerlink" title="一些私心"></a>一些私心</h2><p>上面基本把大块的重构页面讲完了，下面说几个旧版本中没有的页面，也算是我自己的私心。</p>
 <p>考虑到这是我最后一次负责这个项目，也是第一次有如此大的决定权，我不禁在重构之余腾出手来加了一些自己想加的页面。</p>
