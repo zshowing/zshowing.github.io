@@ -1,0 +1,808 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Core Graphics,优化,Swift," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Design & Code" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="记录了实现电影《黑客帝国》中代码雨效果的过程，以及随后对Core Graphics绘制的优化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一个练手作品：Matrix Code Rain<br>及对Core Graphics绘制的优化">
+<meta property="og:url" content="http://zshowing.github.io/2016/10/09/Project-Matrix-Code-Rain/index.html">
+<meta property="og:site_name" content="Design & Code">
+<meta property="og:description" content="记录了实现电影《黑客帝国》中代码雨效果的过程，以及随后对Core Graphics绘制的优化。">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8m0vyssmbg20b406m7wh.gif">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f8m1v5se6mj20y80jyt9v.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79gw1f8m3n5c8j6g20b404vx6p.gif">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8hmevmxy9g20a00hsb29.gif">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f8hq5majxfj20du050jrx.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8m6n7zdqcj21cu112dn7.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8m6mvur82j21cm10wwmk.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79jw1f8m6w0biu1j20wq1321kx.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f8m6wnhmlfj20y40lowj8.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79gw1f8m74cap54j20b40b4aal.jpg">
+<meta property="og:updated_time" content="2016-10-09T10:40:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第一个练手作品：Matrix Code Rain<br>及对Core Graphics绘制的优化">
+<meta name="twitter:description" content="记录了实现电影《黑客帝国》中代码雨效果的过程，以及随后对Core Graphics绘制的优化。">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8m0vyssmbg20b406m7wh.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zshowing.github.io/2016/10/09/Project-Matrix-Code-Rain/"/>
+
+  <title> 第一个练手作品：Matrix Code Rain<br>及对Core Graphics绘制的优化 | Design & Code </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-84283556-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+    <div class="site-meta-headline">
+      <a>
+        <img class="custom-logo-image" src="/images/logo.png"
+             alt="Design & Code"/>
+      </a>
+    </div>
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Design & Code</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第一个练手作品：Matrix Code Rain<br>及对Core Graphics绘制的优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-09T01:33:22+08:00" content="2016-10-09">
+              2016-10-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index">
+                    <span itemprop="name">Code</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/09/Project-Matrix-Code-Rain/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/09/Project-Matrix-Code-Rain/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>书接上文，上回书说到我意识到自己在专业领域有欠缺，于是正在大量阅读Blog。在9月25号看到Kevin Chou的<a href="http://blog.zhowkev.in/2013/11/11/pnchart-hit-no-1-objective-c-repos-in-github/" target="_blank" rel="external">这篇</a>介绍他开源的组件库<a href="https://github.com/kevinzhow/PNChart" target="_blank" rel="external">PNChart</a>受到欢迎的文章时，我突然想到：对啊，这是个把自己喜好与技术积累结合起来的好途径！之前总觉得往开源社区贡献代码需要超强的底层代码功力，又不想仿写已有的组件重复造轮子，这时我才刚刚意识到，上层的UI层面同样需要优秀的贡献——某种程度上讲更加稀缺，毕竟同时对设计和代码都有研究的程序员比较少。</p>
+<p>恰好，一个做前端的朋友Fanta发来了一份他业余时间用HTML+JS写着玩做的《黑客帝国》代码雨效果的demo：<br><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8m0vyssmbg20b406m7wh.gif" alt=""></p>
+<p>我觉得这个还挺有意思，搜了一下GitHub上还没有做过的，于是便开始了编码工作。</p>
+<h2 id="架构及轨迹生成"><a href="#架构及轨迹生成" class="headerlink" title="架构及轨迹生成"></a>架构及轨迹生成</h2><p>这是一个很简单的小组件，所以基本架构也很简单：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8m1v5se6mj20y80jyt9v.jpg" alt=""></p>
+<p>我们约定将每一条下落的轨迹都称为一个<code>Track</code>，由一个<code>Generator</code>实例专门来生成，每隔指定的时间（显然，随机亦可）就新生成一条，加到<code>DataSource</code>中，并创建其对应的<code>CALayer</code>子类<code>CodeRainLayer</code>加到最底层的<code>UIView</code>上。</p>
+<h2 id="下落及轨迹清理"><a href="#下落及轨迹清理" class="headerlink" title="下落及轨迹清理"></a>下落及轨迹清理</h2><p>如何产生动画呢？最开始自然想到用<code>CAAnimation</code>来做。<br>因为代码太简单，就不在这里写了。<br>但是写完个大概之后，运行起来却发现不对劲：总感觉没有电影里面酷。</p>
+<p>问题出在哪里呢？我又从移动硬盘里翻出了那三部曲仔细地研究了一下，经过一帧一帧地探究，我找到了原因：<br>电影里面的代码并不是在“下落”，如果你盯着一个字母看，会发现它根本就没移动过位置（除去镜头本身的移动）。换句话说，整个空间是一个已经排列好的字母矩阵，而我们看到的表象是<strong>一阵脉冲流过</strong>而已。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f8m3n5c8j6g20b404vx6p.gif" alt=""></p>
+<p>所以最后改成的方案是由每个<code>Track</code>实例自带的<code>Timer</code>负责驱动控制自身的下落（为表述方便我们依然沿用这个词），当需要刷新时，通知其对应的<code>CodeRainLayer</code>实例（<code>-setNeedsDisplay</code>）进行重绘。至于如何重绘，由每个<code>CodeRainLayer</code>自行负责。</p>
+<p>而当整条轨迹掉出屏幕的时候，<code>Track</code>会检测出边界条件，然后把对应的<code>CALayer</code>执行<code>removeFromSuperlayer</code>，最后把自身从<code>DataSource</code>中清除。</p>
+<h2 id="阶段性成果"><a href="#阶段性成果" class="headerlink" title="阶段性成果"></a>阶段性成果</h2><p>OK, so far so good. 我们成功实现了整个的动画效果，看起来也确实蛮酷的：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8hmevmxy9g20a00hsb29.gif" alt=""></p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>在把它传到GitHub之前，还需要进行一些封装。这里主要有两方面的工作，一个是增加控制关键字来限制外界能接触到的内部类和方法，另一个是将可调节的参数向外界暴露出来。</p>
+<h3 id="Access-Control"><a href="#Access-Control" class="headerlink" title="Access Control"></a>Access Control</h3><p>在Swift 3中特地新加了<code>fileprivate</code>这个访问权限，正好在这里可以用到。我们把不希望暴露给外界的类都加上这个限定关键字。</p>
+<p>顺便，Swift 3中的访问权限依次是：</p>
+<blockquote>
+<p>open，public，internal，fileprivate，private.</p>
+</blockquote>
+<h3 id="Configurable-Parameters"><a href="#Configurable-Parameters" class="headerlink" title="Configurable Parameters"></a>Configurable Parameters</h3><p>在之前，组件中用到的所有参数都定义在了一个<code>struct</code>里：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line">fileprivate <span class="class"><span class="keyword">struct</span> <span class="title">JSMatrixConstants</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> maxGlowLength: <span class="type">Int</span> = <span class="number">3</span> <span class="comment">// Characters</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> minTrackLength: <span class="type">Int</span> = <span class="number">8</span> <span class="comment">// Characters</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> maxTrackLength: <span class="type">Int</span> = <span class="number">40</span> <span class="comment">// Characters</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> charactersSpacing: <span class="type">CGFloat</span> = <span class="number">0.0</span> <span class="comment">// pixel</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> characterChangeRate = <span class="number">0.9</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> firstDropShowTime = <span class="number">2.0</span> <span class="comment">// Time between the First drop and the later</span></div><div class="line">    </div><div class="line">    <span class="comment">// Configurable</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> speed: <span class="type">TimeInterval</span> = <span class="number">0.15</span> <span class="comment">// Seconds that new character pop up</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> newTrackComingLap: <span class="type">TimeInterval</span> = <span class="number">0.4</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> tracksSpacing: <span class="type">Int</span> = <span class="number">5</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为了暴露其中的一些参数，我们在<code>CodeRainView</code>那里增加几个变量：<br><figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> trackSpacing: <span class="type">Int</span></div><div class="line"><span class="keyword">var</span> newTrackComingLap: <span class="type">CGFloat</span></div><div class="line"><span class="keyword">var</span> speed: <span class="type">CGFloat</span></div></pre></td></tr></table></figure></p>
+<p>那么如果用户不设置的时候呢？我们应该用回默认值。比如这样：<br><figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> speed: <span class="type">CGFloat</span> = <span class="type">CGFloat</span>(<span class="type">JSMatrixConstants</span>.speed)&#123;</div><div class="line">    <span class="keyword">didSet</span>&#123;</div><div class="line">        datasource.speed = <span class="type">TimeInterval</span>(speed)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> newTrackComingLap: <span class="type">CGFloat</span> = <span class="type">CGFloat</span>(<span class="type">JSMatrixConstants</span>.newTrackComingLap)&#123;</div><div class="line">    <span class="keyword">didSet</span>&#123;</div><div class="line">        datasource.newTrackComingLap = <span class="type">TimeInterval</span>(newTrackComingLap)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> trackSpacing: <span class="type">Int</span> = <span class="type">JSMatrixConstants</span>.tracksSpacing&#123;</div><div class="line">    <span class="keyword">didSet</span>&#123;</div><div class="line">        datasource.trackSpacing = trackSpacing</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>而一个2016年的UI组件应当是Interface Builder-Friendly的——尤其是，要做到这点只需举手之劳：将上面的参数声明为<code>@IBInspectable</code>。</p>
+<p>最后在IB中看到的效果是：<br><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8hq5majxfj20du050jrx.jpg" alt=""></p>
+<h2 id="优化性能"><a href="#优化性能" class="headerlink" title="优化性能"></a>优化性能</h2><p>在我的iPhone6s上测试时，整个组件的表现没什么大问题；但在比较老的iPhone5s上测试时，就有点吃力了。虽然画面依然比较流畅，在CPU监测中能明显看出占用：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8m6n7zdqcj21cu112dn7.jpg" alt=""></p>
+<p>而在我后面想结合一些<code>CoreMotion</code>的回调实现<code>视角缩放</code>效果时，在5s上的画面终于卡了起来。</p>
+<p>之所以会卡很容易理解，整个组件在主线程中进行了大量的绘制工作，搁你你也卡。</p>
+<p>在我搜索相关信息的时候，偶然看到一篇叫<a href="http://vizlabxt.github.io/blog/2013/07/12/custom-drawing/" target="_blank" rel="external">《一些提高UI绘制性能的技巧》</a>的文章中写道：</p>
+<blockquote>
+<p>绘制UIView最快的方法就是把它当成imageview，我们把需要用Core Graphic绘制的代码放到另一个线程中去绘制，生成image后直接赋值给view，达到异步绘制的目的。</p>
+</blockquote>
+<p>我试了一下，差不多是这样：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> track = <span class="keyword">self</span>.track</div><div class="line"><span class="type">DispatchQueue</span>.global().async &#123;</div><div class="line">    <span class="keyword">let</span> size = <span class="keyword">self</span>.bounds.size</div><div class="line">    <span class="type">UIGraphicsBeginImageContext</span>(size)</div><div class="line">    context.saveGState()</div><div class="line"></div><div class="line">    ... <span class="comment">// Calculate positions, etc.</span></div><div class="line"></div><div class="line">    context.restoreGState()</div><div class="line">    <span class="keyword">self</span>.render(<span class="keyword">in</span>: context)</div><div class="line">    <span class="keyword">let</span> resultImage = <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="type">DispatchQueue</span>.main.async &#123;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> image = resultImage&#123;</div><div class="line">            <span class="keyword">self</span>.contents = image.cgImage</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="type">UIGraphicsEndImageContext</span>()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但这样做有问题：在每一次更新的时候，这个Layer需要在空白的背景下进行绘制，而直接调用<code>self.render(in: context)</code>方法，绘制的内容会叠加在当前显示的内容之上，出来的效果是不可用的。（截图过于残暴，从略）</p>
+<p>那么怎么解决这个问题呢？一个直接的想法是，如果能在一个新的context上绘制就好了。</p>
+<p>带着这个目标去搜索，在<a href="http://www.b2cloud.com.au/tutorial/cgcontext-drawing-in-a-thread/" target="_blank" rel="external">这个文章</a>里面介绍了创建context的方法，于是上面的代码变成了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> track = <span class="keyword">self</span>.track</div><div class="line"><span class="type">DispatchQueue</span>.global().async &#123;</div><div class="line">    <span class="keyword">let</span> size = <span class="keyword">self</span>.bounds.size</div><div class="line">    <span class="type">UIGraphicsBeginImageContext</span>(size)</div><div class="line">    </div><div class="line">    <span class="comment">/* Create drawing context */</span></div><div class="line">    <span class="keyword">let</span> colorSpace = <span class="type">CGColorSpaceCreateDeviceRGB</span>()</div><div class="line">    <span class="keyword">let</span> createdContext = <span class="type">CGContext</span>(data: <span class="literal">nil</span>, width: <span class="type">Int</span>(size.width), height: <span class="type">Int</span>(size.height), bitsPerComponent: <span class="number">8</span>, bytesPerRow: <span class="number">0</span>, space: colorSpace, bitmapInfo: <span class="type">CGImageAlphaInfo</span>.premultipliedLast.rawValue)</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> context = createdContext&#123;</div><div class="line">        context.saveGState()</div><div class="line">        </div><div class="line">        ... <span class="comment">// calc positions, etc.</span></div><div class="line">        </div><div class="line">        context.restoreGState()</div><div class="line">        <span class="keyword">self</span>.render(<span class="keyword">in</span>: context)</div><div class="line">        <span class="keyword">let</span> resultImage = <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">        <span class="type">DispatchQueue</span>.main.async &#123;</div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> image = resultImage&#123;</div><div class="line">                <span class="keyword">self</span>.contents = image.cgImage</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="type">UIGraphicsEndImageContext</span>()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="优化结果"><a href="#优化结果" class="headerlink" title="优化结果"></a>优化结果</h2><p>搞定了这些之后兴冲冲地在5s上跑了一下，发现除了线程多了一些之外，差别几乎不可见：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8m6mvur82j21cm10wwmk.jpg" alt=""></p>
+<p>细想一下也可以理解，我们并没有减少任何绘制的工作量，只不过是把它们移到了后台线程而已。</p>
+<p>那么接下来的问题是，在为主线程减了这么多负之后，程序的响应性能有提高吗？因为要是再没什么变化的话，我要为前面这些花出的时间哭几秒。</p>
+<p>接下来我搜到了一篇讲述如何测量程序响应性的<a href="https://medium.com/@mandrigin/ios-app-performance-instruments-beyond-48fe7b7cdf2#.i64rhcfy0" target="_blank" rel="external">文章</a>，还附了源码的截图，非常良心。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line">fileprivate <span class="class"><span class="keyword">class</span> <span class="title">PingThread</span>: <span class="title">Thread</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> pingTaskIsRunning = <span class="literal">false</span></div><div class="line">    <span class="keyword">var</span> semaphore = <span class="type">DispatchSemaphore</span>(value: <span class="number">0</span>)</div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">while</span> !<span class="keyword">self</span>.isCancelled&#123;</div><div class="line">            pingTaskIsRunning = <span class="literal">true</span></div><div class="line">            <span class="type">DispatchQueue</span>.main.async &#123;</div><div class="line">                <span class="keyword">self</span>.pingTaskIsRunning = <span class="literal">false</span></div><div class="line">                <span class="keyword">self</span>.semaphore.signal()</div><div class="line">            &#125;</div><div class="line">            <span class="type">Thread</span>.sleep(forTimeInterval: <span class="number">1</span>/<span class="number">30.0</span>)</div><div class="line">            <span class="keyword">if</span> pingTaskIsRunning &#123;</div><div class="line">                <span class="type">NSLog</span>(<span class="string">"Delayed!"</span>)</div><div class="line">            &#125;</div><div class="line">            <span class="number">_</span> = semaphore.wait(timeout: <span class="type">DispatchTime</span>.distantFuture)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>核心思想是，每隔一定的时间就在主线程给该线程的信号量发消息，要是主线程因为卡顿耽搁了，该线程就会输出警告信息。</p>
+<p>我把时间设为1/30秒，因为这是一个流畅的动画所应当达到的帧率。</p>
+<p>这下终于有了喜人的对比结果：</p>
+<p>之前：<br><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f8m6w0biu1j20wq1321kx.jpg" alt=""></p>
+<p>之后：<br><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8m6wnhmlfj20y40lowj8.jpg" alt=""></p>
+<p>直到启动20多秒后收到内存警告，都没有一次卡顿出现！</p>
+<p>虽然我不是一个使用meme表情控，但看国外的blog看多了之后，总觉得在这种情况下需要出现一个表情……</p>
+<p>就是下面这个：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79gw1f8m74cap54j20b40b4aal.jpg" alt=""></p>
+<h2 id="最后的话"><a href="#最后的话" class="headerlink" title="最后的话"></a>最后的话</h2><p>整个项目已经传到了GitHub上：<br><a href="https://github.com/zshowing/JSMatrixCodeRainView" target="_blank" rel="external">https://github.com/zshowing/JSMatrixCodeRainView</a></p>
+<p>通过这个项目，我学到的东西包括：</p>
+<ul>
+<li>Core Graphic的一些深入内容</li>
+<li>一些之前用不到的封装策略</li>
+<li>一个优化绘制性能的方法</li>
+<li>一个测量程序响应性能的方法</li>
+</ul>
+<p>接下来又想到一个比较有趣的项目，不知道什么时候能填坑。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/Core-Graphics/" rel="tag">#Core Graphics</a>
+          
+            <a href="/tags/优化/" rel="tag">#优化</a>
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/22/Advanced-Self-Examination-and-Status-Analyze-II/" rel="next" title="Advanced Self-Examination and Status Analyze II">
+                <i class="fa fa-chevron-left"></i> Advanced Self-Examination and Status Analyze II
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/09/Project-Matrix-Code-Rain/"
+           data-title="第一个练手作品：Matrix Code Rain<br>及对Core Graphics绘制的优化" data-url="http://zshowing.github.io/2016/10/09/Project-Matrix-Code-Rain/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jon Showing" />
+          <p class="site-author-name" itemprop="name">Jon Showing</p>
+          <p class="site-description motion-element" itemprop="description">80后，典型金牛，非典型北京人。<br>目标：程序员中最好的设计师，<br>设计师中最好的程序员。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zshowing" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zshowing" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/zshowing/" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/showing" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.instagram.com/zshowing/" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>
+                  
+                  Instagram
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.behance.net/zshowing" target="_blank" title="Behance">
+                  
+                    <i class="fa fa-fw fa-behance"></i>
+                  
+                  Behance
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.flickr.com/photos/34773304@N00/" target="_blank" title="Flickr">
+                  
+                    <i class="fa fa-fw fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前情提要"><span class="nav-number">1.</span> <span class="nav-text">前情提要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构及轨迹生成"><span class="nav-number">2.</span> <span class="nav-text">架构及轨迹生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下落及轨迹清理"><span class="nav-number">3.</span> <span class="nav-text">下落及轨迹清理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阶段性成果"><span class="nav-number">4.</span> <span class="nav-text">阶段性成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装"><span class="nav-number">5.</span> <span class="nav-text">封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-Control"><span class="nav-number">5.1.</span> <span class="nav-text">Access Control</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configurable-Parameters"><span class="nav-number">5.2.</span> <span class="nav-text">Configurable Parameters</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化性能"><span class="nav-number">6.</span> <span class="nav-text">优化性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化结果"><span class="nav-number">7.</span> <span class="nav-text">优化结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后的话"><span class="nav-number">8.</span> <span class="nav-text">最后的话</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jon Showing</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zshowing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
