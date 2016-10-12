@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zshowing.github.io/"/>
-  <updated>2016-10-09T10:40:03.000Z</updated>
+  <updated>2016-10-12T15:07:57.000Z</updated>
   <id>http://zshowing.github.io/</id>
   
   <author>
@@ -16,11 +16,77 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>用Core Graphic做个macOS上的屏保</title>
+    <link href="http://zshowing.github.io/2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/"/>
+    <id>http://zshowing.github.io/2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/</id>
+    <published>2016-10-12T11:28:54.000Z</published>
+    <updated>2016-10-12T15:07:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在写<a href="https://zshowing.github.io/2016/10/09/Project-Matrix-Code-Rain/">上一篇</a>的同时我就在考虑，既然都做到了这个地步，能不能干脆移植到macOS上，做个屏保呢？</p>
+<p>我决定试一试。</p>
+<h2 id="确定方案"><a href="#确定方案" class="headerlink" title="确定方案"></a>确定方案</h2><p>在真正开始做之前我考察了一下Metal和OpenGL，觉得学习曲线相对“移植”这个任务来讲有点过于陡峭。由于之前从没正经做过macOS上的项目，还是觉得这次步子先迈小一点，大方向上继续沿用之前的Core Graphic方案。</p>
+<p>由于上一篇的工程是基于Swift 3的，而如果你在XCode中创建屏幕保护的模板工程的话，会发现它并没有给你选择语言的余地，直接就给了你一个Objective-C的工程。由于程序员天生有着<del>爱偷懒</del>不喜欢重复造轮子的优良品性，我的第一反应是，能不能我自己手动建个Swift的工程？</p>
+<p>但是我实验的结果是似乎目前存在兼容性问题，编译出的屏保总是莫名其妙crash。有人也遇到了同样的问题：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8prz5wucij21cc11w7jv.jpg" alt=""></p>
+<p>无奈，我还是及时止损，老老实实用Objective-C重写了遍主要的逻辑。</p>
+<p>仅就这个项目中用到的东西而言，Cocoa和Cocoa Touch的差别比预想中的还要小，夸张点说，基本上只是把“UI”打头的东西换成“NS”就搞定了（比如<code>UIFont</code>和<code>NSFont</code>，<code>UIScreen</code>和<code>NSScreen</code>等）。</p>
+<p>顺便一题，默认的屏保模板是不能debug的，你需要自己手动添加一个target，然后在该target的<code>AppDelegate</code>里面自己把屏保的view加进来：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">_rainView = [[CodeRainView alloc] initWithFrame:<span class="built_in">CGRectZero</span> isPreview:<span class="literal">NO</span>];</div><div class="line">_rainView.frame = _window.contentView.bounds;</div><div class="line">[_window.contentView addSubview:_rainView];</div></pre></td></tr></table></figure>
+<p>但是当我费半天劲翻译完程序，真正运行起来后却发现，这货在堂堂电脑上居然跑得比在手机上更慢！</p>
+<p>想了一下，大概的原因可能是，由于电脑的屏幕大，能同时容纳的track就更多，因此同时要刷新的track数量在运行开始后就会很快上升到可观的程度。</p>
+<p>要是像上一篇那样，改成后台渲染呢？</p>
+<p>试了一下，效果也不是很好。</p>
+<p>于是，我开始琢磨换一种实现方式。</p>
+<h2 id="CALayer黄金搭档"><a href="#CALayer黄金搭档" class="headerlink" title="CALayer黄金搭档"></a>CALayer黄金搭档</h2><p>考虑到这个效果的本质其实是“照亮”已经排布好的矩阵，我们可以尝试不去自己绘制字符，而是也先排布好字符，然后照亮它！</p>
+<p>于是自然就想到CALayer家族中的两位成员和一个小弟：<code>CATextLayer</code>、<code>CAGradientLayer</code>和<code>mask</code>属性。</p>
+<p>顾名思义，他们一个用来显示字符，一个用来显示渐变，一个用来产生遮罩。</p>
+<p>无图无真相，大概是下面这个意思：</p>
+<h3 id="产生字符（CATextLayer）"><a href="#产生字符（CATextLayer）" class="headerlink" title="产生字符（CATextLayer）"></a>产生字符（CATextLayer）</h3><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *characters = [[JSMatrixDataSource sharedDataSource] characters][track.trackNum];</div><div class="line"><span class="built_in">NSString</span> *trackString = [characters componentsJoinedByString:<span class="string">@""</span>];</div><div class="line">attrString = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString:trackString</div><div class="line">                                                    attributes: [JSMatrixDataSource getStringAttrs]];</div><div class="line"><span class="keyword">self</span>.string = attrString;</div></pre></td></tr></table></figure>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8pt5xzfm8j21kw162npd.jpg" alt=""></p>
+<h3 id="产生遮罩-CAGradientLayer"><a href="#产生遮罩-CAGradientLayer" class="headerlink" title="产生遮罩(CAGradientLayer)"></a>产生遮罩(CAGradientLayer)</h3><p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8pt72dip5j21kw162kjl.jpg" alt=""><br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">self</span>.gradientLayer = [<span class="built_in">CAGradientLayer</span> layer];</div><div class="line"><span class="keyword">self</span>.gradientLayer.colors = @[(__bridge <span class="keyword">id</span>)[<span class="built_in">NSColor</span> whiteColor].CGColor, (__bridge <span class="keyword">id</span>)[[<span class="built_in">NSColor</span> whiteColor] colorWithAlphaComponent:<span class="number">0</span>].CGColor];</div><div class="line"><span class="keyword">self</span>.gradientLayer.startPoint = <span class="built_in">CGPointMake</span>(<span class="number">0.5</span>, <span class="number">0</span>);</div><div class="line"><span class="keyword">self</span>.gradientLayer.endPoint = <span class="built_in">CGPointMake</span>(<span class="number">0.5</span>, <span class="number">1</span>);</div><div class="line"><span class="built_in">NSMutableDictionary</span> *newActions = [[<span class="built_in">NSMutableDictionary</span> alloc] initWithObjectsAndKeys:[<span class="built_in">NSNull</span> null], <span class="string">@"onOrderIn"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"onOrderOut"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"sublayers"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"contents"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"bounds"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"position"</span>,</div><div class="line">                                   <span class="literal">nil</span>];</div><div class="line"><span class="keyword">self</span>.gradientLayer.actions = newActions;</div></pre></td></tr></table></figure></p>
+<p>中间给actions设置的一段是为了禁用CALayer的隐式动画，因为我们此处需要的就是一跳一跳的效果。</p>
+<h3 id="设置蒙版（mask）"><a href="#设置蒙版（mask）" class="headerlink" title="设置蒙版（mask）"></a>设置蒙版（mask）</h3><p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8pt8rjb9yj21kw162qdn.jpg" alt=""><br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">self</span>.mask = <span class="keyword">self</span>.gradientLayer;</div></pre></td></tr></table></figure></p>
+<p>1 + 2 = 3. Simple like that.</p>
+<p>PS. 有一个小坑就是CATextLayer的刷新并不及时，因此需要我们手动清空它的内容并标记为需要刷新：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">self</span>.contents = <span class="literal">nil</span>;        <span class="comment">// Force the layer to clear its content</span></div><div class="line">[<span class="keyword">self</span> setNeedsDisplay];     <span class="comment">// Then mark the layer needs redraw</span></div><div class="line"></div><div class="line"><span class="keyword">self</span>.string = ...           <span class="comment">// Set the new content</span></div></pre></td></tr></table></figure>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>然后我用Instrument进行了一下测试，惊讶地发现在一个简单的取屏幕最大行数的方法上居然耗费了主线程10%的时间：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8ptg868ejj21080bu0z6.jpg" alt=""></p>
+<p>为了解决这个问题，我把计算结果缓存了下来，这样以后每次取用时只需读取之前的计算结果：<br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">+ (<span class="built_in">UInt</span>)maxNum&#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">UInt</span> num;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        num = ceilf([<span class="built_in">NSScreen</span> mainScreen].frame.size.height / [JSMatrixDataSource capHeight]);</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> num;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>而在Swift上，只需把变量声明为<code>static</code>即可达到上述效果。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">let</span> maxNum: <span class="type">Int</span> = <span class="type">Int</span>(ceilf(<span class="type">Float</span>(<span class="type">UIScreen</span>.main.bounds.height / <span class="type">JSMatrixCodeRainView</span>.characterSize.height)))</div></pre></td></tr></table></figure>
+<p>（我真的不是在黑OC，没有任何这个意思。）</p>
+<h2 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h2><p>大概是酱紫：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f8pvcic6h7j21kw16owmx.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8puwcp8rcg20b4069qv6.gif" alt=""></p>
+<p>其实在运行时还是会注意到有些不自然，但更加出色的表现还是得祭出OpenGL或者Metal来做。这就留给以后了。</p>
+<p>另外我其实完全抛弃了系统默认的屏保实现机制（在<code>animateOneFrame</code>方法中写动画逻辑来前进一帧），也算是个非主流的屏保……</p>
+<p>代码已经共享到了GitHub：<br><a href="https://github.com/zshowing/JSMatrixCodeRainScreenSaver" target="_blank" rel="external">https://github.com/zshowing/JSMatrixCodeRainScreenSaver</a></p>
+<p>或者直接下载：<br><a href="https://pan.baidu.com/s/1eRJE2P0" target="_blank" rel="external">https://pan.baidu.com/s/1eRJE2P0</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      把上一篇里面的Code Rain移植到了macOS，做了个屏保。
+    
+    </summary>
+    
+      <category term="Code" scheme="http://zshowing.github.io/categories/Code/"/>
+    
+    
+      <category term="Core Graphic" scheme="http://zshowing.github.io/tags/Core-Graphic/"/>
+    
+      <category term="Objective-C" scheme="http://zshowing.github.io/tags/Objective-C/"/>
+    
+      <category term="macOS" scheme="http://zshowing.github.io/tags/macOS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>第一个练手作品：Matrix Code Rain&lt;br&gt;及对Core Graphics绘制的优化</title>
     <link href="http://zshowing.github.io/2016/10/09/Project-Matrix-Code-Rain/"/>
     <id>http://zshowing.github.io/2016/10/09/Project-Matrix-Code-Rain/</id>
     <published>2016-10-08T17:33:22.000Z</published>
-    <updated>2016-10-09T10:40:03.000Z</updated>
+    <updated>2016-10-09T10:47:55.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>书接上文，上回书说到我意识到自己在专业领域有欠缺，于是正在大量阅读Blog。在9月25号看到Kevin Chou的<a href="http://blog.zhowkev.in/2013/11/11/pnchart-hit-no-1-objective-c-repos-in-github/" target="_blank" rel="external">这篇</a>介绍他开源的组件库<a href="https://github.com/kevinzhow/PNChart" target="_blank" rel="external">PNChart</a>受到欢迎的文章时，我突然想到：对啊，这是个把自己喜好与技术积累结合起来的好途径！之前总觉得往开源社区贡献代码需要超强的底层代码功力，又不想仿写已有的组件重复造轮子，这时我才刚刚意识到，上层的UI层面同样需要优秀的贡献——某种程度上讲更加稀缺，毕竟同时对设计和代码都有研究的程序员比较少。</p>
 <p>恰好，一个做前端的朋友Fanta发来了一份他业余时间用HTML+JS写着玩做的《黑客帝国》代码雨效果的demo：<br><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8m0vyssmbg20b406m7wh.gif" alt=""></p>
@@ -85,6 +151,7 @@
 <li>一个测量程序响应性能的方法</li>
 </ul>
 <p>接下来又想到一个比较有趣的项目，不知道什么时候能填坑。</p>
+<p>感谢观赏。</p>
 ]]></content>
     
     <summary type="html">
@@ -603,11 +670,11 @@
     
       <category term="iOS" scheme="http://zshowing.github.io/tags/iOS/"/>
     
+      <category term="Swift" scheme="http://zshowing.github.io/tags/Swift/"/>
+    
       <category term="产品设计" scheme="http://zshowing.github.io/tags/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/"/>
     
       <category term="架构" scheme="http://zshowing.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
-    
-      <category term="Swift" scheme="http://zshowing.github.io/tags/Swift/"/>
     
   </entry>
   
@@ -1584,62 +1651,6 @@
       <category term="美感" scheme="http://zshowing.github.io/tags/%E7%BE%8E%E6%84%9F/"/>
     
       <category term="女人" scheme="http://zshowing.github.io/tags/%E5%A5%B3%E4%BA%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>沟通障碍有福音</title>
-    <link href="http://zshowing.github.io/2010/06/15/cure-for-those-who-had-difficulties-with-communication/"/>
-    <id>http://zshowing.github.io/2010/06/15/cure-for-those-who-had-difficulties-with-communication/</id>
-    <published>2010-06-15T04:42:41.000Z</published>
-    <updated>2016-09-17T12:47:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最早关注邵小毛是因为她的才气和声音，当然，还有各种萌=.=<br>（参见我的“聪明大于身高，才气胜过身材，萌压倒一切”三定律）</p>
-<p>不过去了她的巡演才发现，这姐们儿和我一样，居然也是个沟通障碍……</p>
-<p>演出的一首曲目叫《沟通障碍有福音》，就是上面视频里的那首歌（不过不是我去的那场）。她说这首歌写的就是她涉足音乐的初衷，就是因为自己在沟通上有障碍，所以才用音乐去表达自己。然后我一下就想起了她之前的话，怪不得会让我那么熟悉——</p>
-<p>巡演上海站，她是这么开场的：</p>
-<blockquote>
-<p>“大家好，我是邵夷贝（引入话题）……</p>
-<p>终于来到了这个特殊时期的人潮汹涌的上海滩（拿出事先准备好的段子）……</p>
-<p>感谢大家来看我的巡演（真正要说的话）……</p>
-<p>嗯……（在想词）</p>
-<p>不太会说，那就唱吧……（放弃继续说下去的努力……）”</p>
-</blockquote>
-<p>这整个流程我十分理解啊，因为这就是我无数次做过的=.= 真正灵光闪现的也就是“事先准备好”的那一段，之后就迅速被打回原形……</p>
-<p>回来之后看她po上网的总结日记，又看到了这样的话：</p>
-<blockquote>
-<p>“我上台前在后台连蹦带跳叽哇乱叫了一阵子，连后台的保安都不得不和我说‘加油’安慰我…这次上台前实在是紧张，心虚得要死…”</p>
-</blockquote>
-<p>也是和我如出一辙，只不过我是在心里叫罢了=v=</p>
-<p>然后又去查了她更早的日记，在《沟通障碍是不是福音》这篇中，也提到：</p>
-<blockquote>
-<p>“有时候我也反省，小时候觉得这是酷，后来觉得这是矫情，再后来不得不承认这是沟通障碍。如果让我写字，哪怕写短信，我都表情感叹号一大堆。但是一到面对面，我就囧脸一张，同一表情持续一晚上，十个问题踢不出一个P来。”</p>
-</blockquote>
-<p>想起去年这个时候和水源某id见面后也很受刺激，之前准备了一堆话题但纷纷只支撑了几分钟便不支败下来。。。。最后很快变成了只能顺着对方的话题说=.= 那是我对自己贫瘠的找话题聊天能力最有深刻体会的一次。。。。关键问题是对方还是很能聊天的那种，不是和我一样不会聊天的……唉，就像这首歌里唱的，“表达想法对我来说永远是问题，为什么大脑和嘴巴之间有那么远的距离”。。。</p>
-<p>不过就像那句话说，“上帝关上一扇门，必将打开一扇窗”。不善言谈的小毛在音乐上才气纵横，我虽然不会作曲，至少在文字表达上没有障碍，可以把自己的感受用文字比较准确地写下来。</p>
-<p>这就是所谓“沟通障碍有福音”。</p>
-<hr>
-<p>附 《沟通障碍有福音》</p>
-<blockquote>
-<p>曲/词/唱 邵夷贝</p>
-<p>星期六的下午 他就突然出现在我面前<br>心中礼炮乱响 好像已经征服整个世界<br>该怎么办 我却说不出对他的想念<br>冒出一句 你头发好乱<br>头上一直冒汗 不知怎么才能解释明白<br>多想他能发现 我的口是心非心有不甘<br>不想隐藏 被他吸引的磁铁心脏<br>可是外表没有正负极的表象<br>表达想法对我来说 永远是问题<br>为什么大脑和嘴巴之间 有那么远的距离<br>可不可以制造一个 表达的加速器<br>让我给你一个真实的自己<br>不会表达的人 总是因为沉默而被错过<br>多么希望说话 只是通过一种条件反射<br>请赐一种 不能取代的表达法则<br>让紧闭的心经常透一透气<br>表达想法对我来说 永远是问题<br>为什么大脑和嘴巴之间 有那么远的距离<br>可不可以制造一个 表达的加速器<br>让我给你一个最真实的自己<br>可以拿着吉他 五三二三一三唱歌来听<br>希望你能明白 我的歌词就是我的心情<br>弦已走音 你却安静地安静地倾听<br>我很爱你 可不可以</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      《沟通障碍有福音》是邵夷贝的一首歌，我发现它完全描写了我自己。
-    
-    </summary>
-    
-      <category term="Life" scheme="http://zshowing.github.io/categories/Life/"/>
-    
-    
-      <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
-    
-      <category term="自我剖析" scheme="http://zshowing.github.io/tags/%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90/"/>
-    
-      <category term="Music" scheme="http://zshowing.github.io/tags/Music/"/>
     
   </entry>
   

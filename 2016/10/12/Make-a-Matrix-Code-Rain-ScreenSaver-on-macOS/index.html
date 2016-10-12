@@ -1,0 +1,780 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Core Graphic,Objective-C,macOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Design & Code" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="把上一篇里面的Code Rain移植到了macOS，做了个屏保。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Core Graphic做个macOS上的屏保">
+<meta property="og:url" content="http://zshowing.github.io/2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/index.html">
+<meta property="og:site_name" content="Design & Code">
+<meta property="og:description" content="把上一篇里面的Code Rain移植到了macOS，做了个屏保。">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8prz5wucij21cc11w7jv.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8pt5xzfm8j21kw162npd.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f8pt72dip5j21kw162kjl.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f8pt8rjb9yj21kw162qdn.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f8ptg868ejj21080bu0z6.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f8pvcic6h7j21kw16owmx.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8puwcp8rcg20b4069qv6.gif">
+<meta property="og:updated_time" content="2016-10-12T15:07:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用Core Graphic做个macOS上的屏保">
+<meta name="twitter:description" content="把上一篇里面的Code Rain移植到了macOS，做了个屏保。">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f8prz5wucij21cc11w7jv.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zshowing.github.io/2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/"/>
+
+  <title> 用Core Graphic做个macOS上的屏保 | Design & Code </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-84283556-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+    <div class="site-meta-headline">
+      <a>
+        <img class="custom-logo-image" src="/images/logo.png"
+             alt="Design & Code"/>
+      </a>
+    </div>
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Design & Code</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                用Core Graphic做个macOS上的屏保
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-12T19:28:54+08:00" content="2016-10-12">
+              2016-10-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index">
+                    <span itemprop="name">Code</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在写<a href="https://zshowing.github.io/2016/10/09/Project-Matrix-Code-Rain/">上一篇</a>的同时我就在考虑，既然都做到了这个地步，能不能干脆移植到macOS上，做个屏保呢？</p>
+<p>我决定试一试。</p>
+<h2 id="确定方案"><a href="#确定方案" class="headerlink" title="确定方案"></a>确定方案</h2><p>在真正开始做之前我考察了一下Metal和OpenGL，觉得学习曲线相对“移植”这个任务来讲有点过于陡峭。由于之前从没正经做过macOS上的项目，还是觉得这次步子先迈小一点，大方向上继续沿用之前的Core Graphic方案。</p>
+<p>由于上一篇的工程是基于Swift 3的，而如果你在XCode中创建屏幕保护的模板工程的话，会发现它并没有给你选择语言的余地，直接就给了你一个Objective-C的工程。由于程序员天生有着<del>爱偷懒</del>不喜欢重复造轮子的优良品性，我的第一反应是，能不能我自己手动建个Swift的工程？</p>
+<p>但是我实验的结果是似乎目前存在兼容性问题，编译出的屏保总是莫名其妙crash。有人也遇到了同样的问题：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8prz5wucij21cc11w7jv.jpg" alt=""></p>
+<p>无奈，我还是及时止损，老老实实用Objective-C重写了遍主要的逻辑。</p>
+<p>仅就这个项目中用到的东西而言，Cocoa和Cocoa Touch的差别比预想中的还要小，夸张点说，基本上只是把“UI”打头的东西换成“NS”就搞定了（比如<code>UIFont</code>和<code>NSFont</code>，<code>UIScreen</code>和<code>NSScreen</code>等）。</p>
+<p>顺便一题，默认的屏保模板是不能debug的，你需要自己手动添加一个target，然后在该target的<code>AppDelegate</code>里面自己把屏保的view加进来：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">_rainView = [[CodeRainView alloc] initWithFrame:<span class="built_in">CGRectZero</span> isPreview:<span class="literal">NO</span>];</div><div class="line">_rainView.frame = _window.contentView.bounds;</div><div class="line">[_window.contentView addSubview:_rainView];</div></pre></td></tr></table></figure>
+<p>但是当我费半天劲翻译完程序，真正运行起来后却发现，这货在堂堂电脑上居然跑得比在手机上更慢！</p>
+<p>想了一下，大概的原因可能是，由于电脑的屏幕大，能同时容纳的track就更多，因此同时要刷新的track数量在运行开始后就会很快上升到可观的程度。</p>
+<p>要是像上一篇那样，改成后台渲染呢？</p>
+<p>试了一下，效果也不是很好。</p>
+<p>于是，我开始琢磨换一种实现方式。</p>
+<h2 id="CALayer黄金搭档"><a href="#CALayer黄金搭档" class="headerlink" title="CALayer黄金搭档"></a>CALayer黄金搭档</h2><p>考虑到这个效果的本质其实是“照亮”已经排布好的矩阵，我们可以尝试不去自己绘制字符，而是也先排布好字符，然后照亮它！</p>
+<p>于是自然就想到CALayer家族中的两位成员和一个小弟：<code>CATextLayer</code>、<code>CAGradientLayer</code>和<code>mask</code>属性。</p>
+<p>顾名思义，他们一个用来显示字符，一个用来显示渐变，一个用来产生遮罩。</p>
+<p>无图无真相，大概是下面这个意思：</p>
+<h3 id="产生字符（CATextLayer）"><a href="#产生字符（CATextLayer）" class="headerlink" title="产生字符（CATextLayer）"></a>产生字符（CATextLayer）</h3><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *characters = [[JSMatrixDataSource sharedDataSource] characters][track.trackNum];</div><div class="line"><span class="built_in">NSString</span> *trackString = [characters componentsJoinedByString:<span class="string">@""</span>];</div><div class="line">attrString = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString:trackString</div><div class="line">                                                    attributes: [JSMatrixDataSource getStringAttrs]];</div><div class="line"><span class="keyword">self</span>.string = attrString;</div></pre></td></tr></table></figure>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8pt5xzfm8j21kw162npd.jpg" alt=""></p>
+<h3 id="产生遮罩-CAGradientLayer"><a href="#产生遮罩-CAGradientLayer" class="headerlink" title="产生遮罩(CAGradientLayer)"></a>产生遮罩(CAGradientLayer)</h3><p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8pt72dip5j21kw162kjl.jpg" alt=""><br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">self</span>.gradientLayer = [<span class="built_in">CAGradientLayer</span> layer];</div><div class="line"><span class="keyword">self</span>.gradientLayer.colors = @[(__bridge <span class="keyword">id</span>)[<span class="built_in">NSColor</span> whiteColor].CGColor, (__bridge <span class="keyword">id</span>)[[<span class="built_in">NSColor</span> whiteColor] colorWithAlphaComponent:<span class="number">0</span>].CGColor];</div><div class="line"><span class="keyword">self</span>.gradientLayer.startPoint = <span class="built_in">CGPointMake</span>(<span class="number">0.5</span>, <span class="number">0</span>);</div><div class="line"><span class="keyword">self</span>.gradientLayer.endPoint = <span class="built_in">CGPointMake</span>(<span class="number">0.5</span>, <span class="number">1</span>);</div><div class="line"><span class="built_in">NSMutableDictionary</span> *newActions = [[<span class="built_in">NSMutableDictionary</span> alloc] initWithObjectsAndKeys:[<span class="built_in">NSNull</span> null], <span class="string">@"onOrderIn"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"onOrderOut"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"sublayers"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"contents"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"bounds"</span>,</div><div class="line">                                   [<span class="built_in">NSNull</span> null], <span class="string">@"position"</span>,</div><div class="line">                                   <span class="literal">nil</span>];</div><div class="line"><span class="keyword">self</span>.gradientLayer.actions = newActions;</div></pre></td></tr></table></figure></p>
+<p>中间给actions设置的一段是为了禁用CALayer的隐式动画，因为我们此处需要的就是一跳一跳的效果。</p>
+<h3 id="设置蒙版（mask）"><a href="#设置蒙版（mask）" class="headerlink" title="设置蒙版（mask）"></a>设置蒙版（mask）</h3><p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8pt8rjb9yj21kw162qdn.jpg" alt=""><br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">self</span>.mask = <span class="keyword">self</span>.gradientLayer;</div></pre></td></tr></table></figure></p>
+<p>1 + 2 = 3. Simple like that.</p>
+<p>PS. 有一个小坑就是CATextLayer的刷新并不及时，因此需要我们手动清空它的内容并标记为需要刷新：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">self</span>.contents = <span class="literal">nil</span>;        <span class="comment">// Force the layer to clear its content</span></div><div class="line">[<span class="keyword">self</span> setNeedsDisplay];     <span class="comment">// Then mark the layer needs redraw</span></div><div class="line"></div><div class="line"><span class="keyword">self</span>.string = ...           <span class="comment">// Set the new content</span></div></pre></td></tr></table></figure>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>然后我用Instrument进行了一下测试，惊讶地发现在一个简单的取屏幕最大行数的方法上居然耗费了主线程10%的时间：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f8ptg868ejj21080bu0z6.jpg" alt=""></p>
+<p>为了解决这个问题，我把计算结果缓存了下来，这样以后每次取用时只需读取之前的计算结果：<br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">+ (<span class="built_in">UInt</span>)maxNum&#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">UInt</span> num;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        num = ceilf([<span class="built_in">NSScreen</span> mainScreen].frame.size.height / [JSMatrixDataSource capHeight]);</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> num;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>而在Swift上，只需把变量声明为<code>static</code>即可达到上述效果。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">let</span> maxNum: <span class="type">Int</span> = <span class="type">Int</span>(ceilf(<span class="type">Float</span>(<span class="type">UIScreen</span>.main.bounds.height / <span class="type">JSMatrixCodeRainView</span>.characterSize.height)))</div></pre></td></tr></table></figure>
+<p>（我真的不是在黑OC，没有任何这个意思。）</p>
+<h2 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h2><p>大概是酱紫：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f8pvcic6h7j21kw16owmx.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f8puwcp8rcg20b4069qv6.gif" alt=""></p>
+<p>其实在运行时还是会注意到有些不自然，但更加出色的表现还是得祭出OpenGL或者Metal来做。这就留给以后了。</p>
+<p>另外我其实完全抛弃了系统默认的屏保实现机制（在<code>animateOneFrame</code>方法中写动画逻辑来前进一帧），也算是个非主流的屏保……</p>
+<p>代码已经共享到了GitHub：<br><a href="https://github.com/zshowing/JSMatrixCodeRainScreenSaver" target="_blank" rel="external">https://github.com/zshowing/JSMatrixCodeRainScreenSaver</a></p>
+<p>或者直接下载：<br><a href="https://pan.baidu.com/s/1eRJE2P0" target="_blank" rel="external">https://pan.baidu.com/s/1eRJE2P0</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Core-Graphic/" rel="tag">#Core Graphic</a>
+          
+            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
+          
+            <a href="/tags/macOS/" rel="tag">#macOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/09/Project-Matrix-Code-Rain/" rel="next" title="第一个练手作品：Matrix Code Rain<br>及对Core Graphics绘制的优化">
+                <i class="fa fa-chevron-left"></i> 第一个练手作品：Matrix Code Rain<br>及对Core Graphics绘制的优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/"
+           data-title="用Core Graphic做个macOS上的屏保" data-url="http://zshowing.github.io/2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jon Showing" />
+          <p class="site-author-name" itemprop="name">Jon Showing</p>
+          <p class="site-description motion-element" itemprop="description">80后，典型金牛，非典型北京人。<br>目标：程序员中最好的设计师，<br>设计师中最好的程序员。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zshowing" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zshowing" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/zshowing/" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/showing" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.instagram.com/zshowing/" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>
+                  
+                  Instagram
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.behance.net/zshowing" target="_blank" title="Behance">
+                  
+                    <i class="fa fa-fw fa-behance"></i>
+                  
+                  Behance
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.flickr.com/photos/34773304@N00/" target="_blank" title="Flickr">
+                  
+                    <i class="fa fa-fw fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#确定方案"><span class="nav-number">1.</span> <span class="nav-text">确定方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CALayer黄金搭档"><span class="nav-number">2.</span> <span class="nav-text">CALayer黄金搭档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#产生字符（CATextLayer）"><span class="nav-number">2.1.</span> <span class="nav-text">产生字符（CATextLayer）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产生遮罩-CAGradientLayer"><span class="nav-number">2.2.</span> <span class="nav-text">产生遮罩(CAGradientLayer)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置蒙版（mask）"><span class="nav-number">2.3.</span> <span class="nav-text">设置蒙版（mask）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改进"><span class="nav-number">3.</span> <span class="nav-text">改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成果"><span class="nav-number">4.</span> <span class="nav-text">成果</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jon Showing</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zshowing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
