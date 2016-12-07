@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zshowing.github.io/"/>
-  <updated>2016-10-12T15:19:58.000Z</updated>
+  <updated>2016-12-07T17:26:58.000Z</updated>
   <id>http://zshowing.github.io/</id>
   
   <author>
@@ -14,6 +14,92 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一个统一的返回样式方案</title>
+    <link href="http://zshowing.github.io/2016/12/08/A-Unified-Back-Button-Solution/"/>
+    <id>http://zshowing.github.io/2016/12/08/A-Unified-Back-Button-Solution/</id>
+    <published>2016-12-07T17:12:35.000Z</published>
+    <updated>2016-12-07T17:26:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近接手了一个已经开发了几年的项目，里面各种风格的代码都有，很多时候会看到完成同一件事，不同的人会调用截然不同的“公用”方法。</p>
+<p>恰好赶上产品设计团队有一个在产品内部统一返回样式的任务，让我有机会可以在一个整体的高度上完整地考虑这一小块的问题。</p>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>经过对现有代码的搜索和整理，当前工程中在设置返回按钮时，有下面几种形式：</p>
+<ol>
+<li>直接创建一个Button，配置后传入<code>UIBarButtonItem</code>的<code>initWithCustomView</code>方法，之后设为<code>navigationItem.leftBarButtonItem</code>；</li>
+<li>调用一个封装好的<code>attachBackButton</code>方法；</li>
+<li>调用另一个封装好的<code>- (void)setupBackButtonWithText:(NSString *)title color:(UIColor *)color target:(id)target action:(SEL)selector</code>方法，此方法位于一个<code>UIViewController</code>的category中；</li>
+<li>调用再另一个封装好的<code>+ (UIBarButtonItem *)createBackButtonWithText:(NSString*)title color:(UIColor*)color target:(id)target action:(SEL)selector</code>方法，此方法与上一个方法的主要区别是：箭头所用的资源不同，所以前者是黑色箭头，这里是白色箭头。</li>
+</ol>
+<p>而设计团队提出的统一视觉样式方案为：</p>
+<ul>
+<li>二级页面返回采用形如 “&lt; 工作台” 样式；</li>
+<li>其他页面统一为形如 “&lt;” 样式。</li>
+</ul>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>总结一下，对于返回按钮的需求，其实包含了三个维度的定制需求。</p>
+<p>首先是<strong>样式</strong>。</p>
+<p>返回的箭头是一张自定义的图片。</p>
+<p>其次是<strong>文字内容</strong>。</p>
+<p>iOS的系统默认行为是在返回按钮处显示上一个页面的标题，这里显然要通过自定义来取代默认效果。<br>而且注意，这里要支持文字的更新。</p>
+<p>最后是<strong>颜色</strong>。</p>
+<p>这一点的情况比较多，首先它包含两个部分：文字颜色和箭头颜色，这意味着要对自定义图片中箭头的颜色进行更换；另外除了显式地指定颜色外，当<code>NavigationBar</code>的颜色改变时，返回按钮的颜色显然要有对应的改变，即：浅色背景对应深色（黑色）文字，深色背景对应浅色（白色）文字。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们来试着一步步达成需求。</p>
+<h3 id="实现自定义箭头"><a href="#实现自定义箭头" class="headerlink" title="实现自定义箭头"></a>实现自定义箭头</h3><p>第一步比较简单，只需调用系统提供的方法即可实现：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">[[<span class="built_in">UIBarButtonItem</span> appearance] setBackButtonBackgroundImage:backButtonImage</div><div class="line">                                                forState:<span class="built_in">UIControlStateNormal</span></div><div class="line">                                                barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
+<h3 id="隐藏系统默认文字"><a href="#隐藏系统默认文字" class="headerlink" title="隐藏系统默认文字"></a>隐藏系统默认文字</h3><p>实现这个也比较简单，只需新增一个<code>UINavigationItem</code>的category:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">"UINavigationItem+BackButton.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UINavigationItem</span>(<span class="title">BackButton</span>)</span></div><div class="line"></div><div class="line">- (<span class="built_in">UIBarButtonItem</span> *)backBarButtonItem</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> [[<span class="built_in">UIBarButtonItem</span> alloc] initWithTitle:<span class="string">@""</span> style:<span class="built_in">UIBarButtonItemStylePlain</span> target:<span class="literal">nil</span> action:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>截至目前，经过两个简单的步骤，我们已经达到了默认的效果：不经任何配置时，push一个新的页面，会显示一个只有自定义返回箭头，没有文字的返回按钮。</p>
+<p>接下来，我们要针对其他情形进行定制。</p>
+<h3 id="实现自定义文字"><a href="#实现自定义文字" class="headerlink" title="实现自定义文字"></a>实现自定义文字</h3><p>由于<code>UINavigationItem</code>的<code>backBarButtonItem</code>方法已经被我们使用，此处我们用自己生成的<code>UIBarButtonItem</code>设置到<code>UINavigationItem</code>的<code>leftBarButtonItem</code>中，来达到实现自定义文字的目的。</p>
+<p>具体实现的代码特别常规，唯独要说明的是，这里的箭头要根据传进来颜色值变换颜色，来和文字匹配，具体不表。</p>
+<p>方法名依然是<code>- (void)setupBackButtonWithText:(NSString *)title color:(UIColor *)color target:(id)target action:(SEL)selector</code>，后面会用到。</p>
+<h3 id="实现在返回按钮显示上一个页面标题"><a href="#实现在返回按钮显示上一个页面标题" class="headerlink" title="实现在返回按钮显示上一个页面标题"></a>实现在返回按钮显示上一个页面标题</h3><p>为了便于灵活配置，我们新增一个<code>UIViewController</code>的category，并增加一个property来开启此项功能：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIViewController</span> (<span class="title">NavigationAddition</span>)</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">BOOL</span> showPreviousViewTitleAsBackButtonTitle;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIViewController</span> (<span class="title">NavigationAddition</span>)</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * backButtonTitleValue;</div><div class="line">-(<span class="keyword">void</span>)setShowPreviousViewTitleAsBackButtonTitle:(<span class="built_in">BOOL</span>)isShowPreviousViewTitleAsBackButtonTitle&#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue, @(isShowPreviousViewTitleAsBackButtonTitle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">        <span class="built_in">NSArray</span> *viewControllers = [[<span class="keyword">self</span> navigationController] viewControllers];</div><div class="line">        <span class="keyword">if</span> (viewControllers.count &gt; <span class="number">1</span>) &#123;</div><div class="line">            <span class="built_in">UIViewController</span> *previousViewController = [viewControllers objectAtIndex:([viewControllers indexOfObject:<span class="keyword">self</span>] - <span class="number">1</span>)];</div><div class="line">            [<span class="keyword">self</span> setupBackButtonWithText:previousViewController.navigationItem.title color: [<span class="built_in">UIColor</span> blackColor] target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(backButtonPressed:)];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated&#123;</div><div class="line">    <span class="keyword">id</span> boolObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue);</div><div class="line">    <span class="keyword">if</span> (boolObject != <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="built_in">BOOL</span> isShowPreviousViewTitleAsBackButtonTitle = [(<span class="built_in">NSNumber</span> *)boolObject boolValue];</div><div class="line">        <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">            [<span class="keyword">self</span> setShowPreviousViewTitleAsBackButtonTitle:isShowPreviousViewTitleAsBackButtonTitle];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>在property的setter方法中，我们用runtime方法为UIViewController新增了一个属性，增加的原因是，有时我们需要在<code>UIViewController</code>创建时灵活指定此行为，而不是在构造方法中配置。</p>
+<p>这样，在<code>viewWillAppear</code>方法中再去读取这个属性，就能实现灵活配置所需行为的目的。</p>
+<p>在具体的实现中，实际上是取了当前<code>NavigationController</code>的<code>viewControllers</code>属性数组中当前页面的前一个变量，然后读取它的标题。</p>
+<p>然而，以上的实现还是遗留了一些问题。比如，这里对字体的颜色进行了hardcode；另外，当实际代码中在<code>viewWillAppear</code>里又设置了<code>NavigationBar</code>的颜色的时候，两者就可能产生冲突，最终的效果就是可能会看不清按钮。</p>
+<p>所以，我们还需要增加一些逻辑。</p>
+<h3 id="处理颜色"><a href="#处理颜色" class="headerlink" title="处理颜色"></a>处理颜色</h3><p>首先，我们再为<code>UIViewController</code>增添一个属性，来储存自定义的后退按钮颜色。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * backButtonForcedColorValue;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setupBackButtonWithText:(<span class="built_in">NSString</span> *)title color:(<span class="built_in">UIColor</span> *)color target:(<span class="keyword">id</span>)target action:(SEL)selector;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (color != <span class="literal">nil</span>) &#123;</div><div class="line">        objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue, color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">self</span>.navigationItem.leftBarButtonItem = [<span class="keyword">self</span>.class reateBackButtonWithText:title color:color target:target action:selector];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一旦显式地为后退按钮指定了颜色，这里就会储存下来。</p>
+<p>然后，在设置后退按钮时，我们再把这个属性取出来：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)setShowPreviousViewTitleAsBackButtonTitle:(<span class="built_in">BOOL</span>)isShowPreviousViewTitleAsBackButtonTitle&#123;</div><div class="line">    ... <span class="comment">// 略</span></div><div class="line"></div><div class="line">    <span class="built_in">UIColor</span> *defaultColor = [<span class="built_in">UIColor</span> blackColor];</div><div class="line">    <span class="keyword">id</span> colorObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue);</div><div class="line">    <span class="keyword">if</span> (colorObject != <span class="literal">nil</span> &amp;&amp; [colorObject isKindOfClass:[<span class="built_in">UIColor</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">        defaultColor = (<span class="built_in">UIColor</span> *)colorObject;</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">self</span> wbg_setupBackButtonWithText:previousViewController.navigationItem.title color:defaultColor target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(backButtonPressed:)];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其次，我们因为在设置后退按钮时一定要给定一个颜色，但只有少数时候我们是真正要指定一种颜色（比如蓝色），其他时候只是取一个合理的值即可。为了区分显式指定和自动指定两种情况，我们再加一个指示：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="built_in">UIColor</span> * <span class="built_in">UIColorAutomatic</span>;</div></pre></td></tr></table></figure>
+<p>所以最终的方法是这样的：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)setupBackButtonWithText:(<span class="built_in">NSString</span> *)title color:(<span class="built_in">UIColor</span> *)color target:(<span class="keyword">id</span>)target action:(SEL)selector;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (color != <span class="literal">nil</span> &amp;&amp; color != <span class="built_in">UIColorAutomatic</span>) &#123;<span class="comment">// 只在不为自动颜色的时候才设置这里的颜色变量</span></div><div class="line">        objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue, color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">self</span>.navigationItem.leftBarButtonItem = [<span class="keyword">self</span>.class createBackButtonWithText:title color:[<span class="keyword">self</span> getProperItemColor] target:target action:selector];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setShowPreviousViewTitleAsBackButtonTitle:(<span class="built_in">BOOL</span>)isShowPreviousViewTitleAsBackButtonTitle&#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue, @(isShowPreviousViewTitleAsBackButtonTitle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">        <span class="built_in">NSArray</span> *viewControllers = [[<span class="keyword">self</span> navigationController] viewControllers];</div><div class="line">        <span class="keyword">if</span> (viewControllers.count &gt; <span class="number">1</span>) &#123;</div><div class="line">            <span class="built_in">UIViewController</span> *previousViewController = [viewControllers objectAtIndex:([viewControllers indexOfObject:<span class="keyword">self</span>] - <span class="number">1</span>)];</div><div class="line"></div><div class="line">            [<span class="keyword">self</span> setupBackButtonWithText:previousViewController.navigationItem.title</div><div class="line">                                    color:<span class="built_in">UIColorAutomatic</span> <span class="comment">// 这个方法只负责开启带文字的返回按钮，并不指定颜色，所以传入自动</span></div><div class="line">                                   target:<span class="keyword">self</span></div><div class="line">                                   action:<span class="keyword">@selector</span>(backButtonPressed:)];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后，在设置<code>NavigationBar</code>颜色的时候，还需要同步更新一下按钮的颜色：<br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)setNavigationBarColor:(<span class="built_in">UIColor</span> *)barColor</div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 设置导航条颜色代码</span></div><div class="line">    </div><div class="line">    [<span class="keyword">self</span> setNavigationBarItemColor: [<span class="keyword">self</span> getProperItemColor]];    <span class="comment">// 设置NavigationItem的颜色</span></div><div class="line">    [<span class="keyword">self</span> setupCustomizedBackButtonIfNeeded];                       <span class="comment">// 如果需要，设置自定义按钮的颜色</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于我们的返回箭头是个自定义的图片，所以在每次颜色改变时，都需要用新的颜色的箭头图片重新设置一次。为此，我们再次新加一个category来达到这个目的：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UINavigationBar</span>(<span class="title">CustomColor</span>)</span></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UINavigationBar</span>(<span class="title">CustomColor</span>)</span></div><div class="line">- (<span class="keyword">void</span>)setTintColor:(<span class="built_in">UIColor</span> *)tintColor&#123;</div><div class="line">    [<span class="keyword">super</span> setTintColor:tintColor];</div><div class="line">    </div><div class="line">    <span class="built_in">UIImage</span> *arrowImage = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"navi_back_icon"</span>];</div><div class="line">    </div><div class="line">    <span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(arrowImage.size, <span class="literal">NO</span>, arrowImage.scale);</div><div class="line">    <span class="built_in">CGRect</span> rect = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, arrowImage.size.width, arrowImage.size.height);</div><div class="line">    [tintColor set];</div><div class="line">    <span class="built_in">UIRectFill</span>(rect);</div><div class="line">    [arrowImage drawAtPoint:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, <span class="number">0</span>) blendMode:kCGBlendModeDestinationIn alpha:<span class="number">1</span>];</div><div class="line">    <span class="built_in">UIImage</span> *newImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    </div><div class="line">    <span class="built_in">UIImage</span> *backButtonImage = [newImage resizableImageWithCapInsets:<span class="built_in">UIEdgeInsetsMake</span>(<span class="number">0</span>, <span class="number">20</span>, <span class="number">0</span>, <span class="number">0</span>)];</div><div class="line">    </div><div class="line">    [[<span class="built_in">UIBarButtonItem</span> appearance] setBackButtonBackgroundImage:backButtonImage</div><div class="line">                                                      forState:<span class="built_in">UIControlStateNormal</span></div><div class="line">                                                    barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>同时，后一个方法其实就是把之前写在<code>viewWillAppear</code>里的代码挪了过来：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)setupCustomizedBackButtonIfNeeded&#123;</div><div class="line">    <span class="keyword">id</span> boolObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue);</div><div class="line">    <span class="keyword">if</span> (boolObject != <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="built_in">BOOL</span> isShowPreviousViewTitleAsBackButtonTitle = [(<span class="built_in">NSNumber</span> *)boolObject boolValue];</div><div class="line">        <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">            [<span class="keyword">self</span> setShowPreviousViewTitleAsBackButtonTitle:isShowPreviousViewTitleAsBackButtonTitle];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated&#123;</div><div class="line">    [<span class="keyword">self</span> setupCustomizedBackButtonIfNeeded];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而<code>getProperItemColor</code>方法集中处理了合理的颜色值：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="built_in">UIColor</span> *)getProperItemColor&#123;</div><div class="line">    <span class="built_in">UIColor</span> *defaultColor = <span class="built_in">UIColorAutomatic</span>;</div><div class="line">    <span class="keyword">id</span> colorObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue);</div><div class="line">    <span class="keyword">if</span> (colorObject != <span class="literal">nil</span> &amp;&amp; [colorObject isKindOfClass:[<span class="built_in">UIColor</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">        <span class="comment">// 如果存在钦定的颜色，读取之</span></div><div class="line">        defaultColor = (<span class="built_in">UIColor</span> *)colorObject;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">// 否则，根据导航条背景颜色自动决定颜色</span></div><div class="line">        <span class="built_in">CGFloat</span> red, green, blue;</div><div class="line">        <span class="built_in">UIColor</span> *color;</div><div class="line">        </div><div class="line">        <span class="built_in">UINavigationBar</span> *bar = <span class="keyword">self</span>.navigationController.navigationBar;</div><div class="line">        <span class="keyword">if</span> ([bar isKindOfClass:[CRGradientNavigationBar <span class="keyword">class</span>]]) &#123;</div><div class="line">            CRGradientNavigationBar *crBar = (CRGradientNavigationBar *)bar;</div><div class="line">            <span class="built_in">NSArray</span> *colors = crBar.gradientLayer.colors;</div><div class="line">            <span class="keyword">if</span> (colors.count &gt; <span class="number">0</span>) &#123;</div><div class="line">                color = [<span class="built_in">UIColor</span> colorWithCGColor:(__bridge <span class="built_in">CGColorRef</span>)colors[<span class="number">0</span>]];</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                color = [<span class="built_in">UIColor</span> whiteColor];</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            color = <span class="keyword">self</span>.navigationController.navigationBar.barTintColor;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="comment">// 根据背景颜色自动决定前景颜色，参考以下网址的算法</span></div><div class="line">        <span class="comment">// http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color</span></div><div class="line">        [color getRed:&amp;red green:&amp;green blue:&amp;blue alpha:<span class="literal">nil</span>];</div><div class="line">        <span class="built_in">CGFloat</span> luminance = red * <span class="number">0.299</span> + green * <span class="number">0.587</span> + blue * <span class="number">0.114</span>;</div><div class="line">        </div><div class="line">        defaultColor = luminance &gt; <span class="number">186.0</span> / <span class="number">256.0</span> ? [<span class="built_in">UIColor</span> blackColor] : [<span class="built_in">UIColor</span> whiteColor];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> defaultColor;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果存在之前设定过的颜色值，就取出并且返回；否则就根据当前导航条的颜色自动设置为与之反向的颜色。这里参考了一篇Stackoverflow上的<a href="http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color" target="_blank" rel="external">讨论帖</a>，直接拿过来了其中使用的算法。</p>
+<p>至此，我们已经达到了预期的目的，而且在调用时也比较方便，自动处理了大部分的情况。比如，如果仅仅想改变返回按钮的颜色，之前可能会创建一个仅指定了颜色的按钮并设置为返回按钮，现在则可以写<code>[self setNavigationBarItemColor:[UIColor someCustomColor]]</code>，虽然代码量与之前一样，但逻辑上比较优雅。</p>
+<p>但是也遇到了两个坑：一个是某个二级页面采用了HTML页面实现，所以特别蛋疼地需要手动通过回调处理一切更新；另一个是某个页面是自己创建了一个<code>UINavigationController</code>然后push进来的（因为该页面需要侧边栏），导致没法拿到上级页面的名称，只能不用<code>showPreviousViewTitleAsBackButtonTitle</code>属性，退而求其次用<code>setupBackButtonWithText</code>方法自行创建一个后退按钮。</p>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><ul>
+<li>默认情况：什么都不用做，自动出现自定义的“&lt;”；</li>
+<li>需要显示上级页面：设置<code>showPreviousViewTitleAsBackButtonTitle</code>属性；</li>
+<li>需要自定义按钮文字：方法1. 调用<code>setupBackButtonWithText</code>方法，用于指定颜色；方法2. 调用’attachBackButtonTitle:’方法，用于自动获取颜色。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      记录了开发一整套返回按钮解决方案的思考过程和实施方案。
+    
+    </summary>
+    
+      <category term="Code" scheme="http://zshowing.github.io/categories/Code/"/>
+    
+    
+      <category term="iOS" scheme="http://zshowing.github.io/tags/iOS/"/>
+    
+      <category term="Objective-C" scheme="http://zshowing.github.io/tags/Objective-C/"/>
+    
+  </entry>
   
   <entry>
     <title>用Core Graphic做个macOS上的屏保</title>
@@ -73,9 +159,9 @@
       <category term="Code" scheme="http://zshowing.github.io/categories/Code/"/>
     
     
-      <category term="Core Graphic" scheme="http://zshowing.github.io/tags/Core-Graphic/"/>
-    
       <category term="Objective-C" scheme="http://zshowing.github.io/tags/Objective-C/"/>
+    
+      <category term="Core Graphic" scheme="http://zshowing.github.io/tags/Core-Graphic/"/>
     
       <category term="macOS" scheme="http://zshowing.github.io/tags/macOS/"/>
     
@@ -1619,39 +1705,6 @@
     
     
       <category term="Life" scheme="http://zshowing.github.io/tags/Life/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>审美理论</title>
-    <link href="http://zshowing.github.io/2010/06/30/new-theory-about-beauty/"/>
-    <id>http://zshowing.github.io/2010/06/30/new-theory-about-beauty/</id>
-    <published>2010-06-30T12:54:22.000Z</published>
-    <updated>2016-09-25T02:59:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天偶然接受到了个冲击信号，随后很自然地开始了冲击响应。下面这堆微博就是冲击响应中得到的一些分量。</p>
-<p>我现在倾向一种想法：<strong>审美并不是一开始就定型的，而是被“训练”出来的</strong>，训练集是那些你喜欢过的女生。因为喜欢上一个人并非只因为相貌，但一旦喜欢上以后，心里就会觉得有着类似这种相貌的女生是最美的。<br><em>通过 web 约7小时前</em></p>
-<p>这个想法以前就有模糊的念头，来自于我自己的体会，但直到今天才想通整个因果关系，和怎么精确表述。最明显的例子就是我对Yui这种“眼神凌厉”的女生在审美上的大转变，更包括我现在整个的审美观。我觉得现在和05年的我对同一批人打分，可能会有天壤之别了。<br><em>通过 web 约6小时前</em></p>
-<p>从维护婚姻的角度说，这种机制可以在很大程度上湮灭男人移情别恋的可能性，因为他的审美观告诉他：天下最美的女人是他老婆。当然，前提是他真的很喜欢她，毕竟这世界上还有许多不是因爱而结合的婚姻。<br><em>通过 web 约6小时前</em></p>
-<p>刚才那个理论乍一听很废话，但它颠覆了一个一直以来我默认的因果：原来不是审美决定你喜欢谁，而是你喜欢谁决定了你的审美。这也是我到今天才偶然把这事想通的原因。<br><em>通过 web 约5小时前</em></p>
-]]></content>
-    
-    <summary type="html">
-    
-      一种新型的审美理论。
-    
-    </summary>
-    
-      <category term="理论" scheme="http://zshowing.github.io/categories/%E7%90%86%E8%AE%BA/"/>
-    
-    
-      <category term="Love" scheme="http://zshowing.github.io/tags/Love/"/>
-    
-      <category term="理论" scheme="http://zshowing.github.io/tags/%E7%90%86%E8%AE%BA/"/>
-    
-      <category term="美感" scheme="http://zshowing.github.io/tags/%E7%BE%8E%E6%84%9F/"/>
-    
-      <category term="女人" scheme="http://zshowing.github.io/tags/%E5%A5%B3%E4%BA%BA/"/>
     
   </entry>
   

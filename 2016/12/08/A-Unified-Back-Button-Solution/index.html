@@ -1,0 +1,792 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Objective-C," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Design & Code" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="记录了开发一整套返回按钮解决方案的思考过程和实施方案。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个统一的返回样式方案">
+<meta property="og:url" content="http://zshowing.github.io/2016/12/08/A-Unified-Back-Button-Solution/index.html">
+<meta property="og:site_name" content="Design & Code">
+<meta property="og:description" content="记录了开发一整套返回按钮解决方案的思考过程和实施方案。">
+<meta property="og:updated_time" content="2016-12-07T17:26:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个统一的返回样式方案">
+<meta name="twitter:description" content="记录了开发一整套返回按钮解决方案的思考过程和实施方案。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zshowing.github.io/2016/12/08/A-Unified-Back-Button-Solution/"/>
+
+  <title> 一个统一的返回样式方案 | Design & Code </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-84283556-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+    <div class="site-meta-headline">
+      <a>
+        <img class="custom-logo-image" src="/images/logo.png"
+             alt="Design & Code"/>
+      </a>
+    </div>
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Design & Code</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一个统一的返回样式方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-08T01:12:35+08:00" content="2016-12-08">
+              2016-12-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index">
+                    <span itemprop="name">Code</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/08/A-Unified-Back-Button-Solution/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/08/A-Unified-Back-Button-Solution/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近接手了一个已经开发了几年的项目，里面各种风格的代码都有，很多时候会看到完成同一件事，不同的人会调用截然不同的“公用”方法。</p>
+<p>恰好赶上产品设计团队有一个在产品内部统一返回样式的任务，让我有机会可以在一个整体的高度上完整地考虑这一小块的问题。</p>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>经过对现有代码的搜索和整理，当前工程中在设置返回按钮时，有下面几种形式：</p>
+<ol>
+<li>直接创建一个Button，配置后传入<code>UIBarButtonItem</code>的<code>initWithCustomView</code>方法，之后设为<code>navigationItem.leftBarButtonItem</code>；</li>
+<li>调用一个封装好的<code>attachBackButton</code>方法；</li>
+<li>调用另一个封装好的<code>- (void)setupBackButtonWithText:(NSString *)title color:(UIColor *)color target:(id)target action:(SEL)selector</code>方法，此方法位于一个<code>UIViewController</code>的category中；</li>
+<li>调用再另一个封装好的<code>+ (UIBarButtonItem *)createBackButtonWithText:(NSString*)title color:(UIColor*)color target:(id)target action:(SEL)selector</code>方法，此方法与上一个方法的主要区别是：箭头所用的资源不同，所以前者是黑色箭头，这里是白色箭头。</li>
+</ol>
+<p>而设计团队提出的统一视觉样式方案为：</p>
+<ul>
+<li>二级页面返回采用形如 “&lt; 工作台” 样式；</li>
+<li>其他页面统一为形如 “&lt;” 样式。</li>
+</ul>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>总结一下，对于返回按钮的需求，其实包含了三个维度的定制需求。</p>
+<p>首先是<strong>样式</strong>。</p>
+<p>返回的箭头是一张自定义的图片。</p>
+<p>其次是<strong>文字内容</strong>。</p>
+<p>iOS的系统默认行为是在返回按钮处显示上一个页面的标题，这里显然要通过自定义来取代默认效果。<br>而且注意，这里要支持文字的更新。</p>
+<p>最后是<strong>颜色</strong>。</p>
+<p>这一点的情况比较多，首先它包含两个部分：文字颜色和箭头颜色，这意味着要对自定义图片中箭头的颜色进行更换；另外除了显式地指定颜色外，当<code>NavigationBar</code>的颜色改变时，返回按钮的颜色显然要有对应的改变，即：浅色背景对应深色（黑色）文字，深色背景对应浅色（白色）文字。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们来试着一步步达成需求。</p>
+<h3 id="实现自定义箭头"><a href="#实现自定义箭头" class="headerlink" title="实现自定义箭头"></a>实现自定义箭头</h3><p>第一步比较简单，只需调用系统提供的方法即可实现：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">[[<span class="built_in">UIBarButtonItem</span> appearance] setBackButtonBackgroundImage:backButtonImage</div><div class="line">                                                forState:<span class="built_in">UIControlStateNormal</span></div><div class="line">                                                barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
+<h3 id="隐藏系统默认文字"><a href="#隐藏系统默认文字" class="headerlink" title="隐藏系统默认文字"></a>隐藏系统默认文字</h3><p>实现这个也比较简单，只需新增一个<code>UINavigationItem</code>的category:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">"UINavigationItem+BackButton.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UINavigationItem</span>(<span class="title">BackButton</span>)</span></div><div class="line"></div><div class="line">- (<span class="built_in">UIBarButtonItem</span> *)backBarButtonItem</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> [[<span class="built_in">UIBarButtonItem</span> alloc] initWithTitle:<span class="string">@""</span> style:<span class="built_in">UIBarButtonItemStylePlain</span> target:<span class="literal">nil</span> action:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>截至目前，经过两个简单的步骤，我们已经达到了默认的效果：不经任何配置时，push一个新的页面，会显示一个只有自定义返回箭头，没有文字的返回按钮。</p>
+<p>接下来，我们要针对其他情形进行定制。</p>
+<h3 id="实现自定义文字"><a href="#实现自定义文字" class="headerlink" title="实现自定义文字"></a>实现自定义文字</h3><p>由于<code>UINavigationItem</code>的<code>backBarButtonItem</code>方法已经被我们使用，此处我们用自己生成的<code>UIBarButtonItem</code>设置到<code>UINavigationItem</code>的<code>leftBarButtonItem</code>中，来达到实现自定义文字的目的。</p>
+<p>具体实现的代码特别常规，唯独要说明的是，这里的箭头要根据传进来颜色值变换颜色，来和文字匹配，具体不表。</p>
+<p>方法名依然是<code>- (void)setupBackButtonWithText:(NSString *)title color:(UIColor *)color target:(id)target action:(SEL)selector</code>，后面会用到。</p>
+<h3 id="实现在返回按钮显示上一个页面标题"><a href="#实现在返回按钮显示上一个页面标题" class="headerlink" title="实现在返回按钮显示上一个页面标题"></a>实现在返回按钮显示上一个页面标题</h3><p>为了便于灵活配置，我们新增一个<code>UIViewController</code>的category，并增加一个property来开启此项功能：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIViewController</span> (<span class="title">NavigationAddition</span>)</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">BOOL</span> showPreviousViewTitleAsBackButtonTitle;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIViewController</span> (<span class="title">NavigationAddition</span>)</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * backButtonTitleValue;</div><div class="line">-(<span class="keyword">void</span>)setShowPreviousViewTitleAsBackButtonTitle:(<span class="built_in">BOOL</span>)isShowPreviousViewTitleAsBackButtonTitle&#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue, @(isShowPreviousViewTitleAsBackButtonTitle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">        <span class="built_in">NSArray</span> *viewControllers = [[<span class="keyword">self</span> navigationController] viewControllers];</div><div class="line">        <span class="keyword">if</span> (viewControllers.count &gt; <span class="number">1</span>) &#123;</div><div class="line">            <span class="built_in">UIViewController</span> *previousViewController = [viewControllers objectAtIndex:([viewControllers indexOfObject:<span class="keyword">self</span>] - <span class="number">1</span>)];</div><div class="line">            [<span class="keyword">self</span> setupBackButtonWithText:previousViewController.navigationItem.title color: [<span class="built_in">UIColor</span> blackColor] target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(backButtonPressed:)];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated&#123;</div><div class="line">    <span class="keyword">id</span> boolObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue);</div><div class="line">    <span class="keyword">if</span> (boolObject != <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="built_in">BOOL</span> isShowPreviousViewTitleAsBackButtonTitle = [(<span class="built_in">NSNumber</span> *)boolObject boolValue];</div><div class="line">        <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">            [<span class="keyword">self</span> setShowPreviousViewTitleAsBackButtonTitle:isShowPreviousViewTitleAsBackButtonTitle];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>在property的setter方法中，我们用runtime方法为UIViewController新增了一个属性，增加的原因是，有时我们需要在<code>UIViewController</code>创建时灵活指定此行为，而不是在构造方法中配置。</p>
+<p>这样，在<code>viewWillAppear</code>方法中再去读取这个属性，就能实现灵活配置所需行为的目的。</p>
+<p>在具体的实现中，实际上是取了当前<code>NavigationController</code>的<code>viewControllers</code>属性数组中当前页面的前一个变量，然后读取它的标题。</p>
+<p>然而，以上的实现还是遗留了一些问题。比如，这里对字体的颜色进行了hardcode；另外，当实际代码中在<code>viewWillAppear</code>里又设置了<code>NavigationBar</code>的颜色的时候，两者就可能产生冲突，最终的效果就是可能会看不清按钮。</p>
+<p>所以，我们还需要增加一些逻辑。</p>
+<h3 id="处理颜色"><a href="#处理颜色" class="headerlink" title="处理颜色"></a>处理颜色</h3><p>首先，我们再为<code>UIViewController</code>增添一个属性，来储存自定义的后退按钮颜色。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * backButtonForcedColorValue;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setupBackButtonWithText:(<span class="built_in">NSString</span> *)title color:(<span class="built_in">UIColor</span> *)color target:(<span class="keyword">id</span>)target action:(SEL)selector;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (color != <span class="literal">nil</span>) &#123;</div><div class="line">        objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue, color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">self</span>.navigationItem.leftBarButtonItem = [<span class="keyword">self</span>.class reateBackButtonWithText:title color:color target:target action:selector];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一旦显式地为后退按钮指定了颜色，这里就会储存下来。</p>
+<p>然后，在设置后退按钮时，我们再把这个属性取出来：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)setShowPreviousViewTitleAsBackButtonTitle:(<span class="built_in">BOOL</span>)isShowPreviousViewTitleAsBackButtonTitle&#123;</div><div class="line">    ... <span class="comment">// 略</span></div><div class="line"></div><div class="line">    <span class="built_in">UIColor</span> *defaultColor = [<span class="built_in">UIColor</span> blackColor];</div><div class="line">    <span class="keyword">id</span> colorObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue);</div><div class="line">    <span class="keyword">if</span> (colorObject != <span class="literal">nil</span> &amp;&amp; [colorObject isKindOfClass:[<span class="built_in">UIColor</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">        defaultColor = (<span class="built_in">UIColor</span> *)colorObject;</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">self</span> wbg_setupBackButtonWithText:previousViewController.navigationItem.title color:defaultColor target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(backButtonPressed:)];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其次，我们因为在设置后退按钮时一定要给定一个颜色，但只有少数时候我们是真正要指定一种颜色（比如蓝色），其他时候只是取一个合理的值即可。为了区分显式指定和自动指定两种情况，我们再加一个指示：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="built_in">UIColor</span> * <span class="built_in">UIColorAutomatic</span>;</div></pre></td></tr></table></figure>
+<p>所以最终的方法是这样的：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)setupBackButtonWithText:(<span class="built_in">NSString</span> *)title color:(<span class="built_in">UIColor</span> *)color target:(<span class="keyword">id</span>)target action:(SEL)selector;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (color != <span class="literal">nil</span> &amp;&amp; color != <span class="built_in">UIColorAutomatic</span>) &#123;<span class="comment">// 只在不为自动颜色的时候才设置这里的颜色变量</span></div><div class="line">        objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue, color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">self</span>.navigationItem.leftBarButtonItem = [<span class="keyword">self</span>.class createBackButtonWithText:title color:[<span class="keyword">self</span> getProperItemColor] target:target action:selector];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setShowPreviousViewTitleAsBackButtonTitle:(<span class="built_in">BOOL</span>)isShowPreviousViewTitleAsBackButtonTitle&#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue, @(isShowPreviousViewTitleAsBackButtonTitle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">        <span class="built_in">NSArray</span> *viewControllers = [[<span class="keyword">self</span> navigationController] viewControllers];</div><div class="line">        <span class="keyword">if</span> (viewControllers.count &gt; <span class="number">1</span>) &#123;</div><div class="line">            <span class="built_in">UIViewController</span> *previousViewController = [viewControllers objectAtIndex:([viewControllers indexOfObject:<span class="keyword">self</span>] - <span class="number">1</span>)];</div><div class="line"></div><div class="line">            [<span class="keyword">self</span> setupBackButtonWithText:previousViewController.navigationItem.title</div><div class="line">                                    color:<span class="built_in">UIColorAutomatic</span> <span class="comment">// 这个方法只负责开启带文字的返回按钮，并不指定颜色，所以传入自动</span></div><div class="line">                                   target:<span class="keyword">self</span></div><div class="line">                                   action:<span class="keyword">@selector</span>(backButtonPressed:)];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后，在设置<code>NavigationBar</code>颜色的时候，还需要同步更新一下按钮的颜色：<br><figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)setNavigationBarColor:(<span class="built_in">UIColor</span> *)barColor</div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 设置导航条颜色代码</span></div><div class="line">    </div><div class="line">    [<span class="keyword">self</span> setNavigationBarItemColor: [<span class="keyword">self</span> getProperItemColor]];    <span class="comment">// 设置NavigationItem的颜色</span></div><div class="line">    [<span class="keyword">self</span> setupCustomizedBackButtonIfNeeded];                       <span class="comment">// 如果需要，设置自定义按钮的颜色</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于我们的返回箭头是个自定义的图片，所以在每次颜色改变时，都需要用新的颜色的箭头图片重新设置一次。为此，我们再次新加一个category来达到这个目的：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UINavigationBar</span>(<span class="title">CustomColor</span>)</span></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UINavigationBar</span>(<span class="title">CustomColor</span>)</span></div><div class="line">- (<span class="keyword">void</span>)setTintColor:(<span class="built_in">UIColor</span> *)tintColor&#123;</div><div class="line">    [<span class="keyword">super</span> setTintColor:tintColor];</div><div class="line">    </div><div class="line">    <span class="built_in">UIImage</span> *arrowImage = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"navi_back_icon"</span>];</div><div class="line">    </div><div class="line">    <span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(arrowImage.size, <span class="literal">NO</span>, arrowImage.scale);</div><div class="line">    <span class="built_in">CGRect</span> rect = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, arrowImage.size.width, arrowImage.size.height);</div><div class="line">    [tintColor set];</div><div class="line">    <span class="built_in">UIRectFill</span>(rect);</div><div class="line">    [arrowImage drawAtPoint:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, <span class="number">0</span>) blendMode:kCGBlendModeDestinationIn alpha:<span class="number">1</span>];</div><div class="line">    <span class="built_in">UIImage</span> *newImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    </div><div class="line">    <span class="built_in">UIImage</span> *backButtonImage = [newImage resizableImageWithCapInsets:<span class="built_in">UIEdgeInsetsMake</span>(<span class="number">0</span>, <span class="number">20</span>, <span class="number">0</span>, <span class="number">0</span>)];</div><div class="line">    </div><div class="line">    [[<span class="built_in">UIBarButtonItem</span> appearance] setBackButtonBackgroundImage:backButtonImage</div><div class="line">                                                      forState:<span class="built_in">UIControlStateNormal</span></div><div class="line">                                                    barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>同时，后一个方法其实就是把之前写在<code>viewWillAppear</code>里的代码挪了过来：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)setupCustomizedBackButtonIfNeeded&#123;</div><div class="line">    <span class="keyword">id</span> boolObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonTitleValue);</div><div class="line">    <span class="keyword">if</span> (boolObject != <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="built_in">BOOL</span> isShowPreviousViewTitleAsBackButtonTitle = [(<span class="built_in">NSNumber</span> *)boolObject boolValue];</div><div class="line">        <span class="keyword">if</span> (isShowPreviousViewTitleAsBackButtonTitle) &#123;</div><div class="line">            [<span class="keyword">self</span> setShowPreviousViewTitleAsBackButtonTitle:isShowPreviousViewTitleAsBackButtonTitle];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated&#123;</div><div class="line">    [<span class="keyword">self</span> setupCustomizedBackButtonIfNeeded];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而<code>getProperItemColor</code>方法集中处理了合理的颜色值：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="built_in">UIColor</span> *)getProperItemColor&#123;</div><div class="line">    <span class="built_in">UIColor</span> *defaultColor = <span class="built_in">UIColorAutomatic</span>;</div><div class="line">    <span class="keyword">id</span> colorObject = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;backButtonForcedColorValue);</div><div class="line">    <span class="keyword">if</span> (colorObject != <span class="literal">nil</span> &amp;&amp; [colorObject isKindOfClass:[<span class="built_in">UIColor</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">        <span class="comment">// 如果存在钦定的颜色，读取之</span></div><div class="line">        defaultColor = (<span class="built_in">UIColor</span> *)colorObject;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">// 否则，根据导航条背景颜色自动决定颜色</span></div><div class="line">        <span class="built_in">CGFloat</span> red, green, blue;</div><div class="line">        <span class="built_in">UIColor</span> *color;</div><div class="line">        </div><div class="line">        <span class="built_in">UINavigationBar</span> *bar = <span class="keyword">self</span>.navigationController.navigationBar;</div><div class="line">        <span class="keyword">if</span> ([bar isKindOfClass:[CRGradientNavigationBar <span class="keyword">class</span>]]) &#123;</div><div class="line">            CRGradientNavigationBar *crBar = (CRGradientNavigationBar *)bar;</div><div class="line">            <span class="built_in">NSArray</span> *colors = crBar.gradientLayer.colors;</div><div class="line">            <span class="keyword">if</span> (colors.count &gt; <span class="number">0</span>) &#123;</div><div class="line">                color = [<span class="built_in">UIColor</span> colorWithCGColor:(__bridge <span class="built_in">CGColorRef</span>)colors[<span class="number">0</span>]];</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                color = [<span class="built_in">UIColor</span> whiteColor];</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            color = <span class="keyword">self</span>.navigationController.navigationBar.barTintColor;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="comment">// 根据背景颜色自动决定前景颜色，参考以下网址的算法</span></div><div class="line">        <span class="comment">// http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color</span></div><div class="line">        [color getRed:&amp;red green:&amp;green blue:&amp;blue alpha:<span class="literal">nil</span>];</div><div class="line">        <span class="built_in">CGFloat</span> luminance = red * <span class="number">0.299</span> + green * <span class="number">0.587</span> + blue * <span class="number">0.114</span>;</div><div class="line">        </div><div class="line">        defaultColor = luminance &gt; <span class="number">186.0</span> / <span class="number">256.0</span> ? [<span class="built_in">UIColor</span> blackColor] : [<span class="built_in">UIColor</span> whiteColor];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> defaultColor;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果存在之前设定过的颜色值，就取出并且返回；否则就根据当前导航条的颜色自动设置为与之反向的颜色。这里参考了一篇Stackoverflow上的<a href="http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color" target="_blank" rel="external">讨论帖</a>，直接拿过来了其中使用的算法。</p>
+<p>至此，我们已经达到了预期的目的，而且在调用时也比较方便，自动处理了大部分的情况。比如，如果仅仅想改变返回按钮的颜色，之前可能会创建一个仅指定了颜色的按钮并设置为返回按钮，现在则可以写<code>[self setNavigationBarItemColor:[UIColor someCustomColor]]</code>，虽然代码量与之前一样，但逻辑上比较优雅。</p>
+<p>但是也遇到了两个坑：一个是某个二级页面采用了HTML页面实现，所以特别蛋疼地需要手动通过回调处理一切更新；另一个是某个页面是自己创建了一个<code>UINavigationController</code>然后push进来的（因为该页面需要侧边栏），导致没法拿到上级页面的名称，只能不用<code>showPreviousViewTitleAsBackButtonTitle</code>属性，退而求其次用<code>setupBackButtonWithText</code>方法自行创建一个后退按钮。</p>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><ul>
+<li>默认情况：什么都不用做，自动出现自定义的“&lt;”；</li>
+<li>需要显示上级页面：设置<code>showPreviousViewTitleAsBackButtonTitle</code>属性；</li>
+<li>需要自定义按钮文字：方法1. 调用<code>setupBackButtonWithText</code>方法，用于指定颜色；方法2. 调用’attachBackButtonTitle:’方法，用于自动获取颜色。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/12/Make-a-Matrix-Code-Rain-ScreenSaver-on-macOS/" rel="next" title="用Core Graphic做个macOS上的屏保">
+                <i class="fa fa-chevron-left"></i> 用Core Graphic做个macOS上的屏保
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/08/A-Unified-Back-Button-Solution/"
+           data-title="一个统一的返回样式方案" data-url="http://zshowing.github.io/2016/12/08/A-Unified-Back-Button-Solution/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jon Showing" />
+          <p class="site-author-name" itemprop="name">Jon Showing</p>
+          <p class="site-description motion-element" itemprop="description">80后，典型金牛，非典型北京人。<br>目标：程序员中最好的设计师，<br>设计师中最好的程序员。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">41</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zshowing" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zshowing" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/zshowing/" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/showing" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.instagram.com/zshowing/" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>
+                  
+                  Instagram
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.behance.net/zshowing" target="_blank" title="Behance">
+                  
+                    <i class="fa fa-fw fa-behance"></i>
+                  
+                  Behance
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.flickr.com/photos/34773304@N00/" target="_blank" title="Flickr">
+                  
+                    <i class="fa fa-fw fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#现状"><span class="nav-number">1.</span> <span class="nav-text">现状</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现自定义箭头"><span class="nav-number">3.1.</span> <span class="nav-text">实现自定义箭头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐藏系统默认文字"><span class="nav-number">3.2.</span> <span class="nav-text">隐藏系统默认文字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现自定义文字"><span class="nav-number">3.3.</span> <span class="nav-text">实现自定义文字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现在返回按钮显示上一个页面标题"><span class="nav-number">3.4.</span> <span class="nav-text">实现在返回按钮显示上一个页面标题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理颜色"><span class="nav-number">3.5.</span> <span class="nav-text">处理颜色</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终效果"><span class="nav-number">4.</span> <span class="nav-text">最终效果</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jon Showing</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zshowing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
