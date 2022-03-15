@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="referrer" content="same-origin">
+<meta name="referrer" content="no-referrer" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="rgba(0,0,0,0.0)">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="rgba(0,0,0,0.0)">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zshowing.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在高中毕业十周年返校聚会即将到来的时候，我临危受命被抓来设计与之相关的一系列物料。这是对整个设计过程进行记录的系列文章之一，记述了一次完整的设计流程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Project RDFZ: The Documentary, Part I">
+<meta property="og:url" content="http://zshowing.github.io/2015/09/26/Project-RDFZ-The-Documentary-Part-I/index.html">
+<meta property="og:site_name" content="Design &amp; Code">
+<meta property="og:description" content="在高中毕业十周年返校聚会即将到来的时候，我临危受命被抓来设计与之相关的一系列物料。这是对整个设计过程进行记录的系列文章之一，记述了一次完整的设计流程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f7vvqt8lhvj20go0g741g.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79jw1f7vvudjo45j20zk0qoaf8.jpg">
+<meta property="og:image" content="https://mir-s3-cdn-cf.behance.net/project_modules/1400/4751e129889607.560ebf094f91f.png">
+<meta property="og:image" content="https://mir-s3-cdn-cf.behance.net/project_modules/1400/f06f3029889607.560ebf094c023.jpg">
+<meta property="og:image" content="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5d11e929889607.560ebf094d196.png">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f7vwy4f7n6j21kw16oafl.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79jw1f7vvzz9rghj20gj0nedg1.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f7vw0w6gkgj20go0ovjs1.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79jw1f7vw36v6fij20go0goq3h.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f7vw4o6dmcj209r058aaf.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f7vwh1uqwnj20go0ciq6d.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f7vwhn95waj218g0b4tae.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/5613ec79jw1f7wgiqtd7mj20hs0dcab7.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wgebwnlej21kw16ok5j.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f7wpde7r7gj20l40ci76d.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79jw1f7wpfy2cdrj20xc0m8dpv.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79jw1f7wpjuxkqvj21a21a27ar.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79jw1f7wjrxxrylj21kw114wvp.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/5613ec79jw1f7wk8b8aquj21kw11xwux.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wk8izla9j218g121nih.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f7vx8emdo6j21kw0sgjvf.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79gw1f7wos6mipnj218g0stdkf.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79gw1f7wp34zfdoj20j60b4aaz.jpg">
+<meta property="og:image" content="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/48775729889607.5610dd307ae12.png">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/5613ec79jw1f7wn1wt96lj21kw143guu.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79gw1f7wp06k8z5j20d209ndi7.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/5613ec79gw1f7wn4azp7sj21kw22pha1.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79gw1f7wnabiyv7j20t20h4dkc.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/5613ec79gw1f7wozgygfmj20hm08vdja.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79jw1f7wndgakynj20t110t7b5.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79gw1f7woxt5uj4j20hx0b70v2.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f7wnodm9p4j20so0lg41g.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79gw1f7woz3glpqj20h30cpac0.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f7wnnnd61tj20sr0kc0wr.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5613ec79gw1f7wnq9k6rzj20sz0tawhz.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/5613ec79jw1f7wnz4kd91j20zk0qo0yh.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/5613ec79jw1f7wo0r07hoj21kw0y0qd6.jpg">
+<meta property="article:published_time" content="2015-09-26T10:50:08.000Z">
+<meta property="article:modified_time" content="2016-09-25T03:08:46.000Z">
+<meta property="article:author" content="Jon Showing">
+<meta property="article:tag" content="Design">
+<meta property="article:tag" content="Logo">
+<meta property="article:tag" content="视觉设计">
+<meta property="article:tag" content="Photoshop">
+<meta property="article:tag" content="SketchUp">
+<meta property="article:tag" content="Illustrator">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/5613ec79jw1f7vvqt8lhvj20go0g741g.jpg">
+
+<link rel="canonical" href="http://zshowing.github.io/2015/09/26/Project-RDFZ-The-Documentary-Part-I/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Project RDFZ: The Documentary, Part I | Design & Code</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-84283556-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-84283556-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="/images/logo.png" alt="Design & Code">
+        </a>
+      </div>
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Design & Code</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zshowing.github.io/2015/09/26/Project-RDFZ-The-Documentary-Part-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jon Showing">
+      <meta itemprop="description" content="80后，典型金牛，非典型北京人。<br>目标：程序员中最好的设计师，<br>设计师中最好的程序员。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Design & Code">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Project RDFZ: The Documentary, Part I
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-09-26 18:50:08" itemprop="dateCreated datePublished" datetime="2015-09-26T18:50:08+08:00">2015-09-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2016-09-25 11:08:46" itemprop="dateModified" datetime="2016-09-25T11:08:46+08:00">2016-09-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design/" itemprop="url" rel="index"><span itemprop="name">Design</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">在高中毕业十周年返校聚会即将到来的时候，我临危受命被抓来设计与之相关的一系列物料。<br>这是对整个设计过程进行记录的系列文章之一，记述了一次完整的设计流程。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本着没有总结就没有进步的原则，早就想写这么一篇了（咱能不每篇都用这句话开篇么……）。嗯，接下来就是给今年十周年返校聚会做设计的一些记录。</p>
+<p>题目来自于素材文件的文件夹名。在我的Evernote里面还有好多其他Project XXX，这种命名方式感觉是被日本人带坏了……</p>
+<h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>被拉进这次活动的契机非常神奇，大概是2014年底的某天（手机恢复了一次系统，微信记录已散佚），陈培同学找到我说明年有个毕业十周年的返校活动，能不能来帮忙，于是我就在懵懂中被拉进了一个大群。</p>
+<p>而我和拉我进群的陈培同学在这时连见都还没见过，属于当年人人网误打误撞加的网友！甚至连网友都不属于很熟的那种！</p>
+<p>2015年3月15号第一次在高中楼开会的时候，我对自己的定位还停留在海报设计师和摄影师的水平上，总想着应该还能找到更专业的人来干这事儿吧？</p>
+<p>我意识到没有什么救世主也不靠神仙皇帝是在五月中旬。实际上，四月底的时候我还用2004届的Logo改了一份交了上去：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vvqt8lhvj20go0g741g.jpg" alt=""></p>
+<p>没错，你们所有的照片和纪念品上的logo，险些就是这个样子……</p>
+<p>5月底是第一份设计——邀请函截稿的日子，而要出邀请函的设计稿，必须搞定logo。当我意识到我不能交出这么个东西然后对别人说我负责了这次的设计的时候，我念了两句诗：</p>
+<blockquote>
+<p>这几天突然就发现要做的事情都赶到一块儿了……想起句非常喜欢的台词”With great power comes great responsibility”，虽然不喜欢《xx侠》类电影，但是这句台词真是从第一次听见就觉得很有道理。觉得累的时候有时就会用这话来洗脑打鸡血。<br>2015-5-20 08:16 来自 微博 weibo.com</p>
+</blockquote>
+<p>第一次系统的设计工作，开始了。</p>
+<h2 id="设计过程"><a href="#设计过程" class="headerlink" title="设计过程"></a>设计过程</h2><p>我咨询了公司的美女设计师小英姐，她推荐给我一个网站<a target="_blank" rel="noopener" href="https://www.behance.net/">https://www.behance.net/</a> 经过一番钻研，我发现类似的成套的设计其实都可以分解成一系列按部就班的步骤。比如先确定一些独特的设计元素，或者先定下Logo，然后剩下的内容就比较好办了，往其他的设计内容上合理套用即可。</p>
+<p>这是当时我在豆瓣发的心得：</p>
+<blockquote>
+<p>Showing V1.2 说:<br>从小一直对做原创工作的人很敬畏，也很想成为其中的一员，不过一直不太有信心。前一阵考察了不少设计，发现其实设计工作是一项系统工程，可以分解为无数不那么原创的步骤，但最终的效果依然非常惊人。又想起人们说的写小说的套路，大概世界上的创造性工作互相之间都有相通之处。哪怕是编程。<br>2015年5月24日</p>
+</blockquote>
+<p>所以，我要面对的第一个，可能也是最大的挑战，就是重新设计一个合适的Logo。</p>
+<h3 id="Logo"><a href="#Logo" class="headerlink" title="Logo"></a>Logo</h3><p>它必须简洁，以便方便地复用在其他设计上，同时又必须显眼，让人一看就知道这个Logo描绘的是人大附中，不是别的什么。</p>
+<p>最重要的，就是如上所说的，是它将为所有后续的设计打下一个可供发挥的基调。</p>
+<p>像所有伟大的设计一样，这个设计的最初构思是描绘在<del>餐巾纸</del>日历上的。</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7vvudjo45j20zk0qoaf8.jpg" alt=""></p>
+<p>然后细化成了这样：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/4751e129889607.560ebf094f91f.png" alt=""></p>
+<p>如图，备选方案主要就是校门和校服。基本上，2004届的logo中已经把所有的标志性物体都堆进去了，而我要做的，是减法。</p>
+<p>可能有读者不知道这里面提到的校门是什么样子，就是下面这张照片的样子：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/f06f3029889607.560ebf094c023.jpg" alt=""></p>
+<p>随后我下载了之前只用过几分钟的AI，进行了第一波尝试：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5d11e929889607.560ebf094d196.png" alt=""></p>
+<p>以及：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vwy4f7n6j21kw16oafl.jpg" alt=""></p>
+<p>由于实在不认识什么设计界的人，我在微信上进行了无差别骚扰，因为聊天记录丢失，大部分的反馈已经记不清了，印象最深的是hww同学的反馈，她说字体实在是应该好好换一下，这和后面几天小英姐对请柬的评价如出一辙，包括第一版邀请函完成后发到微博，@洞悉帝 和zf同学也都有此反馈，让我一下子意识到自己对字体的敏感度有短板。</p>
+<p>由于进度紧张，加上我认为把Logo放到上下文中会有助于决断，所以我在同时进行邀请函的设计。</p>
+<p>我做出的第一版邀请函是这样的：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7vvzz9rghj20gj0nedg1.jpg" alt=""></p>
+<p>可以看到已经很接近最终版本了。而这时小英姐给我看了她百忙之中帮忙做的版本：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7vw0w6gkgj20go0ovjs1.jpg" alt=""></p>
+<p>跟专业的一比，一下找到了差距有没有……</p>
+<p>小英姐对校门进行了修改，但是我权衡之下还是觉得未修改的版本对校友来说更打眼。有“10”这个寓意固然好，但为了凑出这个寓意把原有的形状模糊了就有点得不偿失。何况，我还是很喜欢“十”和校门边缘交叉的处理。</p>
+<p>所以接下来主要的问题就是字体。这时小英姐设计中用到的字体给了我很大的灵感，她在其中用到了造字工房的郎宋体：<br><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7vw36v6fij20go0goq3h.jpg" alt=""></p>
+<p>在此感谢造字工房对此款字体的非商业使用开放了授权。</p>
+<p>这款字体的特点是竖笔粗，横笔细，我一下想到，这恰好与校门的形状可以对应！</p>
+<p>经过一番调整，校门的形状大致确定，与文字搭配完美，但是又发现郎宋体的数字和英文相对而言达不到要求，需要另外找合适的字体。</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vw4o6dmcj209r058aaf.jpg" alt=""></p>
+<p>幸好公司会议室的书架上有一本<a target="_blank" rel="noopener" href="https://book.douban.com/subject/4085474/">《1000 Fonts》</a>，我拿来从头翻到尾，以纵向宽横向细为目标，找到了两款：Sardonyx和Serpentine。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7vwh1uqwnj20go0ciq6d.jpg" alt=""></p>
+<p>经过对比和调整，最终使用的是Sardonyx的横向拉伸方案。最终完成体：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7vwhn95waj218g0b4tae.jpg" alt=""></p>
+<blockquote>
+<p>中文字体: 造字工房 郎宋<br>英文/数字字体: Sardonyx bold</p>
+</blockquote>
+<p>Logo搞定以后，一套设计就有了设计的基本元素，下面的事情就好办多了。</p>
+<h3 id="邀请函"><a href="#邀请函" class="headerlink" title="邀请函"></a>邀请函</h3><p>有了Logo，邀请函基本上只是在上面的设计图基础上把Logo套用进去即可。</p>
+<p>我在6月12号的一次进度碰头会上第一次看到了邀请函的实体印制版本，当时很震惊在屏幕上看起来有些平淡的设计图一旦有了手感或者质感，居然会是完全另一种感觉：</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/5613ec79jw1f7wgiqtd7mj20hs0dcab7.jpg" alt=""></p>
+<p><img src="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wgebwnlej21kw16ok5j.jpg" alt=""></p>
+<p>这是继上次给徐经理印制送别明信片之后，又一次对“质感”这件事有所感悟。</p>
+<p>在这次碰头会上，也定下了聚会需要的物料，除了工作组需要的背板工作牌等东西之外，重头戏是给返校同学的礼物——对我来说，就是下一阶段的设计任务。</p>
+<p>一个是明信片，一个是在明信片上盖的印章，还有就是冰箱贴。</p>
+<p>插播当时我在豆瓣发的广播：</p>
+<blockquote>
+<p>Showing V1.2 说:<br>虽然做校友返校聚会设计这事儿实情是实在找不到人我才顶上去的，但还是有种花大家的钱过自己的设计瘾的感觉……<br>最头疼的是找不到人来讨论问题，好像认识的人找不到搞艺术的……<br>2015年6月17日</p>
+</blockquote>
+<h3 id="冰箱贴"><a href="#冰箱贴" class="headerlink" title="冰箱贴"></a>冰箱贴</h3><p>冰箱贴是一波主打纪念品，非常重要。事实上在这个事情上我有个多年前的储备，就是在大学时拿高中楼道里的柜子作为原型练手做的一张图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wpde7r7gj20l40ci76d.jpg" width="60%"></p>
+<p>我十分想把它变成实物，也就是说，在家里的冰箱上复刻出高中楼道的感觉。</p>
+<p>我甚至做了效果图：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wpfy2cdrj20xc0m8dpv.jpg" alt=""></p>
+<p>但是在和总舵主（本次返校活动的总协调人）进行沟通时，她反馈说作为纪念品应该多少喜庆一点，这个方案虽然创意很好却不太搭。</p>
+<p>我想了想，觉得还是很有道理的，于是改成了正统的冰箱贴设计：</p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wpjuxkqvj21a21a27ar.jpg" width="40%"></p>
+<p>后来事实证明，这个选择还是正确的。</p>
+<h3 id="明信片"><a href="#明信片" class="headerlink" title="明信片"></a>明信片</h3><p>有了上一次制作明信片的经验，加上这么多年基本都在做伪平面设计，这次对于明信片的设计任务我心里还算比较有底。按照习惯，最先进行的工作是：建立素材库。</p>
+<h4 id="建立素材库"><a href="#建立素材库" class="headerlink" title="建立素材库"></a>建立素材库</h4><p><img src="http://ww4.sinaimg.cn/large/5613ec79jw1f7wjrxxrylj21kw114wvp.jpg" alt=""></p>
+<p>这个阶段将进行大量的搜索工作，换用各种关键词在flickr、tumblr、新浪微博和Google等处花式收集。当然，也包括自己这么多年在硬盘里持续的存货。（说实话，到这时我简直觉得这事除了我之外没几个人能干好。兵马未动，粮草先行啊！）</p>
+<h4 id="选题"><a href="#选题" class="headerlink" title="选题"></a>选题</h4><p>接下来，要从素材库中选取若干有代表性的角度。说实话，真正的设计流程应该是先设计角度再去现场拍照——但我限于时间精力和不能随便进校园的实际情况，只能采取这种折中方案。</p>
+<p>选题的原则大致是：有代表性，尽量分散，类似素材想办法合并，以最大化利用。</p>
+<h4 id="制作"><a href="#制作" class="headerlink" title="制作"></a>制作</h4><p>大致如此（工作照摆拍）：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/5613ec79jw1f7wk8b8aquj21kw11xwux.jpg" alt=""></p>
+<h4 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h4><p><img src="http://ww2.sinaimg.cn/mw690/5613ec79jw1f7wk8izla9j218g121nih.jpg" alt=""></p>
+<h3 id="背板及指路板"><a href="#背板及指路板" class="headerlink" title="背板及指路板"></a>背板及指路板</h3><p>活动当天的背板和引导用的指路板，当时后勤组要得很急，不过这个相对来说就好办很多，再次印证了有了Logo一切都顺其自然这一点。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7vx8emdo6j21kw0sgjvf.jpg" alt=""></p>
+<p>6月21日完成。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wos6mipnj218g0stdkf.jpg" alt=""></p>
+<p>6月23日完成。</p>
+<h3 id="胸牌"><a href="#胸牌" class="headerlink" title="胸牌"></a>胸牌</h3><p>胸牌也是简单的基于现有元素的组合，不需太复杂就能很舒服：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wp34zfdoj20j60b4aaz.jpg" alt=""></p>
+<p>6月24日凌晨完成。</p>
+<h3 id="印章"><a href="#印章" class="headerlink" title="印章"></a>印章</h3><p>印章的设计是这次除了Logo之外挑战最大的部分，因为它不仅数量多（7个），而且没法像明信片那样<del>偷懒</del>找素材，只能自己手绘。</p>
+<p>好在我在之前设计Logo的时候已经稍微摸清了一点Illustrator的门道，接下来现学现卖也算稍微有点底。</p>
+<p>第一步依然是收集素材，只不过这回是作为绘图的参照。</p>
+<p>草图：</p>
+<p><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/48775729889607.5610dd307ae12.png" alt=""></p>
+<h4 id="6月24日"><a href="#6月24日" class="headerlink" title="6月24日"></a>6月24日</h4><p>6月24日，前两个印章完成：</p>
+<blockquote>
+</blockquote>
+<p>Showing V1.2 说:<br>印章系列(完成度2/7)。PS. 有还上豆瓣的高中校友吗？虽然不是什么好设计但是在返校活动前看到还是请保密啊……<br>2015-06-24 01:37:51</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/5613ec79jw1f7wn1wt96lj21kw143guu.jpg" width="70%"></p>
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79gw1f7wp06k8z5j20d209ndi7.jpg" alt=""></p>
+<p>高中楼，完全在AI里面照着照片描的；</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/5613ec79gw1f7wn4azp7sj21kw22pha1.jpg" width="70%"></p>
+<p>综合楼，上面的形状是餐盘，因为这楼下面两层都是食堂，最上面是阶梯礼堂。在描绘时使用了AI的透视模式。</p>
+<p>字体与Logo保持一致，使用郎宋体。</p>
+<h4 id="6月25日"><a href="#6月25日" class="headerlink" title="6月25日"></a>6月25日</h4><p><img src="http://ww1.sinaimg.cn/large/5613ec79gw1f7wnabiyv7j20t20h4dkc.jpg" width="70%"></p>
+<p><img src="http://ww4.sinaimg.cn/large/5613ec79gw1f7wozgygfmj20hm08vdja.jpg" alt=""></p>
+<p>以及：</p>
+<p><img src="http://ww3.sinaimg.cn/large/5613ec79jw1f7wndgakynj20t110t7b5.jpg" width="70%"></p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79gw1f7woxt5uj4j20hx0b70v2.jpg" alt=""></p>
+<h4 id="6月26日"><a href="#6月26日" class="headerlink" title="6月26日"></a>6月26日</h4><p><img src="http://ww1.sinaimg.cn/large/5613ec79jw1f7wnodm9p4j20so0lg41g.jpg" width="70%"></p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79gw1f7woz3glpqj20h30cpac0.jpg" alt=""></p>
+<p>以及：</p>
+<p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wnnnd61tj20sr0kc0wr.jpg" width="70%"></p>
+<p>而最后一个印章也在制作中：<br><img src="http://ww3.sinaimg.cn/large/5613ec79gw1f7wnq9k6rzj20sz0tawhz.jpg" width="70%"></p>
+<p>工作照：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/5613ec79jw1f7wnz4kd91j20zk0qo0yh.jpg" alt=""></p>
+<p>继现学AI之后又开始现学SketchUp xD</p>
+<h4 id="6月27日"><a href="#6月27日" class="headerlink" title="6月27日"></a>6月27日</h4><p><img src="http://ww2.sinaimg.cn/large/5613ec79jw1f7wo0r07hoj21kw0y0qd6.jpg" width="70%"></p>
+<p>至于最终印出来的样子是什么样呢？依然延续了“成品让人惊叹”的定律，请继续阅读下一篇。</p>
+<p>至此，轰轰烈烈的巨型设计现场进行了一个多月终于告一段落，距离真正的活动也进入了最后一周倒计时。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Design/" rel="tag"># Design</a>
+              <a href="/tags/Logo/" rel="tag"># Logo</a>
+              <a href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" rel="tag"># 视觉设计</a>
+              <a href="/tags/Photoshop/" rel="tag"># Photoshop</a>
+              <a href="/tags/SketchUp/" rel="tag"># SketchUp</a>
+              <a href="/tags/Illustrator/" rel="tag"># Illustrator</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/07/27/lessons-that-girls-taught-me/" rel="prev" title="那些女孩教我的事">
+      <i class="fa fa-chevron-left"></i> 那些女孩教我的事
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/09/27/Project-RDFZ-the-Documentary-Part-II/" rel="next" title="Project RDFZ: The Documentary, Part II">
+      Project RDFZ: The Documentary, Part II <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%98%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">缘起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">设计过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Logo"><span class="nav-number">2.1.</span> <span class="nav-text">Logo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%80%E8%AF%B7%E5%87%BD"><span class="nav-number">2.2.</span> <span class="nav-text">邀请函</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B0%E7%AE%B1%E8%B4%B4"><span class="nav-number">2.3.</span> <span class="nav-text">冰箱贴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%8E%E4%BF%A1%E7%89%87"><span class="nav-number">2.4.</span> <span class="nav-text">明信片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%B4%A0%E6%9D%90%E5%BA%93"><span class="nav-number">2.4.1.</span> <span class="nav-text">建立素材库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%89%E9%A2%98"><span class="nav-number">2.4.2.</span> <span class="nav-text">选题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%B6%E4%BD%9C"><span class="nav-number">2.4.3.</span> <span class="nav-text">制作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%90%E6%9E%9C"><span class="nav-number">2.4.4.</span> <span class="nav-text">成果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%9D%BF%E5%8F%8A%E6%8C%87%E8%B7%AF%E6%9D%BF"><span class="nav-number">2.5.</span> <span class="nav-text">背板及指路板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%B8%E7%89%8C"><span class="nav-number">2.6.</span> <span class="nav-text">胸牌</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B0%E7%AB%A0"><span class="nav-number">2.7.</span> <span class="nav-text">印章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E6%9C%8824%E6%97%A5"><span class="nav-number">2.7.1.</span> <span class="nav-text">6月24日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E6%9C%8825%E6%97%A5"><span class="nav-number">2.7.2.</span> <span class="nav-text">6月25日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E6%9C%8826%E6%97%A5"><span class="nav-number">2.7.3.</span> <span class="nav-text">6月26日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E6%9C%8827%E6%97%A5"><span class="nav-number">2.7.4.</span> <span class="nav-text">6月27日</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jon Showing"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jon Showing</p>
+  <div class="site-description" itemprop="description">80后，典型金牛，非典型北京人。<br>目标：程序员中最好的设计师，<br>设计师中最好的程序员。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https://github.com/yourname" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yourname@gmail.com" title="E-Mail → mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/yourname" title="Instagram → https://instagram.com/yourname" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.douban.com/people/zshowing/" title="豆瓣 → https://www.douban.com/people/zshowing/" rel="noopener" target="_blank"><i class="fab fa-douban fa-fw"></i>豆瓣</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/showing" title="知乎 → https://www.zhihu.com/people/showing" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.behance.net/zshowing" title="Behance → https://www.behance.net/zshowing" rel="noopener" target="_blank"><i class="fab fa-behance fa-fw"></i>Behance</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jon Showing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
