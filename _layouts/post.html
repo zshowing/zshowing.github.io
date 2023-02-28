@@ -1,0 +1,84 @@
+---
+layout: default
+---
+<h1 class="post-title">
+  <span>
+    {% if page.titlehtml %}
+      {{ page.titlehtml }}
+    {% else %}
+      {{ page.title }}
+    {% endif %}
+  </span>
+</h1>
+<div class="post-meta">
+  <span class="post-date">{{ page.date | date: "发布于 %Y-%m-%d" }}</span>
+	 | <span class="post-category">分类于 
+  {% for cate in page.categories %}
+    {% if cate != 'blog' %}</span>
+      <a href="{{ BASE_PATH }}/blog/#{{cate}}">{{ cate }}</a>
+    {% endif %}
+  {% endfor%}
+	<div class="post-desc">
+		{{ page.description }} 
+	</div>
+</div>
+<div id="fullpage" onclick="closingImage(this)"></div>
+<div id="container">
+  <div id="content">
+    <div class="post">
+      {{ content }}
+      <div id="more">
+        {% assign has_res=false %}
+        {% capture res %}
+          {% for post in site.posts %}
+            {% if post.blog == true and post.tag == page.tag and page.title != post.title%}
+              {% assign has_res=true %}
+              <li><a href="{{ BASE_PATH }}{{ post.url }}">{{post.title}}</a></li>
+            {% endif %}
+          {% endfor %}
+        {% endcapture %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tags -->
+  <div class="post-tags">
+    {% for tag in page.tags %}
+      {% capture tag_name %}{{ tag }}{% endcapture %}
+        <span class="post-single-tag"><a href="/tag/{{ tag_name }}">{{ tag_name }}</a></span>
+    {% endfor %}
+  </div>
+
+  <!-- Series links -->
+  {% if page.is_series == true %}
+    <div class="post-series-container">
+      <div class="post-series">
+        <div class="post-series-title"><span id="title">{{ page.series_title | upcase }}</span><span id="series">系列</span></div>
+        {% assign posts = site.posts | where: "is_series", true | where: "series_title", page.series_title | sort: 'date' %}
+        <div class="">
+          <ul class="post-series-single">
+          {% for post in posts %}
+              {% if post.title == page.title %}
+                <li class="post-series-current"><span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>{{ post.title }}</li>
+              {% else %}
+                <li><span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span><a href="{{ post.url }}">{{ post.title }}</a></li>
+              {% endif %}
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    
+  {% endif %}
+</div>
+
+
+
+<link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>

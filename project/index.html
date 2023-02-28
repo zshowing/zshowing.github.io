@@ -1,0 +1,43 @@
+---
+layout: page
+title : Project
+category: projectlist
+---
+<div class="title-handwriting">
+	<span>/</span>
+	<img src="/assets/projects.png">
+	<span>/</span>
+</div>
+{% assign project_pages = site.pages | where: "layout", "project" %}
+<div class="project-list project-important">
+	{% assign important_projects = project_pages | where: 'important', 'true' %}
+	{% for project_page in important_projects %}
+	<div class="project-single-important">
+		<div class="project-single-image">
+			<a class="project-thumbnail" href="{{ project_page.url }}"><img src="/assets/projects/{{ project_page.cover}}.jpeg"></a>
+		<span class="project-date">{{ project_page.date }} ©</span>
+		</div>
+		<div class="project-meta">
+			<a class="project-thumbnail" href="{{ project_page.url }}"><div class="project-title">{{ project_page.title }}</div></a>
+			<div class="project-description">{{ project_page.description }}</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+<hr>
+<div class="project-list project-normal">
+	{% assign important_projects = project_pages | where: 'important', 'false' %}
+	{% for project_page in important_projects %}
+		<div class="project-single-normal">
+			<div class="project-single-image">
+			<a class="project-thumbnail" href="{{ project_page.url }}"><img src="/assets/projects/{{ project_page.cover}}.jpeg">
+			</a>
+			</div>
+		
+		<div class="project-title"><span class="project-type">{% if project_page.type != nil %}{{ project_page.type }}{% endif %}</span><a class="project-thumbnail" href="{{ project_page.url }}">{{ project_page.title }}</a></div>
+		
+		
+		<!-- <span class="project-date">{{ project_page.date }} ©</span> -->
+	</div>
+	{% endfor %}
+</div>

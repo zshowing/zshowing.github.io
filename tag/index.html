@@ -1,0 +1,8 @@
+---
+layout: default
+---
+<ul class="tag-cloud">
+	{% for tag in site.tags %}
+		<li><a data-weight="{{ tag[1].size }}" href="/tag/{{ tag[0] }}"><nobr>{{ tag[0] }}</nobr></a></li>
+	{% endfor %}
+</ul>

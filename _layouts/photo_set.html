@@ -1,0 +1,24 @@
+---
+layout: default
+---
+{% assign num = page.photos.size %}
+<!-- {% assign content = post.content | strip_newlines %} -->
+
+<h1>{{ page.title }}</h1>
+  {% if page.date != nil %}
+    <div class="photo-date">{{ page.datedesc }}</div>
+  {% endif %}
+  {% if page.description != nil %}
+    <div class="photo-description">{{ page.description }}</div>
+  {% endif %}
+<div>{{ page.content | markdownify}}</div>
+<div class="photo-list">
+  <div class="photo-item">
+  {% for i in (1..num) %}
+    <img src="{{ site.baseurl }}/assets/photos/{{ page.photos.set }}/{{ page.photos.set }}-{{ i }}.jpg">
+  {% endfor %}
+  </div>
+</div>
+<div>
+  <a href="{{ site.baseurl }}/photo/">查看相册列表</a>
+</div>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Jon Showing - 我做了个人大代表查询小程序，来纪念巴甫洛夫诞辰</title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.css"/>
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script> -->
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<ul class="nav-list">
+			<li class="nav-item ">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item selected">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- 
+		post -->
+	<div class="main-text">
+		<h1 class="post-title">
+  <span>
+    
+      我做了个人大代表查询小程序，来纪念巴甫洛夫诞辰
+    
+  </span>
+</h1>
+<div class="post-meta">
+  <span class="post-date">发布于 2020-06-11</span>
+	 | <span class="post-category">分类于 
+  
+    
+  
+    </span>
+      <a href="/blog/#技术">技术</a>
+    
+  
+	<div class="post-desc">
+		可惜没过审。 
+	</div>
+</div>
+<div id="fullpage" onclick="closingImage(this)"></div>
+<div id="container">
+  <div id="content">
+    <div class="post">
+      <p>前一阵终于开了某两个会，当时针对《民法典》的讨论甚嚣尘上，于是我突然想到，在北京活了这么多年，除了零星听到诸如“雷军当了人大代表”之类的八卦，我竟不知道是哪些人在代表我，更不知道如果有问题要找谁去反映。</p>
+
+<p>然后我想起多年前在网上闲逛时，曾经看到过<a href="https://www.parliament.uk/">英国议会的网站</a>，当时令我惊讶的是每位议员的信息在这个网站上披露得极其详尽——详尽到他在历次议题投票时都投了哪些票，曾经提出过哪些提案，在议院辩论时的每一句发言……他在议员生涯中的一切，事无巨细，全部记录在案。</p>
+
+<p><img src="https://i.imgtg.com/2023/02/16/dKld1.png" alt="" /></p>
+
+<p>我不服气的劲儿就上来了：凭什么我们没有类似的网站可以查询呢？</p>
+
+<hr />
+
+<h2 id="中国人大网和地方人大网">中国人大网和地方人大网</h2>
+
+<p>于是我用Google进行了一番搜索，发现：</p>
+
+<p>我国人大的官方网站是<a href="http://www.npc.gov.cn/">「全国人大网」</a>，点击首页侧边栏的“全国人大代表信息”，可以看到分省显示的全国人大代表的……姓名列表（姓名不可点击）。</p>
+
+<p><img src="https://i.imgtg.com/2023/02/16/dKjOI.png" alt="" /></p>
+
+<p>然后我又去找了北京人大的官方网站，情况也差不多。<br />
+而做得最好的是我接下来去的<a href="http://odbapp.eastday.com/shrdweb/dbxx.aspx">上海人大</a>的网站：</p>
+
+<p><img src="https://i.imgtg.com/2023/02/16/dK8u6.png" alt="" /></p>
+
+<p>不仅分区列出了人大代表的姓名和照片，还能查询联系方式，更牛逼的是，你还能点击“给代表留言”，来一对一地反映问题！<br />
+作为中国内地最先进和现代化的城市，上海又一次比落后的北京不知高到哪里去了。</p>
+
+<hr />
+
+<h2 id="小程序">小程序</h2>
+
+<p>搜索的结果让我不太满意，作为一个手艺人，我立刻想到的是，我能不能自己把这个事儿给干了？<br />
+说干就干。我新注册了一个小程序帐号，现学小程序开发，写爬虫从中国人大网爬名单、从维基百科爬简介，鼓捣了几天，做出了一个大概：<br />
+<img src="https://i.imgtg.com/2023/02/16/dKuFP.png" width="60%" /><br />
+<img src="https://i.imgtg.com/2023/02/16/dZMyB.png" width="60%" /></p>
+
+<p>当然，后面的几个tab由于没有公开的资料，只能留在那里占位。</p>
+
+<p>今天（6月10日），我提交了审核。当时我看到小程序后台提供了一次加急审核的机会，只是要提供加急理由。这种无中生有的理由不能不让我想到管制最宽松的那段时间里，一段著名的讽刺相声中的一句：</p>
+
+<p><img src="https://i.imgtg.com/2023/02/16/dZOds.jpg" alt="" /></p>
+
+<p>然后我就被拒了。<br />
+可能这注定是一次无果而终的尝试吧。</p>
+
+<p>谨以此纪念巴甫洛夫诞辰171周年。</p>
+
+<p>PS. 我还专门为这个小程序手绘了logo，现震撼附于最后——</p>
+
+<p><img src="https://i.imgtg.com/2023/02/16/dZ5ES.png" alt="" /></p>
+
+      <div id="more">
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tags -->
+  <div class="post-tags">
+    
+      
+        <span class="post-single-tag"><a href="/tag/Code">Code</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/政治">政治</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/作品">作品</a></span>
+    
+  </div>
+
+  <!-- Series links -->
+  
+</div>
+
+
+
+<link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon Showing</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>

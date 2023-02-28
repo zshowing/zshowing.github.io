@@ -1,0 +1,23 @@
+---
+layout: page
+title : 日常想法存档
+category: thought
+---
+
+{% assign thought_pages = site.pages | where: "layout", "thought" | sort: "date" %}
+{% for thought in thought_pages %}
+<div id="index-thought-{% increment i %}" class="single-thought">
+  <div class="thought-title">
+    <a href="{{ BASE_PATH }}{{ thought.url }}">
+      {% if thought.titlehtml %}
+        {{ thought.titlehtml }}
+      {% else %}
+        {{ thought.title }}
+      {% endif %}
+    </a>
+  </div>
+  <div class="thought-description">
+    {{ thought.description }}
+  </div>
+</div>
+{% endfor %}

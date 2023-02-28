@@ -1,0 +1,48 @@
+---
+layout: page
+title : Photo
+category: photo
+---
+<div class="title-handwriting"><span>/</span><img src="/assets/photo.png"><span>/</span></div>
+
+<div class="photo">
+  {% assign photo_pages = site.pages | where: "layout", "photo_set" %}
+  {% assign photo_size = photo_pages | size %}
+  {% assign halfnum = photo_size | divided_by:2 %}
+  {% assign halfnumPlusone = halfnum | plus:1 %}
+  {% assign reordered_pages = photo_pages | sort: "date" | reverse %}
+
+  <div class="photo-column">
+    {% for photo_page in reordered_pages %}
+      {% assign mod = forloop.index | modulo: 2 %}
+      {% if mod == 1 %}
+    <div class="photo-grid" num="{{ photo_page.photos.size }}" name="{{ photo_page.photos.set }}">
+        <a href="{{ photo_page.url | prepend: site.baseurl }}"><img loading='lazy' src="{{ site.baseurl }}/assets/photos/{{ photo_page.photos.set }}/{{ photo_page.photos.set }}-1.jpg"></a>
+        <div class="photo-meta">
+          <div class="photo-title"><a href="{{ photo_page.url | prepend: site.baseurl }}">{{ photo_page.title }}{% if photo_page.datedesc != nil %}</a><span class="photo-date">{{ photo_page.datedesc }}</span>{% endif %}
+          <div class="photo-number">{{ photo_page.photos.size }}&thinsp;张照片</div>
+          </div>
+          <div class="photo-description">{{ photo_page.description }}</div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="photo-column">
+    {% for photo_page in reordered_pages %}
+      {% assign mod = forloop.index | modulo: 2 %}
+        {% if mod == 0 %}
+    <div class="photo-grid" num="{{ photo_page.photos.size }}" name="{{ photo_page.photos.set }}">
+        <a href="{{ photo_page.url | prepend: site.baseurl }}"><img loading='lazy' src="{{ site.baseurl }}/assets/photos/{{ photo_page.photos.set }}/{{ photo_page.photos.set }}-1.jpg"></a>
+        <div class="photo-meta">
+          <div class="photo-title"><a href="{{ photo_page.url | prepend: site.baseurl }}">{{ photo_page.title }}</a>{% if photo_page.datedesc != nil %}<span class="photo-date">{{ photo_page.datedesc }}</span>{% endif %}
+            <div class="photo-number">{{ photo_page.photos.size }}&thinsp;张照片</div>
+          </div>
+          <div class="photo-description">{{ photo_page.description }}</div>
+        </div>
+      </div>
+      {% endif %}
+  {% endfor %}
+  </div>
+  
+</div>

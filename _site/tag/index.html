@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Jon Showing - </title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.css"/>
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script> -->
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<ul class="nav-list">
+			<li class="nav-item selected">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="image-container" id="image-container">
+		<div class="postcard-photo">
+			<img src="" style="width: 100%;" id="photo">
+			<div id="greeting"><img src="/assets/greeting.png"></div>
+			<div id="location"></div>
+			<div id="metas"></div>
+		</div>
+	</div>
+	
+	<!-- 
+		default -->
+	<div class="main-text">
+		<ul class="tag-cloud">
+	
+		<li><a data-weight="4" href="/tag/诗"><nobr>诗</nobr></a></li>
+	
+		<li><a data-weight="16" href="/tag/作品"><nobr>作品</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/恶搞"><nobr>恶搞</nobr></a></li>
+	
+		<li><a data-weight="4" href="/tag/上海"><nobr>上海</nobr></a></li>
+	
+		<li><a data-weight="7" href="/tag/城市观察"><nobr>城市观察</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/骑行"><nobr>骑行</nobr></a></li>
+	
+		<li><a data-weight="10" href="/tag/旅行"><nobr>旅行</nobr></a></li>
+	
+		<li><a data-weight="9" href="/tag/摄影"><nobr>摄影</nobr></a></li>
+	
+		<li><a data-weight="23" href="/tag/Life"><nobr>Life</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/小说"><nobr>小说</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/科幻"><nobr>科幻</nobr></a></li>
+	
+		<li><a data-weight="3" href="/tag/Music"><nobr>Music</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/设计"><nobr>设计</nobr></a></li>
+	
+		<li><a data-weight="2" href="/tag/Photoshop"><nobr>Photoshop</nobr></a></li>
+	
+		<li><a data-weight="7" href="/tag/总结"><nobr>总结</nobr></a></li>
+	
+		<li><a data-weight="5" href="/tag/感情"><nobr>感情</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/苏州"><nobr>苏州</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/统计"><nobr>统计</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/影评"><nobr>影评</nobr></a></li>
+	
+		<li><a data-weight="3" href="/tag/自我剖析"><nobr>自我剖析</nobr></a></li>
+	
+		<li><a data-weight="5" href="/tag/想法"><nobr>想法</nobr></a></li>
+	
+		<li><a data-weight="2" href="/tag/产品设计"><nobr>产品设计</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/体验报告"><nobr>体验报告</nobr></a></li>
+	
+		<li><a data-weight="3" href="/tag/RDFZ"><nobr>RDFZ</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/怀旧"><nobr>怀旧</nobr></a></li>
+	
+		<li><a data-weight="5" href="/tag/Design"><nobr>Design</nobr></a></li>
+	
+		<li><a data-weight="6" href="/tag/Love"><nobr>Love</nobr></a></li>
+	
+		<li><a data-weight="6" href="/tag/Code"><nobr>Code</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/视觉设计"><nobr>视觉设计</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/Desgin"><nobr>Desgin</nobr></a></li>
+	
+		<li><a data-weight="3" href="/tag/iOS"><nobr>iOS</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/架构"><nobr>架构</nobr></a></li>
+	
+		<li><a data-weight="2" href="/tag/Swift"><nobr>Swift</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/Career"><nobr>Career</nobr></a></li>
+	
+		<li><a data-weight="2" href="/tag/Objective-C"><nobr>Objective-C</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/macOS"><nobr>macOS</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/数据可视化"><nobr>数据可视化</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/Python"><nobr>Python</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/Podcast"><nobr>Podcast</nobr></a></li>
+	
+		<li><a data-weight="2" href="/tag/游戏"><nobr>游戏</nobr></a></li>
+	
+		<li><a data-weight="3" href="/tag/日本"><nobr>日本</nobr></a></li>
+	
+		<li><a data-weight="3" href="/tag/政治"><nobr>政治</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/记录"><nobr>记录</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/我家的虚构历史"><nobr>我家的虚构历史</nobr></a></li>
+	
+		<li><a data-weight="2" href="/tag/事实核查"><nobr>事实核查</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/网络"><nobr>网络</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/读书"><nobr>读书</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/电影"><nobr>电影</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/观察"><nobr>观察</nobr></a></li>
+	
+		<li><a data-weight="2" href="/tag/时事"><nobr>时事</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/采访"><nobr>采访</nobr></a></li>
+	
+		<li><a data-weight="3" href="/tag/新冠疫情"><nobr>新冠疫情</nobr></a></li>
+	
+		<li><a data-weight="1" href="/tag/评论"><nobr>评论</nobr></a></li>
+	
+</ul>
+
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon Showing</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>

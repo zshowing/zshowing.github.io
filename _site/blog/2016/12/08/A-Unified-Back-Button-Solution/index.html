@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Jon Showing - 一个统一的返回样式方案</title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.css"/>
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script> -->
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<ul class="nav-list">
+			<li class="nav-item ">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item selected">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- 
+		post -->
+	<div class="main-text">
+		<h1 class="post-title">
+  <span>
+    
+      一个统一的返回样式方案
+    
+  </span>
+</h1>
+<div class="post-meta">
+  <span class="post-date">发布于 2016-12-08</span>
+	 | <span class="post-category">分类于 
+  
+    
+  
+    </span>
+      <a href="/blog/#Code">Code</a>
+    
+  
+	<div class="post-desc">
+		记录了开发一整套返回按钮解决方案的思考过程和实施方案。 
+	</div>
+</div>
+<div id="fullpage" onclick="closingImage(this)"></div>
+<div id="container">
+  <div id="content">
+    <div class="post">
+      <p>最近接手了一个已经开发了几年的项目，里面各种风格的代码都有，很多时候会看到完成同一件事，不同的人会调用截然不同的“公用”方法。</p>
+
+<p>恰好赶上产品设计团队有一个在产品内部统一返回样式的任务，让我有机会可以在一个整体的高度上完整地考虑这一小块的问题。</p>
+
+<h2 id="现状">现状</h2>
+
+<p>经过对现有代码的搜索和整理，当前工程中在设置返回按钮时，有下面几种形式：</p>
+
+<ol>
+  <li>直接创建一个Button，配置后传入<code class="language-plaintext highlighter-rouge">UIBarButtonItem</code>的<code class="language-plaintext highlighter-rouge">initWithCustomView</code>方法，之后设为<code class="language-plaintext highlighter-rouge">navigationItem.leftBarButtonItem</code>；</li>
+  <li>调用一个封装好的<code class="language-plaintext highlighter-rouge">attachBackButton</code>方法；</li>
+  <li>调用另一个封装好的<code class="language-plaintext highlighter-rouge">- (void)setupBackButtonWithText:(NSString *)title color:(UIColor *)color target:(id)target action:(SEL)selector</code>方法，此方法位于一个<code class="language-plaintext highlighter-rouge">UIViewController</code>的category中；</li>
+  <li>调用再另一个封装好的<code class="language-plaintext highlighter-rouge">+ (UIBarButtonItem *)createBackButtonWithText:(NSString*)title color:(UIColor*)color target:(id)target action:(SEL)selector</code>方法，此方法与上一个方法的主要区别是：箭头所用的资源不同，所以前者是黑色箭头，这里是白色箭头。</li>
+</ol>
+
+<p>而设计团队提出的统一视觉样式方案为：</p>
+
+<ul>
+  <li>二级页面返回采用形如 “&lt; 工作台” 样式；</li>
+  <li>其他页面统一为形如 “&lt;” 样式。</li>
+</ul>
+
+<h2 id="分析">分析</h2>
+
+<p>总结一下，对于返回按钮的需求，其实包含了三个维度的定制需求。</p>
+
+<p>首先是__样式__。</p>
+
+<p>返回的箭头是一张自定义的图片。</p>
+
+<p>其次是__文字内容__。</p>
+
+<p>iOS的系统默认行为是在返回按钮处显示上一个页面的标题，这里显然要通过自定义来取代默认效果。<br />
+而且注意，这里要支持文字的更新。</p>
+
+<p>最后是__颜色__。</p>
+
+<p>这一点的情况比较多，首先它包含两个部分：文字颜色和箭头颜色，这意味着要对自定义图片中箭头的颜色进行更换；另外除了显式地指定颜色外，当<code class="language-plaintext highlighter-rouge">NavigationBar</code>的颜色改变时，返回按钮的颜色显然要有对应的改变，即：浅色背景对应深色（黑色）文字，深色背景对应浅色（白色）文字。</p>
+
+<h2 id="实现">实现</h2>
+
+<p>我们来试着一步步达成需求。</p>
+
+<h3 id="实现自定义箭头">实现自定义箭头</h3>
+
+<p>第一步比较简单，只需调用系统提供的方法即可实现：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[[</span><span class="n">UIBarButtonItem</span> <span class="nf">appearance</span><span class="p">]</span> <span class="nf">setBackButtonBackgroundImage</span><span class="p">:</span><span class="n">backButtonImage</span>
+                                                <span class="nl">forState:</span><span class="n">UIControlStateNormal</span>
+                                                <span class="nl">barMetrics:</span><span class="n">UIBarMetricsDefault</span><span class="p">];</span>
+</code></pre></div></div>
+
+<h3 id="隐藏系统默认文字">隐藏系统默认文字</h3>
+
+<p>实现这个也比较简单，只需新增一个<code class="language-plaintext highlighter-rouge">UINavigationItem</code>的category:</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "UINavigationItem+BackButton.h"
+</span>
+<span class="k">@implementation</span> <span class="nc">UINavigationItem</span><span class="p">(</span><span class="nl">BackButton</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">UIBarButtonItem</span> <span class="o">*</span><span class="p">)</span><span class="n">backBarButtonItem</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="n">UIBarButtonItem</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTitle</span><span class="p">:</span><span class="s">@""</span> <span class="nf">style</span><span class="p">:</span><span class="n">UIBarButtonItemStylePlain</span> <span class="n">target</span><span class="o">:</span><span class="nb">nil</span> <span class="n">action</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>截至目前，经过两个简单的步骤，我们已经达到了默认的效果：不经任何配置时，push一个新的页面，会显示一个只有自定义返回箭头，没有文字的返回按钮。</p>
+
+<p>接下来，我们要针对其他情形进行定制。</p>
+
+<h3 id="实现自定义文字">实现自定义文字</h3>
+
+<p>由于<code class="language-plaintext highlighter-rouge">UINavigationItem</code>的<code class="language-plaintext highlighter-rouge">backBarButtonItem</code>方法已经被我们使用，此处我们用自己生成的<code class="language-plaintext highlighter-rouge">UIBarButtonItem</code>设置到<code class="language-plaintext highlighter-rouge">UINavigationItem</code>的<code class="language-plaintext highlighter-rouge">leftBarButtonItem</code>中，来达到实现自定义文字的目的。</p>
+
+<p>具体实现的代码特别常规，唯独要说明的是，这里的箭头要根据传进来颜色值变换颜色，来和文字匹配，具体不表。</p>
+
+<p>方法名依然是<code class="language-plaintext highlighter-rouge">- (void)setupBackButtonWithText:(NSString *)title color:(UIColor *)color target:(id)target action:(SEL)selector</code>，后面会用到。</p>
+
+<h3 id="实现在返回按钮显示上一个页面标题">实现在返回按钮显示上一个页面标题</h3>
+
+<p>为了便于灵活配置，我们新增一个<code class="language-plaintext highlighter-rouge">UIViewController</code>的category，并增加一个property来开启此项功能：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">UIViewController</span> <span class="p">(</span><span class="nl">NavigationAddition</span><span class="p">)</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">showPreviousViewTitleAsBackButtonTitle</span><span class="p">;</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">UIViewController</span> <span class="p">(</span><span class="nl">NavigationAddition</span><span class="p">)</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">backButtonTitleValue</span><span class="p">;</span>
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setShowPreviousViewTitleAsBackButtonTitle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">{</span>
+    <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonTitleValue</span><span class="p">,</span> <span class="err">@</span><span class="p">(</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">),</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSArray</span> <span class="o">*</span><span class="n">viewControllers</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span> <span class="nf">navigationController</span><span class="p">]</span> <span class="nf">viewControllers</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">viewControllers</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">UIViewController</span> <span class="o">*</span><span class="n">previousViewController</span> <span class="o">=</span> <span class="p">[</span><span class="n">viewControllers</span> <span class="nf">objectAtIndex</span><span class="p">:([</span><span class="n">viewControllers</span> <span class="nf">indexOfObject</span><span class="p">:</span><span class="n">self</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)];</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nf">setupBackButtonWithText</span><span class="p">:</span><span class="n">previousViewController</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span> <span class="nf">color</span><span class="p">:</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">blackColor</span><span class="p">]</span> <span class="n">target</span><span class="o">:</span><span class="n">self</span> <span class="n">action</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">backButtonPressed</span><span class="o">:</span><span class="p">)];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">animated</span><span class="p">{</span>
+    <span class="n">id</span> <span class="n">boolObject</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonTitleValue</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">boolObject</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">BOOL</span> <span class="n">isShowPreviousViewTitleAsBackButtonTitle</span> <span class="o">=</span> <span class="p">[(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="n">boolObject</span> <span class="nf">boolValue</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nf">setShowPreviousViewTitleAsBackButtonTitle</span><span class="p">:</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>在property的setter方法中，我们用runtime方法为UIViewController新增了一个属性，增加的原因是，有时我们需要在<code class="language-plaintext highlighter-rouge">UIViewController</code>创建时灵活指定此行为，而不是在构造方法中配置。</p>
+
+<p>这样，在<code class="language-plaintext highlighter-rouge">viewWillAppear</code>方法中再去读取这个属性，就能实现灵活配置所需行为的目的。</p>
+
+<p>在具体的实现中，实际上是取了当前<code class="language-plaintext highlighter-rouge">NavigationController</code>的<code class="language-plaintext highlighter-rouge">viewControllers</code>属性数组中当前页面的前一个变量，然后读取它的标题。</p>
+
+<p>然而，以上的实现还是遗留了一些问题。比如，这里对字体的颜色进行了hardcode；另外，当实际代码中在<code class="language-plaintext highlighter-rouge">viewWillAppear</code>里又设置了<code class="language-plaintext highlighter-rouge">NavigationBar</code>的颜色的时候，两者就可能产生冲突，最终的效果就是可能会看不清按钮。</p>
+
+<p>所以，我们还需要增加一些逻辑。</p>
+
+<h3 id="处理颜色">处理颜色</h3>
+
+<p>首先，我们再为<code class="language-plaintext highlighter-rouge">UIViewController</code>增添一个属性，来储存自定义的后退按钮颜色。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">backButtonForcedColorValue</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupBackButtonWithText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">color</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span> <span class="nf">target</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">target</span> <span class="nf">action</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">selector</span><span class="p">;</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">color</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonForcedColorValue</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">leftBarButtonItem</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">class</span> <span class="nf">reateBackButtonWithText</span><span class="p">:</span><span class="n">title</span> <span class="nf">color</span><span class="p">:</span><span class="n">color</span> <span class="n">target</span><span class="o">:</span><span class="n">target</span> <span class="n">action</span><span class="o">:</span><span class="n">selector</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>一旦显式地为后退按钮指定了颜色，这里就会储存下来。</p>
+
+<p>然后，在设置后退按钮时，我们再把这个属性取出来：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setShowPreviousViewTitleAsBackButtonTitle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">{</span>
+    <span class="p">...</span> <span class="c1">// 略</span>
+
+    <span class="n">UIColor</span> <span class="o">*</span><span class="n">defaultColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">blackColor</span><span class="p">];</span>
+    <span class="n">id</span> <span class="n">colorObject</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonForcedColorValue</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">colorObject</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">colorObject</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">UIColor</span> <span class="nf">class</span><span class="p">]])</span> <span class="p">{</span>
+        <span class="n">defaultColor</span> <span class="o">=</span> <span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">colorObject</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">wbg_setupBackButtonWithText</span><span class="p">:</span><span class="n">previousViewController</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span> <span class="nf">color</span><span class="p">:</span><span class="n">defaultColor</span> <span class="n">target</span><span class="o">:</span><span class="n">self</span> <span class="n">action</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">backButtonPressed</span><span class="o">:</span><span class="p">)];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>其次，我们因为在设置后退按钮时一定要给定一个颜色，但只有少数时候我们是真正要指定一种颜色（比如蓝色），其他时候只是取一个合理的值即可。为了区分显式指定和自动指定两种情况，我们再加一个指示：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">UIColor</span> <span class="o">*</span> <span class="n">UIColorAutomatic</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>所以最终的方法是这样的：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupBackButtonWithText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">color</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span> <span class="nf">target</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">target</span> <span class="nf">action</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">selector</span><span class="p">;</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">color</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="n">color</span> <span class="o">!=</span> <span class="n">UIColorAutomatic</span><span class="p">)</span> <span class="p">{</span><span class="c1">// 只在不为自动颜色的时候才设置这里的颜色变量</span>
+        <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonForcedColorValue</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="n">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">leftBarButtonItem</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">class</span> <span class="nf">createBackButtonWithText</span><span class="p">:</span><span class="n">title</span> <span class="nf">color</span><span class="p">:[</span><span class="n">self</span> <span class="nf">getProperItemColor</span><span class="p">]</span> <span class="n">target</span><span class="o">:</span><span class="n">target</span> <span class="n">action</span><span class="o">:</span><span class="n">selector</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setShowPreviousViewTitleAsBackButtonTitle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">{</span>
+    <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonTitleValue</span><span class="p">,</span> <span class="err">@</span><span class="p">(</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">),</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSArray</span> <span class="o">*</span><span class="n">viewControllers</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span> <span class="nf">navigationController</span><span class="p">]</span> <span class="nf">viewControllers</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">viewControllers</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">UIViewController</span> <span class="o">*</span><span class="n">previousViewController</span> <span class="o">=</span> <span class="p">[</span><span class="n">viewControllers</span> <span class="nf">objectAtIndex</span><span class="p">:([</span><span class="n">viewControllers</span> <span class="nf">indexOfObject</span><span class="p">:</span><span class="n">self</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)];</span>
+
+            <span class="p">[</span><span class="n">self</span> <span class="nf">setupBackButtonWithText</span><span class="p">:</span><span class="n">previousViewController</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span>
+                                    <span class="nl">color:</span><span class="n">UIColorAutomatic</span> <span class="c1">// 这个方法只负责开启带文字的返回按钮，并不指定颜色，所以传入自动</span>
+                                   <span class="nl">target:</span><span class="n">self</span>
+                                   <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">backButtonPressed</span><span class="p">:)];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>然后，在设置<code class="language-plaintext highlighter-rouge">NavigationBar</code>颜色的时候，还需要同步更新一下按钮的颜色：</p>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setNavigationBarColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">barColor</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// 设置导航条颜色代码</span>
+    
+    <span class="p">[</span><span class="n">self</span> <span class="nf">setNavigationBarItemColor</span><span class="p">:</span> <span class="p">[</span><span class="n">self</span> <span class="nf">getProperItemColor</span><span class="p">]];</span>    <span class="c1">// 设置NavigationItem的颜色</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">setupCustomizedBackButtonIfNeeded</span><span class="p">];</span>                       <span class="c1">// 如果需要，设置自定义按钮的颜色</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>由于我们的返回箭头是个自定义的图片，所以在每次颜色改变时，都需要用新的颜色的箭头图片重新设置一次。为此，我们再次新加一个category来达到这个目的：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">UINavigationBar</span><span class="p">(</span><span class="nl">CustomColor</span><span class="p">)</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">UINavigationBar</span><span class="p">(</span><span class="nl">CustomColor</span><span class="p">)</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTintColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">tintColor</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">setTintColor</span><span class="p">:</span><span class="n">tintColor</span><span class="p">];</span>
+    
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">arrowImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"navi_back_icon"</span><span class="p">];</span>
+    
+    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">arrowImage</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="n">arrowImage</span><span class="p">.</span><span class="n">scale</span><span class="p">);</span>
+    <span class="n">CGRect</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">arrowImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">arrowImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">tintColor</span> <span class="nf">set</span><span class="p">];</span>
+    <span class="n">UIRectFill</span><span class="p">(</span><span class="n">rect</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">arrowImage</span> <span class="nf">drawAtPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="nf">blendMode</span><span class="p">:</span><span class="n">kCGBlendModeDestinationIn</span> <span class="n">alpha</span><span class="o">:</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">newImage</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+    
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">backButtonImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">newImage</span> <span class="nf">resizableImageWithCapInsets</span><span class="p">:</span><span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
+    
+    <span class="p">[[</span><span class="n">UIBarButtonItem</span> <span class="nf">appearance</span><span class="p">]</span> <span class="nf">setBackButtonBackgroundImage</span><span class="p">:</span><span class="n">backButtonImage</span>
+                                                      <span class="nl">forState:</span><span class="n">UIControlStateNormal</span>
+                                                    <span class="nl">barMetrics:</span><span class="n">UIBarMetricsDefault</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>同时，后一个方法其实就是把之前写在<code class="language-plaintext highlighter-rouge">viewWillAppear</code>里的代码挪了过来：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setupCustomizedBackButtonIfNeeded</span><span class="p">{</span>
+    <span class="n">id</span> <span class="n">boolObject</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonTitleValue</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">boolObject</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">BOOL</span> <span class="n">isShowPreviousViewTitleAsBackButtonTitle</span> <span class="o">=</span> <span class="p">[(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="n">boolObject</span> <span class="nf">boolValue</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nf">setShowPreviousViewTitleAsBackButtonTitle</span><span class="p">:</span><span class="n">isShowPreviousViewTitleAsBackButtonTitle</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">animated</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">setupCustomizedBackButtonIfNeeded</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>而<code class="language-plaintext highlighter-rouge">getProperItemColor</code>方法集中处理了合理的颜色值：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">getProperItemColor</span><span class="p">{</span>
+    <span class="n">UIColor</span> <span class="o">*</span><span class="n">defaultColor</span> <span class="o">=</span> <span class="n">UIColorAutomatic</span><span class="p">;</span>
+    <span class="n">id</span> <span class="n">colorObject</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">backButtonForcedColorValue</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">colorObject</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">colorObject</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">UIColor</span> <span class="nf">class</span><span class="p">]])</span> <span class="p">{</span>
+        <span class="c1">// 如果存在钦定的颜色，读取之</span>
+        <span class="n">defaultColor</span> <span class="o">=</span> <span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">colorObject</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="c1">// 否则，根据导航条背景颜色自动决定颜色</span>
+        <span class="n">CGFloat</span> <span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="n">blue</span><span class="p">;</span>
+        <span class="n">UIColor</span> <span class="o">*</span><span class="n">color</span><span class="p">;</span>
+        
+        <span class="n">UINavigationBar</span> <span class="o">*</span><span class="n">bar</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">bar</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">CRGradientNavigationBar</span> <span class="nf">class</span><span class="p">]])</span> <span class="p">{</span>
+            <span class="n">CRGradientNavigationBar</span> <span class="o">*</span><span class="n">crBar</span> <span class="o">=</span> <span class="p">(</span><span class="n">CRGradientNavigationBar</span> <span class="o">*</span><span class="p">)</span><span class="n">bar</span><span class="p">;</span>
+            <span class="n">NSArray</span> <span class="o">*</span><span class="n">colors</span> <span class="o">=</span> <span class="n">crBar</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">colors</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">colors</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithCGColor</span><span class="p">:(</span><span class="n">__bridge</span> <span class="n">CGColorRef</span><span class="p">)</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
+            <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">barTintColor</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// 根据背景颜色自动决定前景颜色，参考以下网址的算法</span>
+        <span class="c1">// http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color</span>
+        <span class="p">[</span><span class="n">color</span> <span class="nf">getRed</span><span class="p">:</span><span class="o">&amp;</span><span class="n">red</span> <span class="nf">green</span><span class="p">:</span><span class="o">&amp;</span><span class="n">green</span> <span class="n">blue</span><span class="o">:&amp;</span><span class="n">blue</span> <span class="n">alpha</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+        <span class="n">CGFloat</span> <span class="n">luminance</span> <span class="o">=</span> <span class="n">red</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">299</span> <span class="o">+</span> <span class="n">green</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">587</span> <span class="o">+</span> <span class="n">blue</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">114</span><span class="p">;</span>
+        
+        <span class="n">defaultColor</span> <span class="o">=</span> <span class="n">luminance</span> <span class="o">&gt;</span> <span class="mi">186</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="mi">256</span><span class="p">.</span><span class="mi">0</span> <span class="p">?</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">blackColor</span><span class="p">]</span> <span class="p">:</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">defaultColor</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>如果存在之前设定过的颜色值，就取出并且返回；否则就根据当前导航条的颜色自动设置为与之反向的颜色。这里参考了一篇Stackoverflow上的<a href="http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color">讨论帖</a>，直接拿过来了其中使用的算法。</p>
+
+<p>至此，我们已经达到了预期的目的，而且在调用时也比较方便，自动处理了大部分的情况。比如，如果仅仅想改变返回按钮的颜色，之前可能会创建一个仅指定了颜色的按钮并设置为返回按钮，现在则可以写<code class="language-plaintext highlighter-rouge">[self setNavigationBarItemColor:[UIColor someCustomColor]]</code>，虽然代码量与之前一样，但逻辑上比较优雅。</p>
+
+<p>但是也遇到了两个坑：一个是某个二级页面采用了HTML页面实现，所以特别蛋疼地需要手动通过回调处理一切更新；另一个是某个页面是自己创建了一个<code class="language-plaintext highlighter-rouge">UINavigationController</code>然后push进来的（因为该页面需要侧边栏），导致没法拿到上级页面的名称，只能不用<code class="language-plaintext highlighter-rouge">showPreviousViewTitleAsBackButtonTitle</code>属性，退而求其次用<code class="language-plaintext highlighter-rouge">setupBackButtonWithText</code>方法自行创建一个后退按钮。</p>
+
+<h2 id="最终效果">最终效果</h2>
+
+<ul>
+  <li>默认情况：什么都不用做，自动出现自定义的“&lt;”；</li>
+  <li>需要显示上级页面：设置<code class="language-plaintext highlighter-rouge">showPreviousViewTitleAsBackButtonTitle</code>属性；</li>
+  <li>需要自定义按钮文字：方法1. 调用<code class="language-plaintext highlighter-rouge">setupBackButtonWithText</code>方法，用于指定颜色；方法2. 调用’attachBackButtonTitle:’方法，用于自动获取颜色。</li>
+</ul>
+
+      <div id="more">
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tags -->
+  <div class="post-tags">
+    
+      
+        <span class="post-single-tag"><a href="/tag/iOS">iOS</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/Objective-C">Objective-C</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/Code">Code</a></span>
+    
+  </div>
+
+  <!-- Series links -->
+  
+</div>
+
+
+
+<link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon Showing</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>

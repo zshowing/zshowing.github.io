@@ -1,0 +1,32 @@
+permalink: /blog/:year/:month/:day/:title/
+
+exclude: [".rvmrc", "README.md", "Rakefile", "/bin"]
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+  hard_wrap: true
+  syntax_highlighter: rouge
+
+title : Jon Showing
+author :
+  name : Jon Showing
+  email : zshowing@gmail.com
+
+defaults:
+  -
+    scope:
+      path: "blog/_posts"
+    values:
+      blog: true
+      featured: false
+      layout: post
+
+  -
+    scope:
+      path: "project"
+    values:
+      category: project
+      important: false
+      layout: project

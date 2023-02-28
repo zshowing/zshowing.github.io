@@ -1,0 +1,66 @@
+---
+layout: page
+title : 日志
+category: bloglist
+---
+
+<div class="post-sort">
+  <div id="current-section">按时间显示</div>
+  <a id="post-sort-category" href="#sort-by-category">切换按分类显示</a>
+</div>
+<div id="all-posts">
+  <div id="sort-by-date">
+    {% assign postsByYear = site.posts | group_by_exp:"post", "post.date | date: '%Y'" %}
+    {% for year in postsByYear %}
+        <h2 class="post-group-title" id="{{ year.name }}">{{ year.name }}</h2>
+          <ul>
+            {% for post in year.items %}
+              <div id="index-post-{% increment i %}" class="single-post">
+                <div class="date">{{ post.date | date: "%m-%d" }}</div>
+                <div class="title">
+                  <a href="{{ BASE_PATH }}{{ post.url }}">
+                    {% if post.titlehtml %}
+                      {{ post.titlehtml }}
+                    {% else %}
+                      {{ post.title }}
+                    {% endif %}
+                  </a>
+                </div>
+                <div class="description">
+                  {{post.description}}
+                </div>
+              </div>
+            {% endfor %}
+          </ul>
+      {% endfor %}
+  </div>
+
+  <hr>
+
+  <div id="sort-by-category">
+    {% for category in site.categories %}
+      {% if category[0] != 'blog' %}
+        <h2 class="post-group-title" id="{{ category[0] }}">{{ category[0] }}</h2>
+        <ul>
+          {% for post in category[1] %}
+            <div id="index-post-{% increment i %}" class="single-post">
+              <div class="date" day='{{ post.date | date: "-%d" }}'>{{ post.date | date: "%Y-%m" }}</div>
+              <div class="title title-in-category">
+                <a href="{{ BASE_PATH }}{{ post.url }}">
+                  {% if post.titlehtml %}
+                    {{ post.titlehtml }}
+                  {% else %}
+                    {{ post.title }}
+                  {% endif %}
+                </a>
+              </div>
+              <div class="description desc-in-category">
+                {{post.description}}
+              </div>
+            </div>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
