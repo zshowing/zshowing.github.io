@@ -10,7 +10,7 @@ category: photo
   {% assign photo_size = photo_pages | size %}
   {% assign halfnum = photo_size | divided_by:2 %}
   {% assign halfnumPlusone = halfnum | plus:1 %}
-  {% assign reordered_pages = photo_pages | sort: "date" | reverse %}
+  {% assign reordered_pages = photo_pages | reverse %}
 
   <div class="photo-column">
     {% for photo_page in reordered_pages %}
