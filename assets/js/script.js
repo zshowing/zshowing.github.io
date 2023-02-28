@@ -188,8 +188,9 @@ function registerPostHeaders() {
 	});
 };
 
-function fullScreenImages() {
-	const imgs = document.querySelectorAll('.post img');
+function fullScreenImages(className) {
+	var selector = className + ' img'
+	const imgs = document.querySelectorAll(selector);
 	const fullPage = document.querySelector('#fullpage');
 	const winWidth = $(window).width();
 	const winHeight = $(window).height();
@@ -230,7 +231,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 
 	if ($('.post').length) {
-		fullScreenImages();
+		fullScreenImages('.post');
+	}
+	if ($('.project-content').length) {
+		fullScreenImages('.project-content');
 	}
 
 	$('.image-slider').slick({

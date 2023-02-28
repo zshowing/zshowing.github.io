@@ -13,7 +13,17 @@
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript" src="/assets/slick/slick.min.js"></script>
 	<script src="/assets/js/script.js"></script>
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script> -->
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6BJK9WV14"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84283556-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-R6BJK9WV14');
+	  gtag('config', 'UA-84283556-1');
+	</script>
 </head>
 
 <div class="reading-progress-bar"></div>
@@ -42,7 +52,8 @@
 	<!-- project
 		project -->
 	<div class="main-text">
-		<h1>个人网站</h1>
+		<div id="fullpage" onclick="closingImage(this)"></div>
+<h1>个人网站</h1>
 <div class="project-detail-date">2016年，2023年</div>
 <div class="project-content">
 	<p>2022年9月17号，我写道：</p>
@@ -109,14 +120,28 @@
       <td>完成项目页</td>
     </tr>
     <tr>
-      <td>2023.2</td>
-      <td>上线</td>
+      <td>2023.2.10 - 16</td>
+      <td>增加标签等功能</td>
+    </tr>
+    <tr>
+      <td>2023.2.16 - 23</td>
+      <td>想法页数据准备</td>
+    </tr>
+    <tr>
+      <td>2023.2.24 - 27</td>
+      <td>相册数据准备，日志图片恢复</td>
+    </tr>
+    <tr>
+      <td>2023.2.28</td>
+      <td>首个版本正式上线</td>
     </tr>
   </tbody>
 </table>
 
 <p>在设计上，我参考了许多其他站点，但细节上还是自己把控，希望最终尽量在视觉上有统一性。值得一提的是，我有意在很多地方想向明信片的样式靠拢，因为<strong>这些年联系越来越少的好朋友们给我寄过的实体明信片是给了我很多力量和抚慰的事物</strong>，我想在自己的线上空间复刻这个感觉。</p>
 
+<p>最终形成了现在的首页：<br />
+<img src="https://s2.loli.net/2023/02/28/XTZKmk1d5R3QPvz.jpg" alt="截屏2023-02-28 22.25.41.jpg" /></p>
 
 </div>
 <link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
