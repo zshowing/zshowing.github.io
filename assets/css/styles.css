@@ -1899,3 +1899,7 @@ ul.tag-cloud a::after {
 .tag .title {
   margin-right: 10px;
 }
+
+.giscus {
+  margin-top: 80px;
+}
