@@ -1462,12 +1462,42 @@ td {
   .logo {
     padding-top: 15px;
   }
+
+  #metas {
+    display: none;
+  }
+
+  #location {
+    display: none;
+  }
+
+  .single-post .title {
+    font-size: 1em;
+  }
+
+  .single-post .description {
+    font-size: .8em;
+    line-height: 1.5;
+    margin-top: 5px !important;
+  }
+
+  .post-group-title {
+    margin-top: 20px !important;
+  }
+
+  .post-series {
+    padding: 30px 30px 30px 10px;
+  }
 }
 
 @media screen and (max-width: 400px){
   html{
       width: 100%;
       overflow: auto;
+  }
+
+  .main-text {
+    margin: 30px auto;
   }
 
   .content-wrapper {
@@ -1528,6 +1558,32 @@ td {
 
   .nav-link::after {
     border-bottom: none;
+  }
+
+  #metas {
+    display: none;
+  }
+
+  #location {
+    display: none;
+  }
+
+  .single-post .title {
+    font-size: 1em;
+  }
+
+  .single-post .description {
+    font-size: .8em;
+    line-height: 1.5;
+    margin-top: 5px !important;
+  }
+
+  .post-group-title {
+    margin-top: 20px !important;
+  }
+
+  .post-series {
+    padding: 30px 30px 30px 10px;
   }
 }
 
