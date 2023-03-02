@@ -44,6 +44,7 @@ var metas = {'babymetal.jpeg': ['英国，伦敦 / 温布利体育馆', '2016.4 
 'xj.jpeg': ['新疆，库车 / 苏巴什佛寺遗址', '2021.6 / SONY RX100M7']};
 var index = 0;
 var firsttime = true;
+var active = false;
 
 function change() {
 	var index = Math.floor(Math.random() * images.length);
@@ -217,6 +218,24 @@ function closingImage(element) {
 	element.style.opacity = 0;
 }
 
+function toggle() {
+	active = !active;
+  let menu = document.querySelector('#menu-button');
+  let i = document.querySelector('#menu-button i');
+  let navlist = document.querySelector('.nav-list');
+  if (active) {
+  	$(navlist).css("display", "block");
+    menu.classList.add('active');
+    $(i).removeClass();
+    $(i).addClass('fa-solid fa-xmark');
+  } else {
+  	$(navlist).css("display", "none");
+  	$(i).removeClass();
+  	$(i).addClass('fa-solid fa-bars');
+    menu.classList.remove('active');
+  }
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
 	if ($("#photo").length){
 		change();
@@ -236,6 +255,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	if ($('.project-content').length) {
 		fullScreenImages('.project-content');
 	}
+	$("#menu-button").click(function(){
+		toggle();
+	});
 
 	$('.image-slider').slick({
 		arrows:true,
