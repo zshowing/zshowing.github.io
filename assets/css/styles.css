@@ -1374,6 +1374,10 @@ td {
   .main-text {
     width: auto;
   }
+
+  .nav-list {
+    display: block;
+  }
 }
 
 @media only screen and (max-width: 700px) {
@@ -1393,6 +1397,23 @@ td {
   html{
     width: 100%;
     overflow: auto;
+  }
+
+  .wrapper {
+    margin: 30px auto;
+  }
+  .main-text {
+    margin: 30px 10px;
+  }
+  .thought-description {
+    font-size: .9em;
+    padding-bottom: 10px;
+  }
+  .thought-description::before {
+    font-size: 1.2em;
+  }
+  .thought-description::after {
+    font-size: 1.2em;
   }
 
   .content-wrapper {
@@ -1513,6 +1534,22 @@ td {
       width: 100%;
       overflow: auto;
   }
+  .wrapper {
+    margin: 30px auto;
+  }
+  .main-text {
+    margin: 30px 10px;
+  }
+  .thought-description {
+    font-size: .9em;
+    padding-bottom: 10px;
+  }
+  .thought-description::before {
+    font-size: 1.2em;
+  }
+  .thought-description::after {
+    font-size: 1.2em;
+  }
 
   .project-meta {
     margin: 20px 15px 0 15px;
@@ -1551,10 +1588,6 @@ td {
 
   .photo .photo-title {
     font-size: 1.2em;
-  }
-
-  .main-text {
-    margin: 30px auto;
   }
 
   .content-wrapper {
