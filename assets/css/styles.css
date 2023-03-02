@@ -1342,7 +1342,6 @@ td {
 
 @media only screen and (max-width: 1100px) {
   .photo .photo-number {
-    float: none;
     margin-top: 10px;
   }
 
@@ -1382,16 +1381,13 @@ td {
     display: block;
     padding-bottom: 10px;
   }
-  .photo .photo-number {
-    float: none;
-  }
 
   .photoset-wrapper {
     margin: 40px auto;
   }
 
-  .photolist-wrapper img {
-    margin: 20px auto;
+  .photoset-wrapper .photo-description {
+    margin-top: 0;
   }
 
   html{
@@ -1488,12 +1484,73 @@ td {
   .post-series {
     padding: 30px 30px 30px 10px;
   }
+
+  .project-meta {
+    margin: 20px 15px 0 15px;
+    padding: 0;
+  }
+
+  .project-single-important {
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .project-important {
+    padding-bottom: 0;
+  }
+
+  .project-single-normal {
+    padding: 0 10px;
+  }
+
+  .project-list img {
+    max-width: 100%;
+  }
 }
 
 @media screen and (max-width: 400px){
   html{
       width: 100%;
       overflow: auto;
+  }
+
+  .project-meta {
+    margin: 20px 15px 0 15px;
+    padding: 0;
+  }
+
+  .project-single-important {
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .project-important {
+    padding-bottom: 0;
+  }
+
+  .project-single-normal {
+    padding: 0 10px;
+  }
+
+  .project-list img {
+    max-width: 100%;
+  }
+
+  .photoset-wrapper .photo-description {
+    margin-top: 0;
+    font-size: .9em;
+  }
+
+  hr {
+    margin: 30px auto;
+  }
+
+  .photo-list {
+    margin: 0px 0;
+  }
+
+  .photo .photo-title {
+    font-size: 1.2em;
   }
 
   .main-text {
