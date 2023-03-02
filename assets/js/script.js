@@ -220,19 +220,15 @@ function closingImage(element) {
 
 function toggle() {
 	active = !active;
-  let menu = document.querySelector('#menu-button');
   let i = document.querySelector('#menu-button i');
   let navlist = document.querySelector('.nav-list');
+  $(i).removeClass();
   if (active) {
-  	$(navlist).css("display", "block");
-    menu.classList.add('active');
-    $(i).removeClass();
     $(i).addClass('fa-solid fa-xmark');
+    $(navlist).addClass('active');
   } else {
-  	$(navlist).css("display", "none");
-  	$(i).removeClass();
   	$(i).addClass('fa-solid fa-bars');
-    menu.classList.remove('active');
+  	$(navlist).removeClass('active');
   }
 }
 

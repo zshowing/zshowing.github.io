@@ -2182,3 +2182,7 @@ ul.tag-cloud a::after {
 .giscus {
   margin-top: 80px;
 }
+
+.active {
+  display: block;
+}
