@@ -756,14 +756,14 @@ blockquote p {
    transparent 0, transparent 2em,
    rgba(85, 136, 170, 0.3) 0, rgba(85, 136, 170, 0.7) 3em,
    transparent 0, transparent 4em);*/
-   padding: 42px 92px 42px 62px;
+   padding: 42px 62px 42px 62px;
   border: .5px solid #ddd;
   transition: box-shadow .167s linear, border-image .167s ease, background-color .167s linear;
   box-shadow: 0px 8px 16px rgba(6, 6, 6, 0.05);
 }
 
 .post-series:hover {
-  padding: 30px 80px 30px 50px;
+  padding: 30px 50px 30px 50px;
 
   background-color: #f6f5f4;
   border: 12px solid transparent;
@@ -1382,7 +1382,7 @@ td {
 
 @media only screen and (max-width: 700px) {
   .photo .photo-date {
-    display: block;
+    display: inline-block;
     padding-bottom: 10px;
   }
 
@@ -1512,11 +1512,19 @@ td {
   }
 
   .post-series {
-    padding: 30px 30px 30px 12px;
+    padding: 30px 50px 30px 42px;
   }
 
   .post-series:hover {
-    padding: 18px 18px 18px 0;
+    padding: 18px 38px 18px 30px;
+  }
+
+  .post-series li a, .post-series .post-series-current {
+    font-size: .9em;
+  }
+
+  .post-series .post-date {
+    font-size: .8em;
   }
 
   .project-meta {
@@ -1543,56 +1551,11 @@ td {
 }
 
 @media screen and (max-width: 400px){
-  html{
-      width: 100%;
-      overflow: auto;
-  }
-
   .post img, .thought-content img, .main-text img {
     width: 100%;
   }
 
-  .wrapper {
-    margin: 30px auto;
-  }
-  .main-text {
-    margin: 30px 10px;
-  }
-  .thought-description {
-    font-size: .9em;
-    padding-bottom: 10px;
-  }
-  .thought-description::before {
-    font-size: 1.2em;
-  }
-  .thought-description::after {
-    font-size: 1.2em;
-  }
-
-  .project-meta {
-    margin: 20px 15px 0 15px;
-    padding: 0;
-  }
-
-  .project-single-important {
-    padding: 0;
-    margin-bottom: 40px;
-  }
-
-  .project-important {
-    padding-bottom: 0;
-  }
-
-  .project-single-normal {
-    padding: 0 10px;
-  }
-
-  .project-list img {
-    max-width: 100%;
-  }
-
   .photoset-wrapper .photo-description {
-    margin-top: 0;
     font-size: .9em;
   }
 
@@ -1601,7 +1564,7 @@ td {
   }
 
   .photo-list {
-    margin: 0px 0;
+    margin: 0;
   }
 
   .photo .photo-title {
@@ -1613,94 +1576,25 @@ td {
     padding-right: 30px;
   }
 
-  .nav-container {
-    left: 0;
-    height: auto;
-  }
-
-  .nav-list {
-    border-bottom: 1px solid #aaa;
-    padding-bottom: 35px;
-    display: none;
-  }
-
-  .nav-list .selected, .nav-list li{
-    float: none !important;
-    text-align: right;
-    padding: 5px;
-    border-bottom: none !important;
-    text-decoration: none;
-  }
-
-  .nav-list .selected .nav-link {
-    border-bottom: none !important;
-    text-decoration: none;
-  }
-
-  .nav-link {
-    text-decoration: none;
-  }
-
-  .nav-link span {
-    display: inline;
-  }
-
   .nav-list span::before{
     position: static;
     margin-right:8px;
   }
 
-  .menu-button {
+  .post-series-container {
     display: block;
-    text-align: right;
-    line-height: 2;
-    font-size: 1.5em;
-    padding-top: 15px;
-    font-family: "Font Awesome\ 6 Free";
-    font-weight: 600;
-  }
-
-  .logo {
-    padding-top: 15px;
-  }
-
-  .nav-link::after {
-    border-bottom: none;
-  }
-
-  #metas {
-    display: none;
-  }
-
-  #location {
-    display: none;
-  }
-
-  .single-post {
-    padding: 0;
-    margin-bottom: 10px;
-  }
-
-  .single-post .title {
-    font-size: 1em;
-  }
-
-  .single-post .description {
-    font-size: .8em;
-    line-height: 1.5;
-    margin-top: 5px !important;
-  }
-
-  .post-group-title {
-    margin-top: 20px !important;
   }
 
   .post-series {
-    padding: 30px 30px 30px 12px;
+    display: block;
+  }
+
+  .post-series {
+    padding: 30px 12px 30px 12px;
   }
 
   .post-series:hover {
-    padding: 18px 18px 18px 0;
+    padding: 18px 0px 18px 0px;
   }
 }
 
