@@ -1552,6 +1552,10 @@ td {
   .sns img {
     min-width: auto;
   }
+
+  .photo-list {
+    margin: 0;
+  }
 }
 
 @media screen and (max-width: 400px){
@@ -1565,10 +1569,6 @@ td {
 
   hr {
     margin: 30px auto;
-  }
-
-  .photo-list {
-    margin: 0;
   }
 
   .photo .photo-title {
