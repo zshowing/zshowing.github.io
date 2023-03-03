@@ -199,12 +199,19 @@ function fullScreenImages(className) {
 	  var image = new Image();
 	  image.src = img.src;
 	  var imageWidth = image.width;
+	  var imageHeight = image.height;
 	  var renderWidth = img.width;
 	  if (imageWidth > renderWidth) {
 	  	$(img).css('cursor', 'pointer');
 	  	img.addEventListener('click', function() {
 				fullPage.style.backgroundImage = 'url(' + img.src + ')';
 		    fullPage.style.display = 'block';
+		    if ($(fullPage).height() < imageHeight || $(fullPage).width() < imageWidth) {
+				  $(fullPage).css('background-size', 'contain');
+				}
+				else {
+				  $(fullPage).css('background-size', 'auto');
+				}
 		    setTimeout(() => {
       		fullPage.style.opacity = 1;
     		}, 50);
@@ -251,6 +258,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	if ($('.project-content').length) {
 		fullScreenImages('.project-content');
 	}
+	if ($('.thought-content').length) {
+		fullScreenImages('.thought-content');
+	}
+
 	$("#menu-button").click(function(){
 		toggle();
 	});
