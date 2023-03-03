@@ -1548,6 +1548,10 @@ td {
   .project-list img {
     max-width: 100%;
   }
+
+  .sns img {
+    min-width: auto;
+  }
 }
 
 @media screen and (max-width: 400px){
@@ -1572,8 +1576,8 @@ td {
   }
 
   .content-wrapper {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .nav-list span::before{
