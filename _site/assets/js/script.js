@@ -354,7 +354,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		} else {
 			title = actionString + "过的全部" + title + typeString;
 		}
-		console.log(typequery+yearquery+ratequery);
+		
 		var movieslist = $(typequery+yearquery+ratequery);
 		movieslist.removeClass('hide');
 
@@ -472,7 +472,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				title = title + "全部" + typeString;
 			}
 		}
-		console.log(moviesquery, typequery);
+		
 		movieslist = $(moviesquery+typequery);
 		movieslist.removeClass('hide');
 
