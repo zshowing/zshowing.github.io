@@ -239,6 +239,47 @@ function toggle() {
   }
 }
 
+function expandMovie() {
+	const list = $('.movie-list');
+	list.on('click', '.movie-title', function() {
+	  const item = $(this).next();
+	  const btn = $(this).parent().parent().prev();
+	  btn.addClass('movie-on');
+	  btn.text('收起全部详情');
+	  const details = $(this).nextAll('.movie-detail').first();
+	  details.slideToggle(function() {
+	    item.toggleClass('open');
+	  });
+	});
+}
+
+function expandAllMovies() {
+	const btns = $('.expand-all-button');
+	btns.on('click', function(){
+		const list = $(this).siblings('.movie-list').first();
+		const details = list.find('.movie-detail');
+		const expand = list.find('.expand-button');
+		$(this).siblings('.expand-all-button').toggleClass('movie-on');
+
+		if ($(this).hasClass('movie-on')) {
+			// 收起
+			expand.removeClass('open');
+			details.slideUp();
+			$(this).text('展开全部详情');
+			$(this).siblings('.expand-all-button').text('展开全部详情');
+			$(this).siblings('.at-bottom').removeClass('movie-on');
+		} else {
+			// 展开
+			details.slideToggle();
+			expand.addClass('open');
+			$(this).text('收起全部详情');
+			$(this).siblings('.expand-all-button').text('收起全部详情');
+		}
+
+		$(this).toggleClass('movie-on');
+	});
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
 	if ($("#photo").length){
 		change();
@@ -270,5 +311,186 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		arrows:true,
 		adaptiveHeight: true,
 		dots:true
+	});
+
+	if ($('.movie-list').length) {
+		expandMovie();
+		expandAllMovies();
+	}
+
+	$('.movie-type a').on('click', function () {
+		$(this).siblings().removeClass('selected');
+		$(this).addClass('selected');
+		$('.movie-single').addClass('hide');
+
+		const type = $(this).data('value');
+		const typequery = "[data-type=" + type + "]";
+		var typeString = "";
+		var actionString = "";
+		if (type == 'book') {
+			typeString = '书籍';
+			actionString = "阅读";
+		} else if (type == 'movie') {
+			typeString = '影视剧';
+			actionString = '看';
+		} else if ( type == 'game') {
+			typeString = '游戏';
+			actionString = '玩';
+		}
+		var title = "";
+		var selectedRate = $('.movie-rate').find('.selected');
+		var ratequery = "[data-rating]";
+		const rate = $(selectedRate).data('value');
+		if (rate != "" && rate != undefined) {
+			ratequery = '[data-rating="' + rate + '.0"]';
+			title = $(selectedRate).text();
+		}
+		var selectedYear = $('.movie-year').find('.selected');
+		var yearquery = "[data-value]";
+		const year = $(selectedYear).data('value');
+		if (year != "" && year != undefined) {
+			yearquery = '[data-value="' + year + '"]';
+			title = year + "年" + actionString + "过的" + typeString;
+		} else {
+			title = actionString + "过的全部" + title + typeString;
+		}
+		console.log(typequery+yearquery+ratequery);
+		var movieslist = $(typequery+yearquery+ratequery);
+		movieslist.removeClass('hide');
+
+		$('.movies-list h2').text(title);
+	});
+
+	$('.movie-year a').on('click', function () {
+		$(this).siblings().removeClass('selected');
+		$(this).addClass('selected');
+		$('.movie-single').addClass('hide');
+
+		var selectedType = $('.movie-type').find('.selected');
+		const type = $(selectedType).data('value');
+		const typequery = "[data-type=" + type + "]";
+		var typeString = "";
+		var actionString = "";
+		if (type == 'book') {
+			typeString = '书籍';
+			actionString = "阅读";
+		} else if (type == 'movie') {
+			typeString = '影视剧';
+			actionString = '看';
+		} else if ( type == 'game') {
+			typeString = '游戏';
+			actionString = '玩';
+		}
+
+		var selected = $('.movie-rate').find('.selected');
+		var ratequery = "[data-rating]";
+		var title = "";
+		if (selected.length > 0) {
+			const rate = $(selected).data('value');
+			if (rate != "") {
+				ratequery = '[data-rating="' + rate + '"]';
+				title = $(selected).text() + title;
+			} else {
+				title = "全部";
+			}
+		}
+		var moviesquery = '[data-value]' + ratequery;
+		const year = $(this).data('value');
+		if (year != "") {
+			moviesquery = '[data-value="' + year + '"]'+ratequery;
+			title = year + "年" + actionString + "过的" + title + typeString;
+		} else {
+			if (title != '全部') {
+				title = "全部" + actionString + "过的" + title + typeString;	
+			} else {
+				title = "全部" + actionString + "过的" + typeString;
+			}
+		}
+		movieslist = $(moviesquery+typequery);
+		movieslist.removeClass('hide');
+
+		$('.movies-list h2').text(title);
+
+		// 弄星级
+		movieslist.each(function() {
+		  var $rating = $(this).find('.movie-rating');
+		  const done = $rating.attr('load');
+		  if (done != 'true') {
+		  	var ratingValue = Number($rating.data('rating'));
+			  var starHtml = '';
+		    for (var i = 0; i < ratingValue; i++) {
+		      starHtml += '<i class="fa-solid fa-star" style="color: #FFAC2D; font-size: .7em;"></i>';
+		    }
+		    $rating.append(starHtml);
+		    $rating.attr('load', 'true');
+		  }
+		});
+	});
+
+	$('.movie-rate a').on('click', function () {
+		$(this).siblings().removeClass('selected');
+		$(this).addClass('selected');
+		$('.movie-single').addClass('hide');
+
+		var selectedType = $('.movie-type').find('.selected');
+		const type = $(selectedType).data('value');
+		const typequery = "[data-type=" + type + "]";
+		var typeString = "";
+		var actionString = "";
+		if (type == 'book') {
+			typeString = '书籍';
+			actionString = "阅读";
+		} else if (type == 'movie') {
+			typeString = '影视剧';
+			actionString = '看';
+		} else if ( type == 'game') {
+			typeString = '游戏';
+			actionString = '玩';
+		}
+
+		var selected = $('.movie-year').find('.selected');
+		var yearquery = "[data-value]";
+		var title = "";
+		if (selected.length > 0) {
+			const year = $(selected).data('value');
+			if (year != "") {
+				yearquery = '[data-value="' + year + '"]';
+				title = year + "年" + actionString + "过的";
+			} else {
+				title = "全部";
+			}
+		}
+		var moviesquery = '[data-rating]' + yearquery;
+		const rate = $(this).data('value');
+		if (rate != "") {
+			moviesquery = '[data-rating="' + rate + '"]' + yearquery;
+			title = title + $(this).text() + typeString;
+		} else {
+			if (title == '全部') {
+				title = actionString + "过的全部" + typeString;
+			} else {
+				title = title + "全部" + typeString;
+			}
+		}
+		console.log(moviesquery, typequery);
+		movieslist = $(moviesquery+typequery);
+		movieslist.removeClass('hide');
+
+		$('.movies-list h2').text(title);
+
+		// 弄星级
+		movieslist.each(function() {
+		  var $rating = $(this).find('.movie-rating');
+		  const done = $rating.attr('load');
+		  if (done != 'true') {
+		  	var ratingValue = Number($rating.data('rating'));
+			  var starHtml = '';
+		    for (var i = 0; i < ratingValue; i++) {
+		      starHtml += '<i class="fa-solid fa-star" style="color: #FFAC2D; font-size: .7em;"></i>';
+		    }
+		    $rating.append(starHtml);
+		    $rating.attr('load', 'true');
+		  }
+		});
 	});
 });

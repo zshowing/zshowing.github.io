@@ -44,12 +44,15 @@
 			<li class="nav-item {% if page.category == 'project' or page.category == 'projectlist' %}selected{% endif %}">
 				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
 			</li>
-			<li class="nav-item {% if page.category == 'thought' or page.layout == 'thought'%}selected{% endif %}">
+			<li class="nav-item {% if page.category == 'thought' or page.layout == 'thought' %}selected{% endif %}">
 				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+			<li class="nav-item {% if page.category == 'acgbm' or page.layout == 'acgbm' %}selected{% endif %}">
+				<a class="nav-link" href="/ACGBM/"><span nav-hover="书影游">ACGBM</span></a>
 			</li>
 		</ul>
 	</div>
-	{% if page.layout != 'post' and page.layout != 'photo_set' and page.category != 'photo' and page.layout != 'thought' and page.category != 'project' and page.category != 'projectlist' %}
+	{% if page.layout != 'post' and page.layout != 'photo_set' and page.category != 'photo' and page.layout != 'thought' and page.category != 'project' and page.category != 'projectlist' and page.category != 'acgbm' %}
 	<div class="image-container" id="image-container">
 		<div class="postcard-photo">
 			<img src="" style="width: 100%;" id="photo">
