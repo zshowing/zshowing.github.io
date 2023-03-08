@@ -42,8 +42,7 @@ category: acgbm
           <div class="movie-detail">
             <div class="movie-description">{{ movie.description }}</div>
             <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
-          <div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
-          {{ movie.comment }}
+          {{ movie.comment }}<span class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</span>
           </div>
         </li>
       {% endfor %}
