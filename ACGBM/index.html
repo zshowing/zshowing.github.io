@@ -149,7 +149,7 @@ category: acgbm
       {% assign five_star_movies_sorted = movies | sort: "date" | reverse %}
       {% for movie in five_star_movies_sorted %}
       <div class="movie-single hide" data-value="{{ movie.date | date: '%Y' }}" data-rating="{{ movie.mine }}" data-type="movie">
-        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="320"><div class="movie-title">{{ movie.title }}</div></a>
+        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
       </div>
@@ -157,7 +157,7 @@ category: acgbm
       {% assign five_star_movies_sorted = games | sort: "date" | reverse %}
       {% for movie in five_star_movies_sorted %}
       <div class="movie-single hide" data-value="{{ movie.date | date: '%Y' }}" data-rating="{{ movie.mine }}" data-type="game">
-        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="320"><div class="movie-title">{{ movie.title }}</div></a>
+        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
       </div>
@@ -165,7 +165,7 @@ category: acgbm
       {% assign five_star_movies_sorted = books | sort: "date" | reverse %}
       {% for movie in five_star_movies_sorted %}
       <div class="movie-single hide" data-value="{{ movie.date | date: '%Y' }}" data-rating="{{ movie.mine }}" data-type="book">
-        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="320"><div class="movie-title">{{ movie.title }}</div></a>
+        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
       </div>
