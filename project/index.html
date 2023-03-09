@@ -24,7 +24,7 @@ category: projectlist
 	</div>
 	{% endfor %}
 </div>
-<hr>
+<hr style="margin-top: 20px;">
 <div class="project-list project-normal">
 	{% assign important_projects = project_pages | where: 'important', 'false' %}
 	{% for project_page in important_projects %}
