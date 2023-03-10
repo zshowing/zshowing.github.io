@@ -2141,3 +2141,7 @@ ul.tag-cloud a::after {
 .hide {
   display: none;
 }
+
+.rss-link {
+  margin-left: 10px;
+}
