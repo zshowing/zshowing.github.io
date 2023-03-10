@@ -205,7 +205,7 @@ body {
   clear: both;
 }
 
-.postcard-photo {
+#postcard-photo {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
@@ -219,10 +219,12 @@ body {
   100% { opacity: 1; }
 }
 
-.postcard-photo img {
+#postcard-photo img {
   position: relative;
   padding-bottom: 10px;
   object-fit: cover;
+  border: none !important;
+  outline: none !important;
 }
 
 #greeting {
@@ -290,6 +292,27 @@ body {
   position: relative;
   bottom: 5px;
 }
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid var(--color-red);
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  position: absolute;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
 
 .main-text {
   width: 700px;

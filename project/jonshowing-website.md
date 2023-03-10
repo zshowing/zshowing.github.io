@@ -58,6 +58,7 @@ type: 设计/程序
 - 看到这么一篇[Google Fonts 已支持思源宋体！](https://io-oi.me/tech/noto-serif-sc-added-on-google-fonts/)之后，把本站的阅读字体也改成了思源宋。衬线字体更适合阅读，这点是真的。
 - Jekyll没有原生支持tag生成，[Jekyll Tags on Github Pages](https://longqian.me/2017/02/09/github-jekyll-tag/)这个页面介绍了通过脚本辅助达到类似效果的办法
 - [404页面](/404)的对话气泡代码参考了[https://codepen.io/Founts/pen/AJyVOr](https://codepen.io/Founts/pen/AJyVOr)。当然，这个设计来自于我翻看到自己2015年的[一条广播](https://www.douban.com/people/zshowing/status/1665917007/)
+- 首页的loading特效来自于[https://cssloaders.github.io/](https://cssloaders.github.io/)
 
 ---
 
@@ -82,3 +83,4 @@ type: 设计/程序
 |3.1|增加Giscus评论|
 |3.2|移动端自适应适配|
 |3.8|完成书影游页面开发|
+|3.10|首页增加loading页面并解决图片首次加载前的排版问题|

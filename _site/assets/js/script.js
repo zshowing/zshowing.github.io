@@ -56,6 +56,20 @@ function change() {
 		$("#photo").attr("src",src);
 		$("#location").text(location);
 		$("#metas").text(meta);
+		var height = $("#postcard-photo").width() / 1200 * 800;
+		$("#photo").height(Math.ceil(height) + 'px');
+
+		var parentWidth = $('#postcard-photo').width();
+	  var parentHeight = $('#postcard-photo').height();
+	  var childWidth = $('.loader').width();
+	  var childHeight = $('.loader').height();
+	  var leftOffset = (parentWidth - childWidth) / 2;
+	  var topOffset = (parentHeight - childHeight) / 2;
+	  $('.loader').css({
+	    'position': 'absolute',
+	    'left': leftOffset + 'px',
+	    'top': topOffset + 'px'
+	  });
 	}
 
 	var obj = new Image(); 
@@ -76,6 +90,14 @@ function change() {
 			}
 			$("#photo").animate({height: Math.ceil(height)+'px'}, 500);
 			firsttime = false;
+
+			var parentHeight = $('#photo').height();
+			var childHeight = $('.loader').height();
+			$('.loader').css({
+		    'position': 'absolute',
+		    'left': leftOffset + 'px',
+		    'top': topOffset + 'px'
+		  });
 
 			$("#photo").on('load', function(){
 				$('#loading').hide();

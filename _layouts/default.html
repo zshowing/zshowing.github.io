@@ -54,8 +54,9 @@
 	</div>
 	{% if page.layout != 'post' and page.layout != 'photo_set' and page.category != 'photo' and page.layout != 'thought' and page.category != 'project' and page.category != 'projectlist' and page.category != 'acgbm' %}
 	<div class="image-container" id="image-container">
-		<div class="postcard-photo">
-			<img src="" style="width: 100%;" id="photo">
+		<div id="postcard-photo">
+			<span class="loader"></span>
+			<img src="" style="width: 100%;" id="photo" alt="">
 			<div id="greeting"><img src="/assets/greeting.png"></div>
 			<div id="location"></div>
 			<div id="metas"></div>
