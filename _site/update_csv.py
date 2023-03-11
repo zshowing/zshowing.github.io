@@ -78,6 +78,7 @@ def read_website_data(latest_data, searchtype):
 					f.write(html)
 				break
 			else:
+				isFirst = False
 				if searchtype == 'book':
 					data.append([title, description, rating, link, date, mine, tags, comment, 'public', '', '', picurl])
 				elif searchtype == 'game':
