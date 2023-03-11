@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 import shutil
+import datetime
+import pytz
 
 headers = {
   'Accept': '*/*',
@@ -68,6 +70,12 @@ def read_website_data(latest_data, searchtype):
 				df_new = pd.DataFrame(data, columns=df.columns)
 				df_combined = pd.concat([df_new, df], ignore_index=True)
 				df_combined.to_csv('./_data/' + searchtype + 's.csv', index=False)
+
+				tz = pytz.timezone('Asia/Shanghai')
+				now = datetime.datetime.now(tz)
+				html = '<p style="font-size: 0.9em;">最后更新时间：{}</p>'.format(now.strftime('%Y-%m-%d %H:%M'))
+				with open('./_includes/csv-update-date.html', 'w') as f:
+					f.write(html)
 				break
 			else:
 				if searchtype == 'book':
