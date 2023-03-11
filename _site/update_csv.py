@@ -3,6 +3,7 @@ import requests
 import shutil
 import datetime
 import pytz
+import os
 
 headers = {
   'Accept': '*/*',
@@ -74,6 +75,9 @@ def read_website_data(latest_data, searchtype):
 				tz = pytz.timezone('Asia/Shanghai')
 				now = datetime.datetime.now(tz)
 				html = '<p style="font-size: 0.9em;">最后更新时间：{}</p>'.format(now.strftime('%Y-%m-%d %H:%M'))
+				directory = './_includes'
+				if not os.path.exists(directory):
+    				os.makedirs(directory)
 				with open('./_includes/csv-update-date.html', 'w+') as f:
 					f.write(html)
 				break
