@@ -2,7 +2,7 @@ name: Update Douban
 
 on:
   schedule:
-  - cron: "35 * * * *"
+  - cron: "27 * * * *"
 
 jobs:
   update_csv:
@@ -22,4 +22,8 @@ jobs:
         run: |
           python update_csv.py
       - name: Build and deploy site
-        uses: zshowing/pages-build-deployment@1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+        uses: BryanSchuetz/jekyll-deploy-gh-pages@master
