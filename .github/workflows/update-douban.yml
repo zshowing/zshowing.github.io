@@ -3,6 +3,7 @@ name: Update Douban
 on:
   schedule:
   - cron: "50 * * * *"
+  workflow_dispatch:
 
 jobs:
   update_csv:
