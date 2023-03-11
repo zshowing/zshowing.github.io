@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
+	<title> Jon Showing - 公司周报点赞关系的数据可视化尝试</title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick-theme.css"/>
+	<link rel="alternate" type="application/rss+xml" href="http://localhost:4000/feed.xml">
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/assets/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6BJK9WV14"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84283556-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-R6BJK9WV14');
+	  gtag('config', 'UA-84283556-1');
+	</script>
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<div class="menu-button"><span id="menu-button"><i class="fa-solid fa-bars"></i></span></div>
+		<ul class="nav-list">
+			<li class="nav-item ">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item selected">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/ACGBM/"><span nav-hover="书影游">ACGBM</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- 
+		post -->
+	<div class="main-text">
+		<h1 class="post-title">
+  <span>
+    
+      公司周报点赞关系的数据可视化尝试
+    
+  </span>
+</h1>
+<div class="post-meta">
+  <span class="post-date">发布于 2017-07-01</span>
+	 | <span class="post-category">分类于 
+  
+    
+  
+    </span>
+      <a href="/blog/#数据可视化">数据可视化</a>
+    
+  
+	<div class="post-desc">
+		对公司周报下同事互相的点赞关系尝试进行了数据可视化，得出了一些有趣的结论。 
+	</div>
+</div>
+<div id="fullpage" onclick="closingImage(this)"></div>
+<div id="container">
+  <div id="content">
+    <div class="post">
+      <h2 id="背景">背景</h2>
+
+<p>前一阵，在和小段同学聊天时，我们拿每周要交的周报下面互相点赞的文化开玩笑，比如一个小团体间会互相吹捧，比如某些人会狂给别人点赞（点赞狂魔）等等。然后我突然想到前一阵看过一篇把唐朝诗人间互相提及的数据进行可视化的文章<a href="http://www.guokr.com/article/442052/">《计算机告诉你，唐朝诗人之间的关系到底什么样？》</a>，跟这是完全类似的场景。于是我的好奇心起，如果对公司里的汇报进行一番分析，结果会是什么样呢？再加上我本就一直对数据可视化感兴趣，正好趁机练练手。</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79ly1fh3ompk8cwj20qk0jy76e.jpg" alt="盛唐时期诗人关系图" /><br />
+图：《计算机告诉你，唐朝诗人之间的关系到底什么样？》中盛唐时期的诗人关系图</p>
+
+<h2 id="数据准备和初步统计">数据准备和初步统计</h2>
+
+<p>首先要做的自然是爬数据，借助瑞士军刀般好用的Python（和requests库），这个过程乏善可陈。首先我调用请求汇报列表的接口拿到了3000条汇报的id（时间跨度大约是从2016年11月初到2017年6月末），然后慢慢地一条一条拿这3000条汇报的详情，并建了个数据库保存在本地。</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79ly1fh33a95p9bj21200n644f.jpg" alt="" /></p>
+
+<p>然后我们就能写代码了。其中最简单的就是点赞数和被点赞数的排行，只要简单地加起来即可：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>被点赞数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>郝思阳</td>
+      <td>296</td>
+    </tr>
+    <tr>
+      <td>李增辉</td>
+      <td>254</td>
+    </tr>
+    <tr>
+      <td>濮智光</td>
+      <td>233</td>
+    </tr>
+    <tr>
+      <td>何亮</td>
+      <td>226</td>
+    </tr>
+    <tr>
+      <td>张硕</td>
+      <td>224</td>
+    </tr>
+    <tr>
+      <td>杨培玉</td>
+      <td>218</td>
+    </tr>
+    <tr>
+      <td>杜庆</td>
+      <td>204</td>
+    </tr>
+    <tr>
+      <td>杨嘉琦</td>
+      <td>203</td>
+    </tr>
+    <tr>
+      <td>李雪然</td>
+      <td>201</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>点赞数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>李增辉</td>
+      <td>2557</td>
+    </tr>
+    <tr>
+      <td>濮智光</td>
+      <td>615</td>
+    </tr>
+    <tr>
+      <td>吴凯</td>
+      <td>602</td>
+    </tr>
+    <tr>
+      <td>张敏</td>
+      <td>602</td>
+    </tr>
+    <tr>
+      <td>杨培玉</td>
+      <td>440</td>
+    </tr>
+    <tr>
+      <td>黄家辉</td>
+      <td>364</td>
+    </tr>
+    <tr>
+      <td>方语微</td>
+      <td>335</td>
+    </tr>
+    <tr>
+      <td>胡燕玲</td>
+      <td>308</td>
+    </tr>
+    <tr>
+      <td>郑立宝</td>
+      <td>296</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>事先我和小段同学对前几名先进行了猜想，基本被程序跑出来的结果印证。包括万人迷——设计组的郝思阳，点赞狂魔——测试组的李增辉。当然还有些出乎意料的，主要是和自己没什么交集的人，比如我们猜出了点赞数615的濮智光，但点赞数602的吴凯和张敏我们却完全没想到。以及点赞数排在前面的人，在被点赞数列表里很多都能看到，说明这也存在礼尚往来的问题，辛苦就会得到回报xD</p>
+
+<p>然后就是一些更细粒度的分析，比如具体到每个人，被谁点赞最多：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>被别人点赞前两名</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>胡燕玲</td>
+      <td>李增辉, 30; 濮智光, 28</td>
+    </tr>
+    <tr>
+      <td>夏轩</td>
+      <td>李增辉, 28; 张敏, 22</td>
+    </tr>
+    <tr>
+      <td>吴呈邑</td>
+      <td>张敏, 29; 李增辉, 28</td>
+    </tr>
+    <tr>
+      <td>韩君男</td>
+      <td>李增辉, 28; 罗宇翔, 16</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>很快会发现，这个表被前面点赞数最多的几个人的霸榜了……去除他们之后的数据更有意义一些：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>被别人点赞前三名（去除李增辉濮智光）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>胡燕玲</td>
+      <td>杨培玉, 23; 郑明君, 19; 张硕, 18;</td>
+    </tr>
+    <tr>
+      <td>夏轩</td>
+      <td>张敏, 22; 郑晓洛, 21; 魏定阔, 17;</td>
+    </tr>
+    <tr>
+      <td>吴呈邑</td>
+      <td>张敏, 29; 宋忠森, 18; 吴凯, 14;</td>
+    </tr>
+    <tr>
+      <td>韩君男</td>
+      <td>罗宇翔, 16; 段宏思, 7; 张敏, 6;</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="引入plotly图形库">引入Plotly图形库</h2>
+
+<p>在网上搜到的图形库中看上去最好看的就是<a href="https://plot.ly">Plotly</a>，我研究了一下，发现三维可拖动的效果虽然看上去高大上，但实际并不直观，也没法灵活配置参数（比如每条线的粗细，每个圆的大小等等），我能达到的最好效果大概就是下面这样：</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79ly1fh360g8lvfj20ob0jomyy.jpg" alt="" /></p>
+
+<p>其中最明显的就是最上面给产品老大点赞的一群销售/实施，下面产品设计部的关系并不明显。</p>
+
+<p>上面这个图的地址是：<a href="https://plot.ly/~JonShowing9266/0/the-like-relation-of-qiyu-weibangong/">https://plot.ly/~JonShowing9266/0/the-like-relation-of-qiyu-weibangong/</a></p>
+
+<p>于是我去找来了上面那篇唐朝诗人关系图的源码，在它的基础上改了一下，终于有了比较满意的结果。</p>
+
+<h2 id="引入echarts图形库">引入ECharts图形库</h2>
+
+<p><a href="echarts.baidu.com/examples.html">ECharts</a>是个前端的图形库，最开始我研究了半天怎么在Python上直接用这个库，最后实在没搞懂才转投Plotly。经过对上面源码的分析，我发现其实只要用Python拼一下ECharts所需要的JavaScript代码就行了，最终直接生成HTML文件。</p>
+
+<p>结果大概是这样的：</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79ly1fh367veohij21bw0tp7ez.jpg" alt="" /></p>
+
+<p>这里对数据做了个预处理：首先是读取了上面提到的每个人给别人点赞的排序列表，且只取前三个的数据，这样可以有效降低互相间点赞关系过于混乱的情况，又能把握最主要的动向；第二是只取赞数大于5的数据，如果没到5说明两人间的关系不明显，可以忽略。</p>
+
+<p>经过上面的处理，此时其实互相间的关系已经比较明显了，接下来我又做了个简单的聚类，就是把互相之间点赞数大于5的人放到一组：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">group</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">picked</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">likeUniqueArray</span><span class="p">:</span>
+    <span class="n">ppl</span> <span class="o">=</span> <span class="n">peopleMap</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">like</span> <span class="ow">in</span> <span class="n">ppl</span><span class="p">.</span><span class="n">getLikes</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">like</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span> 
+            <span class="c1"># only calculate the ones whose like count is greater than 5
+</span>            <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">for</span> <span class="n">subGroup</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">subGroup</span> <span class="ow">or</span> <span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">subGroup</span><span class="p">:</span> 
+                    <span class="c1"># check both ppl and target, 
+</span>                    <span class="c1"># if found any of the two, check if it is valid
+</span>                    <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="n">notInGroup</span> <span class="o">=</span> <span class="bp">False</span>
+                    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">subGroup</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="n">pid</span> <span class="ow">or</span> <span class="n">item</span> <span class="o">==</span> <span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> 
+                            <span class="c1"># skip item itself
+</span>                            <span class="k">continue</span>
+                        <span class="n">anotherPPL</span> <span class="o">=</span> <span class="n">peopleMap</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">anotherPPL</span><span class="p">.</span><span class="n">getLikeValue</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="ow">or</span> <span class="n">anotherPPL</span><span class="p">.</span><span class="n">getLikeValue</span><span class="p">(</span><span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span> 
+                            <span class="c1"># total like count reversely
+</span>                            <span class="n">notInGroup</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">break</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">notInGroup</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">pid</span> <span class="ow">in</span> <span class="n">picked</span> <span class="ow">and</span> <span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">picked</span><span class="p">):</span>
+                        <span class="n">subGroup</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+                        <span class="n">subGroup</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">picked</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+                        <span class="n">picked</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="k">break</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">pid</span> <span class="ow">in</span> <span class="n">picked</span> <span class="ow">and</span> <span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">picked</span><span class="p">):</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">pid</span><span class="p">])</span>
+                <span class="n">s</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">picked</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+                <span class="n">picked</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">like</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">group</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>代码写得仓促，看起来比较恶心，但效果很明显：</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79ly1fh369lvvjuj20jm0dh0x6.jpg" alt="" /></p>
+
+<p>上图的填色就是基于这个分组的。</p>
+
+<p>把上图人工画一下分组，大概是：</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/5613ec79ly1fh36chfnrnj21hc0u0dtk.jpg" alt="" /></p>
+
+<p>可以说，我们得到了和唐朝诗人关系图那篇文章中相同的结论，即使对这个公司没有任何了解，仅仅凭借对点赞关系的分析，就能大致还原组织架构图。</p>
+
+<p>最终效果图的地址是：http://jonshowing.com/like-network/output.html</p>
+
+      <div id="more">
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tags -->
+  <div class="post-tags">
+    
+      
+        <span class="post-single-tag"><a href="/tag/数据可视化">数据可视化</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/Python">Python</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/Code">Code</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/作品">作品</a></span>
+    
+  </div>
+
+  <!-- Series links -->
+  
+
+  <script src="https://giscus.app/client.js"
+        data-repo="zshowing/zshowing.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnk2ODMxMDU3Mw=="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBBJWLc4CUkLK"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+  </script>
+</div>
+
+
+
+<link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>

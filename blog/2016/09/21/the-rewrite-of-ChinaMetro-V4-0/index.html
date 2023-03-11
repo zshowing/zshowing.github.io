@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
+	<title> Jon Showing - 地铁通4.0版iOS客户端重写中的一些经验</title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick-theme.css"/>
+	<link rel="alternate" type="application/rss+xml" href="http://localhost:4000/feed.xml">
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/assets/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6BJK9WV14"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84283556-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-R6BJK9WV14');
+	  gtag('config', 'UA-84283556-1');
+	</script>
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<div class="menu-button"><span id="menu-button"><i class="fa-solid fa-bars"></i></span></div>
+		<ul class="nav-list">
+			<li class="nav-item ">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item selected">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/ACGBM/"><span nav-hover="书影游">ACGBM</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- 
+		post -->
+	<div class="main-text">
+		<h1 class="post-title">
+  <span>
+    
+      地铁通4.0版iOS客户端重写中的一些经验
+    
+  </span>
+</h1>
+<div class="post-meta">
+  <span class="post-date">发布于 2016-09-21</span>
+	 | <span class="post-category">分类于 
+  
+    
+  
+    </span>
+      <a href="/blog/#Code">Code</a>
+    
+  
+	<div class="post-desc">
+		在从TouchChina离职前，我决定完成一件一直想做却一直受制于进度与需求的事：将已经开发了三四年的地铁通进行一次彻底的重构。<br>本文从重构动机、重构思路以及重构后的对比几个角度，剖析了在程序开发以及架构设计中可能有所提高的地方。 
+	</div>
+</div>
+<div id="fullpage" onclick="closingImage(this)"></div>
+<div id="container">
+  <div id="content">
+    <div class="post">
+      <h2 id="序">序</h2>
+
+<p><a href="https://itunes.apple.com/cn/app/tie-tong-touchchina-quan-guo/id530096786?mt=8">地铁通</a>是一款覆盖了国内全部和国外部分已开通地铁城市的导航类应用，入选了苹果的AppStore精华，至今仍在地铁关键字搜索排名第一。迄今为止（注：2016年2月）iOS版的总下载数为237万，苹果后台显示的日活跃用户约为5万。</p>
+
+<p>我是从2013年起接手的这个应用，在那之前是一个在中国定居的法国同事<a href="https://www.linkedin.com/in/kevintingwingyuen">Kevin</a>搭起的总体架构，在SVN显示的第一次提交是2012年6月14日。在这漫长的时间里，由于可以想象的项目进度和迭代压力，重写架构这种费力不讨好的事儿自然一直没法安排。</p>
+
+<p>事实上，小规模的重构（即，单个页面规模）一直在进行，在2014年8月的一个版本我由于花了很大力气重构得比较狠，还恶搞苹果的Jony Ive，用他的口吻做了几页宣传PPT：<br />
+<img src="https://s2.loli.net/2023/02/23/iufRQheXCBxIt1p.jpg" alt="5613ec79jw1f7wyleayk0j20z00iwjsq.png" /><br />
+<img src="https://s2.loli.net/2023/02/23/9OcmF4Rg8PdBY6q.jpg" alt="5613ec79jw1f7wylci9t9j20z00iwdih.png" /><br />
+<img src="https://s2.loli.net/2023/02/23/KLMpsyJdbRnNUc6.jpg" alt="5613ec79jw1f7wyldc3a8j20z00jatci.png" /><br />
+<img src="https://s2.loli.net/2023/02/23/HoIM3rLbQBG1YvU.jpg" alt="5613ec79jw1f7wylcmw7pj20z00j2juh.png" /><br />
+<img src="https://s2.loli.net/2023/02/23/pvCAscur5RiTUfm.jpg" alt="5613ec79jw1f7wylcuyzjj20z00jgq63.png" /><br />
+<img src="https://s2.loli.net/2023/02/23/SwQkcmoZNIK4q9b.jpg" alt="5613ec79jw1f7wylbywtgj20z00jg0t1.png" /><br />
+<img src="https://s2.loli.net/2023/02/23/5s7fb1ji9wFoJPS.jpg" alt="5613ec79jw1f7wylby2xej20z00iwt8s.png" /></p>
+
+<p>（此处有掌声）</p>
+
+<p>尽管如此，更大规模，或者说，更底层的架构级重构还是一直没时间进行。由于横跨多个业务场景，这种级别的重构工作势必占用几周的完整时间，还要进行彻底的测试。作为一家创业公司是承受不起的，只能想想。</p>
+
+<p>正如Pinterest在介绍他们重写程序架构的blog（<a href="https://engineering.pinterest.com/blog/re-architecting-pinterests-ios-app">《Re-architecting Pinterest’s iOS app》</a>）里面写的：</p>
+<blockquote>
+  <p>A small team of Pinterest iOS engineers was recently given <strong>the opportunity every engineer dreams of</strong> - completely rethinking and rebuilding our app.</p>
+</blockquote>
+
+<p>直到我决定要离职，出于一种代码洁癖和少许的社会责任感（我觉得在我之后怕是没人能做得起这种量级的代码调整了，难道就把这一坨四年历史的充满补丁的垃圾留给200多万用户吗？），外加一股想要自我救赎的冲动（我认为，能自己把自己的烂代码改掉是一种自我救赎），我向Boss提出了重构申请，作为离职前的最后一个项目。</p>
+
+<p>地铁通4.0项目就这么立项了。</p>
+
+<h2 id="程序概貌">程序概貌</h2>
+
+<p>在深入讲解之前，我先整体介绍一下地铁通这款app的大致组成。</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/7sjSYyH31ok4UeF.jpg" width="50%" /></p>
+
+<p>如上面的主界面截图，地铁通的主要功能就是显示地铁图和查询两个站点间的最佳换乘路线，大概的模块划分如下：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/niL4mGECxHTIbQg.jpg" alt="5613ec79jw1f7xleabzvzj21h016eten.png" /></p>
+
+<h2 id="现存问题">现存问题</h2>
+
+<p>接下来，让我们分析一下在3.x版本的地铁通里面都存在哪些需要改进的问题。</p>
+
+<h3 id="viewcontroller职责过多">ViewController职责过多</h3>
+
+<p>这可以说是任何一个未精心设计过架构的iOS App必然会导致的结果，在苹果的MVC架构中，ViewController这一级是最容易膨胀的，业界风起云涌的诸如MVVM等架构正是为了解决这种问题。</p>
+
+<p>具体到项目中，比如在展示搜索结果的<code class="language-plaintext highlighter-rouge">线路结果页</code>中，当线路数据传到这个页面时，需要再次加工才能获得该页面所需要的信息（比如哪个站是换乘站、一共需要换乘几次、计算合理的末班车时间等），而这个工作全部放到了当前ViewController中进行。再加上其他一些处理逻辑，导致这个ViewController变得极端臃肿，达到了令人发指的3000多行。</p>
+
+<p>再比如切换不同城市地铁的<code class="language-plaintext highlighter-rouge">城市列表页</code>中，由于没有做好适当的分层，导致这个ViewController除了显示城市列表的任务之外，还承担了：</p>
+<ul>
+  <li>点选切换城市之后的数据初始化工作；</li>
+  <li>点选开始下载后的进度更新逻辑，甚至下载完成后的解压逻辑；</li>
+  <li>点选删除城市之后的数据清理工作；</li>
+  <li>…</li>
+</ul>
+
+<h3 id="耦合过紧">耦合过紧</h3>
+
+<p>从上面的结构模块示意图中可以看出，在不同模块之间存在着错综复杂的强依赖，其中尤以<code class="language-plaintext highlighter-rouge">DataSource</code>最为严重，因为在整个App运行期间都要保持不同界面的某种数据一致性。虽然在之前的架构中特地抽象出了DataSource这个单例，但各个模块间都是直接对其进行操作，不仅繁琐、容易出错，从架构的角度来看，某些底层的操作完全不应该由最上层的ViewController来做。</p>
+
+<p>再举个例子，在3.x版本的地图控件中（即上图的<code class="language-plaintext highlighter-rouge">TileView</code>），存在着大量处理和用户交互的代码逻辑，甚至还有用户点选起点和终点后直接对<code class="language-plaintext highlighter-rouge">DataSource</code>进行更新的逻辑。过紧的耦合导致了不必要的判断，到现在我都无法完全搞清之前同事写的下面这几行代码中，那两个神奇的数字到底是干嘛的：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">NSInteger</span> <span class="n">tag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">sender</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">UIButton</span> <span class="nf">class</span><span class="p">]])</span> <span class="p">{</span>
+        <span class="n">UIButton</span> <span class="o">*</span><span class="n">tmpBtn</span> <span class="o">=</span> <span class="p">(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">sender</span><span class="p">;</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">tmpBtn</span><span class="p">.</span><span class="n">tag</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sender</span> <span class="o">==</span> <span class="n">bubbleView</span><span class="p">.</span><span class="n">startBtn</span> <span class="o">||</span> <span class="n">tag</span> <span class="o">==</span> <span class="mi">888</span> <span class="o">||</span> <span class="n">tag</span> <span class="o">==</span> <span class="mi">887</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// WTF??</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="产品逻辑混乱">产品逻辑混乱</h3>
+
+<p>这条看起来可能有点甩锅的意思，但实际情况确实如此：如果有哪条逻辑写起来非常拧巴，或者连描述起来都拧巴的时候，你可以去认真思考一下，是不是从产品设计上就出了问题。<br />
+虽然从流程上讲，这种上溯应该扼杀在需求评审之类的时机，但从实际执行的角度，已经完成的功能并不代表就是不可更改的。尤其在发现那部分代码已经成为维护地狱的时候，应该当机立断进行修正。</p>
+
+<p>比如在书签/历史线路页面，以前产品的需求是查询过的站点和线路按时间逆序混杂在一起显示，这样导致的结果就是，在构造这个页面时需要大量的动态判断逻辑来区分每个cell到底是什么东西：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">NSObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">historyMArray</span> <span class="nf">objectAtIndex</span><span class="p">:</span><span class="n">row</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">obj</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">NSDictionary</span> <span class="nf">class</span><span class="p">]])</span> <span class="p">{</span>
+        <span class="p">...</span>
+    <span class="p">}</span><span class="k">else</span> <span class="nf">if</span> <span class="p">([</span><span class="n">obj</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">Route</span> <span class="nf">class</span><span class="p">]]){</span>
+        <span class="p">...</span>
+    <span class="p">}</span><span class="k">else</span> <span class="nf">if</span> <span class="p">([</span><span class="n">obj</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">NSArray</span> <span class="nf">class</span><span class="p">]]){</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">cell</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>而如果把页面分为若干个section显示，不仅从根源上杜绝了这种混乱的逻辑，从产品的角度也使用户一眼看上去更加清晰。</p>
+
+<h3 id="页面布局方式过时">页面布局方式过时</h3>
+
+<p>可能对于大部分现有的App来说，这已经不算是个问题，但对于一个有着几年历史的App，基本上最早的那些界面依然是用绝对坐标进行定位的；加载一个动态生成的UI时，也是一点点计算后再<code class="language-plaintext highlighter-rouge">addSubview</code>上去，或者修改某个控件的<code class="language-plaintext highlighter-rouge">frame.size.height</code>来更新其高度。这种做法不仅不优雅，更重要的是不直观。一切不直观的代码都会导致以下几点问题：</p>
+
+<ul>
+  <li>开发时难以调试；</li>
+  <li>出现bug时难以维护；</li>
+  <li>拿到新需求时难以修改。</li>
+</ul>
+
+<p>所谓的KISS原则（Keep It Simple &amp; Stupid），指的就是这样的场景。</p>
+
+<p><br /></p>
+
+<p>知道了现有的问题，下面要做的就是一些合理的规划了。</p>
+
+<h2 id="架构设计">架构设计</h2>
+
+<p>有了上面所述的教训，在设计新版架构的时候，从最开始就确立了几条原则：</p>
+<ol>
+  <li>尽量打散耦合，只在有必要的情况下采用紧耦合；</li>
+  <li>切记合理封装，每个模块严格只负责自己的事务；</li>
+  <li>争取保持简洁，遇到复杂的实现换用简单的设计。</li>
+</ol>
+
+<p>下面是我当时在日记本上画的下载模块的层次结构示意图：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/K2MPzb6Cj9EIcNh.jpg" alt="5613ec79gw1f7y17wt9lbj21kw0yoe0i.png" /></p>
+
+<p>每一层之间仅保留最基本的数据请求和数据反馈。</p>
+
+<p>新的结构图大概是这个样子：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/GoiHa3z8tvOUyVh.jpg" alt="5613ec79gw1f7y26hsd5tj21g412m44r.png" /></p>
+
+<p>最明显的区别就是把模块之间的紧耦合变成了虚线显示的Notification，并且去掉了所有跨级调用。</p>
+
+<h2 id="准备工作">准备工作</h2>
+
+<p>在开始项目之前，一个要做的选择是，要用原有的Objective-C还是新生的Swift？</p>
+
+<p>最终我选择了Swift。理由是：</p>
+
+<ol>
+  <li>Swift经过几年的发展，已经趋于稳定；</li>
+  <li>此次重写的目标就是要面向未来，而Swift就是未来；</li>
+  <li>借机学习新的技术。</li>
+</ol>
+
+<p>然后，我用”Swift best practices”作为关键词搜索进行了一番调研，尽量从最开始就站在巨人的肩膀上，往正确的方向走。</p>
+
+<p>比如这篇：https://github.com/futurice/ios-good-practices</p>
+
+<p>一些在项目中采纳的点：</p>
+
+<h3 id="使用struct来定义常量">使用<code class="language-plaintext highlighter-rouge">struct</code>来定义常量</h3>
+
+<p>在Objective-C时代经常用<code class="language-plaintext highlighter-rouge">#define</code>来定义常量，现在可以使用<code class="language-plaintext highlighter-rouge">struct</code>来定义。比如：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```swift
+struct CMConfig {
+    static let AppName: String          = "xxx"
+    static let AppStoreID : UInt        = 8888
+    static let WeiboKey: String         = "8888"
+    static let WeiboAppSecret: String   = "8888"
+    static let AppStoreURL: NSURL       = NSURL(string: "itms-apps://itunes.apple.com/cn/app/bei-jing-de-tie-touchchina/id530096786")!
+    ...
+}
+```
+</code></pre></div></div>
+
+<p>这样可以最大程度地利用Swift<em>类型安全</em>的语言特性，使你在编译期就可以检查出一些低级的失误。</p>
+
+<h3 id="使用asset-catalogs来图像资源文件">使用<code class="language-plaintext highlighter-rouge">Asset Catalogs</code>来图像资源文件</h3>
+
+<p>之前的图像资源管理非常混乱，不仅所有文件混杂在目录中，而且每个资源对应着两到三个不同分辨率的@2x, @3x传统位图。<br />
+采取Asset Catalog进行统一管理后，不仅工程干净清爽了许多，还可以用一张矢量图来让XCode自动为你生成不同分辨率的资源。记得我刚才说的“面向未来”吗？xD<br />
+（没错，矢量图是我自己拿Adobe Illustrator重绘的。）</p>
+
+<h3 id="设定合理的logging策略">设定合理的Logging策略</h3>
+
+<p>之前的项目中一直采用<code class="language-plaintext highlighter-rouge">NSLog</code>，这样的弊端是在正式上线的App中很难把所有NSLog都屏蔽掉，而这些输出的记录会影响程序效能，还可能泄露隐私。</p>
+
+<p>如果在一开始就设定合理的Logging分级机制，这样在打发布包的时候只需把Looging Level调高（甚至可以在切换scheme的时候自动进行调整），就能杜绝上述问题。</p>
+
+<h3 id="使用预处理标志">使用预处理标志</h3>
+
+<p>直接看图：<br />
+    <img src="https://s2.loli.net/2023/02/23/MmFCd3KfhQxcOli.jpg" alt="5613ec79jw1f7yui16xaej20y3046q44.png" /></p>
+
+<p>使用Preprocessor Symbol的好处是什么呢？还以刚才的常量定义为例：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">struct</span> <span class="kt">CMConfig</span> <span class="p">{</span>
+        <span class="o">...</span>
+    <span class="cp">#if Debug</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">BaseURL</span> <span class="p">:</span> <span class="kt">NSURL</span>          <span class="o">=</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://test.itouchchina.com"</span><span class="p">)</span><span class="o">!</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMBPushMode</span> <span class="p">:</span> <span class="kt">BPushMode</span>  <span class="o">=</span> <span class="kt">BPushMode</span><span class="o">.</span><span class="kt">Development</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMLogLevel</span> <span class="p">:</span> <span class="kt">SLogLevel</span>   <span class="o">=</span> <span class="kt">SLogLevel</span><span class="o">.</span><span class="kt">Verbose</span> <span class="c1">// 百度推送模式</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMDebugStatus</span> <span class="p">:</span> <span class="kt">Bool</span>     <span class="o">=</span> <span class="kc">true</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMHeaderClass</span><span class="p">:</span> <span class="kt">String</span>    <span class="o">=</span> <span class="s">"test"</span>
+    <span class="cp">#else</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">BaseURL</span> <span class="p">:</span> <span class="kt">NSURL</span>          <span class="o">=</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://production.itouchchina.com"</span><span class="p">)</span><span class="o">!</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMBPushMode</span> <span class="p">:</span> <span class="kt">BPushMode</span>  <span class="o">=</span> <span class="kt">BPushMode</span><span class="o">.</span><span class="kt">Production</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMLogLevel</span> <span class="p">:</span> <span class="kt">SLogLevel</span>   <span class="o">=</span> <span class="kt">SLogLevel</span><span class="o">.</span><span class="kt">Error</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMDebugStatus</span> <span class="p">:</span> <span class="kt">Bool</span>     <span class="o">=</span> <span class="kc">false</span>
+        <span class="kd">static</span> <span class="k">let</span> <span class="nv">CMHeaderClass</span><span class="p">:</span> <span class="kt">String</span>    <span class="o">=</span> <span class="s">"production"</span>
+    <span class="cp">#endif</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>如此便可以一劳永逸地解决各种常量在开发版和正式版中的切换问题，你从此可以忘掉它，在切换scheme的时候一切都会自动调整，免去了可能的错误。</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/GZDlLAayWtEMCXO.jpg" alt="5613ec79jw1f7yyy6rullj20b606mdgl.png" /></p>
+
+<p>如果你有更多的scheme，希望更细粒度地进行控制，可以使用Swift Flag:</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/bgE8mXPyCVO51es.jpg" alt="5613ec79jw1f7yxhrdxltj20tb04yq3v.png" /></p>
+
+<p>在此不再赘述。</p>
+
+<h3 id="使用cocoapods进行第三方库管理">使用CocoaPods进行第三方库管理</h3>
+
+<p>这点应该大家都熟悉，<strong>谁用谁知道</strong>。</p>
+
+<h2 id="详细分析">详细分析</h2>
+
+<p>下面选几个有代表性的页面，分别说明一下改进的细节。</p>
+
+<h3 id="城市列表页">城市列表页</h3>
+
+<h4 id="问题">问题</h4>
+
+<ol>
+  <li>如前所述，UI层代码、交互层代码、响应层代码和数据处理以及初始化代码没有合理分离。</li>
+  <li>
+    <p>城市的下载状态没有一个统一的位置持有。<br />
+ 设计者的本意是通过进入该页面时生成的一个包含所有City实例的<code class="language-plaintext highlighter-rouge">NSArray</code>管理，可一旦开始下载，就要涉及<code class="language-plaintext highlighter-rouge">DownloadManager</code>模块里面的下载状态和当前页面数组中的状态之间的同步等一系列问题。<br />
+ 同时，我们会发现每次在设置城市的下载状态时都会进行很多判断，这些判断还有不少是重复的。更严重的问题是，一个后续的错误状态也许会覆盖掉之前设置过的正确状态（因为在局部没有足够的上下文信息对状态进行充分的判断）。</p>
+
+    <p>举个例子：</p>
+
+    <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">if</span> <span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">CGListTableCellStateEdit</span><span class="p">)</span> <span class="p">{</span>
+     <span class="n">NSString</span> <span class="o">*</span> <span class="n">versionFile</span> <span class="o">=</span> <span class="n">getCGDocumentPath</span><span class="p">([</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span> <span class="s">@"guides/guide%d/current.version"</span><span class="p">,</span> <span class="p">[</span><span class="n">guide</span><span class="p">.</span><span class="n">metroAppId</span> <span class="nf">intValue</span><span class="p">]]);</span>
+     <span class="n">NSString</span> <span class="o">*</span> <span class="n">version</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithContentsOfFile</span><span class="p">:</span> <span class="n">versionFile</span> <span class="nf">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span> <span class="n">error</span><span class="o">:</span> <span class="nb">nil</span><span class="p">];</span>
+     <span class="n">NSFileManager</span> <span class="o">*</span> <span class="n">fm</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSFileManager</span> <span class="nf">defaultManager</span><span class="p">];</span>
+        
+     <span class="k">if</span> <span class="p">([</span><span class="n">fm</span> <span class="nf">fileExistsAtPath</span><span class="p">:</span><span class="n">versionFile</span><span class="p">])</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">((</span><span class="n">version</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">([</span><span class="n">guide</span><span class="p">.</span><span class="n">guideupdate</span> <span class="nf">compare</span><span class="p">:</span> <span class="n">version</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NSOrderedSame</span><span class="p">))</span>
+             <span class="n">cell</span><span class="p">.</span><span class="n">guide</span><span class="p">.</span><span class="n">cellState</span> <span class="o">=</span> <span class="n">CGListTableCellStateUpdate</span><span class="p">;</span>
+         <span class="k">else</span>
+             <span class="n">cell</span><span class="p">.</span><span class="n">guide</span><span class="p">.</span><span class="n">cellState</span> <span class="o">=</span> <span class="n">CGListTableCellStateDownloaded</span><span class="p">;</span>
+     <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+         <span class="n">cell</span><span class="p">.</span><span class="n">guide</span><span class="p">.</span><span class="n">cellState</span> <span class="o">=</span> <span class="n">CGListTableCellStateDownloaded</span><span class="p">;</span>
+     <span class="p">}</span>
+        
+     <span class="p">[</span><span class="n">self</span> <span class="nf">reloadTableView</span><span class="p">];</span>
+ <span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>这只是一个简单的当用户点击一个<strong>编辑状态</strong>的城市时应该采取的动作，但此处的实现居然恐怖到动用了一个<code class="language-plaintext highlighter-rouge">NSFileManager</code>！而这一切仅仅是为了判断这个城市应该回复到<strong>已下载</strong>状态还是<strong>有更新</strong>状态。</p>
+
+    <p>类似的代码还可以见到好几处（在该页搜索<code class="language-plaintext highlighter-rouge">NSFileManager</code>，有多达19个结果！）。</p>
+  </li>
+  <li>
+    <p>最后一个问题也是上面提到的，搭建UI采用绝对坐标。<br />
+ 甚至有这样恶心的代码：</p>
+
+    <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">formatUI</span><span class="p">{</span>
+     <span class="n">CGSize</span> <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">cityNameLabel</span><span class="p">.</span><span class="n">text</span> <span class="nf">sizeWithFont</span><span class="p">:</span><span class="n">cityNameLabel</span><span class="p">.</span><span class="n">font</span><span class="p">];</span>
+     <span class="n">CGRect</span> <span class="n">rect</span><span class="p">;</span>
+     <span class="n">rect</span> <span class="o">=</span> <span class="n">cityNameLabel</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+     <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+     <span class="n">cityNameLabel</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rect</span><span class="p">;</span>
+        
+     <span class="k">if</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">&gt;</span> <span class="mi">74</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Why 74?</span>
+         <span class="n">CGRect</span> <span class="n">rect</span><span class="p">;</span>
+         <span class="n">rect</span> <span class="o">=</span> <span class="n">sizeLabel</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+         <span class="n">rect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">+</span> <span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">74</span><span class="p">;</span> <span class="c1">// ???</span>
+         <span class="n">sizeLabel</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rect</span><span class="p">;</span>
+        
+         <span class="p">...</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="改进">改进</h4>
+
+<h5 id="下载管理">下载管理</h5>
+
+<p>在地铁通4.0中，我把所有对下载状态的管理一概收到了下载模块<code class="language-plaintext highlighter-rouge">CMDataAPI</code>中，现在获取下载状态只要一行：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">var</span> <span class="nv">currentMode</span><span class="p">:</span> <span class="kt">CMCityListCellMode</span> <span class="o">=</span> <span class="kt">CMDataAPI</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="nf">getModeForCity</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+</code></pre></div></div>
+<p>在<code class="language-plaintext highlighter-rouge">getModeForCity(_city: CMCity)</code>的实现中，只需遍历下载和解压两个队列，如果有必要对结果再进行时间戳的比对即可。（顺便，我把下载的时间戳迁移到了<code class="language-plaintext highlighter-rouge">NSUserDefaults</code>里，避免了文件操作，并在运行时做了缓存。）</p>
+
+<h5 id="进度更新">进度更新</h5>
+
+<p>而下载进度和解压进度的更新，也被封装成了两个方法，只暴露给调用页面需要的参数（之前的版本中，解压进度甚至是无法查看的）：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hookUpDownloadingProgress</span>
+        <span class="p">(</span><span class="nv">_progress</span><span class="p">:</span> <span class="p">((</span><span class="kt">UInt</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span>
+        <span class="nv">success</span><span class="p">:</span> <span class="p">(</span><span class="kt">CMCity</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span>
+        <span class="nv">failure</span><span class="p">:</span> <span class="p">(</span><span class="kt">CMCity</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span>
+        <span class="n">forCity</span> <span class="nv">city</span><span class="p">:</span> <span class="kt">CMCity</span><span class="p">){</span>
+        <span class="o">...</span>
+<span class="p">}</span>
+
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">hookUpUnzippingProgess</span>
+        <span class="p">(</span><span class="nv">_progress</span><span class="p">:</span> <span class="p">((</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span>
+        <span class="nv">success</span><span class="p">:</span> <span class="p">(</span><span class="kt">CMCity</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span>
+        <span class="nv">forCity</span><span class="p">:</span> <span class="nv">city</span><span class="p">:</span> <span class="kt">CMCity</span><span class="p">){</span>
+        <span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="与地图页的解耦合">与地图页的解耦合</h5>
+
+<p>在切换城市时，对地图页的直接调用改为发<code class="language-plaintext highlighter-rouge">NSNotification</code>：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">postNotificationName</span><span class="p">(</span><span class="kt">PropertyKeys</span><span class="o">.</span><span class="n">kCMCityChangeNotification</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>注意所有的广播名称常量也用前述的<code class="language-plaintext highlighter-rouge">struct</code>进行了统一的定义。</p>
+
+<h5 id="转移数据操作">转移数据操作</h5>
+
+<p>所有的数据初始化全部移到<code class="language-plaintext highlighter-rouge">CMDataSource</code>中进行：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">dispatch_async</span><span class="p">(</span><span class="nf">dispatch_get_global_queue</span><span class="p">(</span><span class="kt">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+    <span class="kt">CMDataSource</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="nf">loadCity</span><span class="p">(</span><span class="n">city</span><span class="p">)</span> <span class="c1">// One line to rule them all!</span>
+    <span class="nf">dispatch_async</span><span class="p">(</span><span class="nf">dispatch_get_main_queue</span><span class="p">(),</span> <span class="p">{[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+        <span class="kt">SVProgressHUD</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">()</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">navigationController</span><span class="p">?</span><span class="o">.</span><span class="nf">dismissViewControllerAnimated</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>删除城市数据亦然：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">CMDataSource</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="nf">removeCity</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="使用storyboardxib">使用Storyboard/Xib</h5>
+
+<p>将UI搭建改为Storyboard/Xib这件事早有很多讨论，略去不表。</p>
+
+<h4 id="成果">成果</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>文件</th>
+      <th style="text-align: center">地铁通V3.x</th>
+      <th style="text-align: center">地铁通V4.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CityListViewController</td>
+      <td style="text-align: center">1712行</td>
+      <td style="text-align: center">280行</td>
+    </tr>
+    <tr>
+      <td>CityListCell</td>
+      <td style="text-align: center">与上面是同一个文件</td>
+      <td style="text-align: center">123行</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="线路结果页">线路结果页</h3>
+
+<h4 id="问题-1">问题</h4>
+
+<ol>
+  <li>
+    <p>如前所述，对于线路数据需要再进行加工才能使用。</p>
+
+    <p>如图，光是确定各种情况下的末班车时间就有下面一大堆方法：<br />
+ <img src="https://cdn.cdnjson.com/tvax3.sinaimg.cn/large/5613ec79jw1f7z9j3titcj20se09a0vl.jpg" alt="" /></p>
+
+    <p>在<code class="language-plaintext highlighter-rouge">tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath</code>里就更加惨不忍睹。</p>
+  </li>
+  <li>
+    <p>这个页面在搭建UI上的问题更加严重。<br />
+ 由于每次生成的路线有无数种可能的组合，比如该城市的数据库中有没有出租车信息、起点终点是地铁站还是用户输入的地点、进行百度/Google搜索时有搜索中和搜索完成/失败三种状态……导致整个UI是在不停变化的，而未采用AutoLayout中约束条件的弊端在这种情况下体现得淋漓尽致。</p>
+
+    <p>恶心代码欣赏：</p>
+    <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">if</span> <span class="p">(</span><span class="n">taxiFee</span><span class="p">.</span><span class="n">floatValue</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">.</span><span class="mo">01</span><span class="p">)</span> <span class="p">{</span>
+     <span class="p">[</span><span class="n">headerView</span> <span class="nf">removeTaxi</span><span class="p">];</span>
+ <span class="p">}</span>
+ <span class="k">if</span><span class="p">(</span><span class="n">discountRate</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+     <span class="p">[</span><span class="n">headerView</span> <span class="nf">setDiscountRateUI</span><span class="p">];</span>
+     <span class="n">CGRect</span> <span class="n">headerFrame</span> <span class="o">=</span> <span class="n">headerView</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+     <span class="n">headerFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">+=</span> <span class="n">CM_ROUTE_SUM_MARGIN</span><span class="p">;</span>
+     <span class="n">headerView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">headerFrame</span><span class="p">;</span>
+ <span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>曾经设计师在挑UI问题的时候提出某处的空白留的不够，当时的我盘算了下在这种纷杂状况下想要精确控制空白高度的工作量……决定把这个bug放到最后再改，后来其他需求一来就不了了之了……</p>
+  </li>
+  <li>
+    <p>直接操作现象。<br />
+ 在数据变动要更新UI的时候，经常出现直接去更新相关View控件的代码。初看起来这没什么问题，但还是刚才说的问题，当这涉及到控件大小的改动时，就非常令人头疼了。</p>
+  </li>
+</ol>
+
+<h4 id="改进-1">改进</h4>
+
+<h5 id="引入新数据类型">引入新数据类型</h5>
+
+<p>引入新的<code class="language-plaintext highlighter-rouge">Route</code>和<code class="language-plaintext highlighter-rouge">RouteNode</code>对象，将所有与表现层无关的数据构建代码一律移入这里。</p>
+
+<p>顺便，还为今后可能的变动做了扩展：</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">start</span><span class="p">:</span><span class="kt">CMPOI</span><span class="p">,</span> <span class="nv">end</span><span class="p">:</span><span class="kt">CMPOI</span><span class="p">,</span> <span class="nv">algorithm</span><span class="p">:</span> <span class="kt">CMRouteAlgorithm</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">CMRouteType</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>在初始化对象的时候灵活传入所需的算法，可以实现灵活变换不同的算法计算路线。之前出现过针对海外城市采取不同的路线计算方式，当时的实现弄得非常恶心，这样就优雅很多。<br />
+再顺便，这是<code class="language-plaintext highlighter-rouge">策略模式</code>——在面试中经常被问到“你在项目中用了什么设计模式”这种恶心的问题，特地查了一下这种抽象叫什么。<br />
+现在，即使是返回cell的回调方法里也清晰多了：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UITableViewCell</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">node</span> <span class="o">=</span> <span class="n">routeArray</span><span class="p">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="p">]</span>
+        
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">type</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="k">let</span> <span class="nv">lineId</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">lineId</span><span class="p">{</span>
+        <span class="k">switch</span> <span class="n">type</span><span class="p">{</span>
+        <span class="k">case</span> <span class="o">.</span><span class="kt">TimeAdjusting</span><span class="p">:</span>
+            <span class="k">var</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">CMRouteTimeAdjustingCell</span><span class="p">?</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="nf">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="kt">TimeAdjustingCellId</span><span class="p">)</span> <span class="k">as?</span> <span class="kt">CMRouteTimeAdjustingCell</span>
+            <span class="k">if</span> <span class="n">cell</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">{</span>
+                <span class="n">cell</span> <span class="o">=</span> <span class="kt">CMRouteTimeAdjustingCell</span><span class="p">(</span><span class="nv">style</span><span class="p">:</span> <span class="kt">UITableViewCellStyle</span><span class="o">.</span><span class="kt">Default</span><span class="p">,</span> <span class="nv">reuseIdentifier</span><span class="p">:</span> <span class="kt">TimeAdjustingCellId</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="o">...</span> <span class="c1">// Initialization code</span>
+            <span class="k">return</span> <span class="n">cell</span><span class="o">!</span>
+        <span class="k">case</span> <span class="o">.</span><span class="kt">Normal</span><span class="p">:</span>
+            <span class="k">var</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">CMRouteNormalStationCell</span><span class="p">?</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="nf">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="kt">NormalStationCellId</span><span class="p">)</span> <span class="k">as?</span> <span class="kt">CMRouteNormalStationCell</span>
+            <span class="o">...</span> <span class="c1">// Same as above</span>
+            <span class="k">return</span> <span class="n">cell</span><span class="o">!</span>
+        <span class="k">case</span> <span class="o">.</span><span class="kt">POI</span><span class="p">:</span>
+            <span class="o">...</span>
+            <span class="k">return</span> <span class="n">cell</span><span class="o">!</span>
+        <span class="k">case</span> <span class="o">.</span><span class="kt">Transfer</span><span class="p">,</span> <span class="o">.</span><span class="kt">Start</span><span class="p">,</span> <span class="o">.</span><span class="kt">Destination</span><span class="p">:</span>
+            <span class="o">...</span>
+            <span class="k">return</span> <span class="n">cell</span><span class="o">!</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kt">UITableViewCell</span><span class="p">()</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="使用约束条件建立ui">使用约束条件建立UI</h5>
+
+<p>现在，整个页面，包括cell，都是用Constraints建立起来的（使用了一个第三方库叫<a href="http://snapkit.io/">SnapKit</a>）。<br />
+而且，cell里面的地铁线路，是用<code class="language-plaintext highlighter-rouge">CoreGraphic</code>自己画的。<br />
+甚至，线路上的文字是黑色还是白色，都是通过算法自动生成的（参考了<a href="http://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color">这里</a>的讨论）。</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/vcrZwxE3pKiVmQW.jpg" width="60%" /><br />
+这样的灵活度基本上算是达标了:)</p>
+
+<p>PS. 在完成整个项目之后，我试着把新版app在iPad上跑了一下，惊讶地发现，在我没有改动任何地方的情况下，居然所有页面的UI都显示正常！这在引入约束条件生成UI之前简直是不可想象的。</p>
+
+<h5 id="只更新数据源不操作控件">只更新数据源，不操作控件</h5>
+
+<p>事实上，这就是最基本的MVC分层在实际中的应用——当数据变化时，产生变化的组件只负责更新<code class="language-plaintext highlighter-rouge">DataModel</code>，然后简单地调用<code class="language-plaintext highlighter-rouge">tableView.reloadData()</code>搞定。剩下的问题都由<code class="language-plaintext highlighter-rouge">View</code>层自行负责。</p>
+
+<p>后来在浏览博客时发现有关这样的改动，Eden有一篇<a href="http://studentdeng.github.io/blog/2014/08/29/ios-architecture/">《iOS APP 架构漫谈》</a>差不多是同样的场景，在那篇文章中解释得非常详尽，尤其是：</p>
+<blockquote>
+  <p>我们可以借鉴很多”内存管理中的规则”，比如<code class="language-plaintext highlighter-rouge">谁创建，谁销毁</code>。同样，在我们的information flow中，我们希望<code class="language-plaintext highlighter-rouge">谁创建Cache，谁更新Cache变化</code></p>
+</blockquote>
+
+<p>这一句，道破本质。有兴趣的可去观摩。</p>
+
+<h5 id="成果-1">成果</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>文件</th>
+      <th style="text-align: center">地铁通3.x</th>
+      <th style="text-align: center">地铁通4.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RouteViewController</td>
+      <td style="text-align: center">3055行</td>
+      <td style="text-align: center">1158行</td>
+    </tr>
+    <tr>
+      <td>RouteViewCell</td>
+      <td style="text-align: center">158+67+171+89+220+249+245<br />=1199行&lt;1&gt;</td>
+      <td style="text-align: center">400行</td>
+    </tr>
+    <tr>
+      <td>Route&lt;2&gt;</td>
+      <td style="text-align: center">1045行</td>
+      <td style="text-align: center">N/A</td>
+    </tr>
+    <tr>
+      <td>DataModel&lt;3&gt;</td>
+      <td style="text-align: center">N/A</td>
+      <td style="text-align: center">629行</td>
+    </tr>
+    <tr>
+      <td>DijkstraAlgorithm&lt;4&gt;</td>
+      <td style="text-align: center">N/A</td>
+      <td style="text-align: center">320行</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>注：</p>
+<ol>
+  <li>3.x版本中分为NormalCell、TransferCell、HeaderView、SummaryView等许多文件；</li>
+  <li>3.x版本中的Route文件其实是算法，生成一个不包含meta信息的<code class="language-plaintext highlighter-rouge">NSArray</code>；</li>
+  <li>4.0版本中的DataModel定义了程序所需的所有底层对象，不仅有Route，还有下载的城市以及车站等等；</li>
+  <li>这是计算图上两点间最短路径的Dijkstra算法的实现，从之前的Route文件中抽了出来。</li>
+</ol>
+
+<h3 id="书签历史页">书签/历史页</h3>
+
+<p>这个页面之前也提到过，主要问题是设计太混乱。</p>
+
+<p>修改之后的逻辑相当的简洁，想出错都难：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">indexPath</span><span class="o">.</span><span class="n">section</span> <span class="o">==</span> <span class="mi">0</span><span class="p">{</span><span class="c1">//routes</span>
+    <span class="k">let</span> <span class="nv">route</span> <span class="o">=</span> <span class="n">favRoutes</span><span class="p">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nf">getRouteCell</span><span class="p">(</span><span class="n">route</span> <span class="k">as!</span> <span class="kt">NSDictionary</span><span class="p">)</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="c1">//stations</span>
+    <span class="k">let</span> <span class="nv">station</span> <span class="o">=</span> <span class="n">favStations</span><span class="p">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nf">getStationCell</span><span class="p">(</span><span class="n">station</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>成果是：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>文件</th>
+      <th style="text-align: center">地铁通3.x</th>
+      <th style="text-align: center">地铁通4.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BookmarkViewController</td>
+      <td style="text-align: center">784行</td>
+      <td style="text-align: center">315行</td>
+    </tr>
+    <tr>
+      <td>BookmarkCell</td>
+      <td style="text-align: center">109+98+105=312行</td>
+      <td style="text-align: center">90行</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="车站详情页">车站详情页</h3>
+
+<p>这个页面的代码量与之前基本保持一致，不同的是整体的UI搭建逻辑。<br />
+之前的搭法：从上到下依次初始化子控件并添加，保持一个<code class="language-plaintext highlighter-rouge">position</code>变量记录当前高度。<br />
+新版中的搭法：每个子控件负责处理自己的UI展现，子控件之间用约束条件加以绑定。<br />
+由于这个页面的数据都是不确定的，因此只能用代码添加数据元素间的约束条件，这是与前面那些大体UI已定好只待往里填数据的页面不同的地方。</p>
+
+<p>最终的画风大概是这样的：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scrollView</span><span class="o">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">scrollView</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">titleBackgroundView</span><span class="p">)</span>
+<span class="n">scrollView</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">timetableView</span><span class="p">)</span>
+<span class="n">scrollView</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">facilitiesView</span><span class="p">)</span>
+<span class="n">scrollView</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">exitView</span><span class="p">)</span>
+<span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">scrollView</span><span class="p">)</span>
+
+<span class="n">scrollView</span><span class="o">.</span><span class="n">snp_makeConstraints</span> <span class="p">{</span> <span class="p">(</span><span class="n">make</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">snp_top</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">snp_width</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">bottom</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">floatingBGView</span><span class="o">.</span><span class="n">snp_top</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">titleBackgroundView</span><span class="o">.</span><span class="n">snp_makeConstraints</span> <span class="p">{</span> <span class="p">(</span><span class="n">make</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_top</span><span class="p">)</span><span class="o">.</span><span class="nf">priorityRequired</span><span class="p">()</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_width</span><span class="p">)</span><span class="o">.</span><span class="nf">priorityRequired</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="n">timetableView</span><span class="o">.</span><span class="n">snp_makeConstraints</span> <span class="p">{</span> <span class="p">(</span><span class="n">make</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">titleBackgroundView</span><span class="o">.</span><span class="n">snp_bottom</span><span class="p">)</span><span class="o">.</span><span class="nf">offset</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_width</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">centerX</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_centerX</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">facilitiesView</span><span class="o">.</span><span class="n">snp_makeConstraints</span> <span class="p">{</span> <span class="p">(</span><span class="n">make</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">timetableView</span><span class="o">.</span><span class="n">snp_bottom</span><span class="p">)</span><span class="o">.</span><span class="nf">offset</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_width</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">leading</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_leading</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">exitView</span><span class="o">.</span><span class="n">snp_makeConstraints</span> <span class="p">{</span> <span class="p">(</span><span class="n">make</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">facilitiesView</span><span class="o">.</span><span class="n">snp_bottom</span><span class="p">)</span><span class="o">.</span><span class="nf">offset</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">leading</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_leading</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_width</span><span class="p">)</span>
+    <span class="n">make</span><span class="o">.</span><span class="n">bottom</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">scrollView</span><span class="o">.</span><span class="n">snp_bottom</span><span class="p">)</span><span class="o">.</span><span class="nf">offset</span><span class="p">(</span><span class="o">-</span><span class="kt">Constants</span><span class="o">.</span><span class="kt">StationDetailViewVerticalSpacing</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">if</span> <span class="k">let</span> <span class="nv">_station</span> <span class="o">=</span> <span class="n">station</span><span class="p">{</span>
+    <span class="n">titleLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">_station</span><span class="o">.</span><span class="n">stationName</span>
+    <span class="n">iconsDisplayView</span><span class="o">.</span><span class="nf">setImages</span><span class="p">(</span><span class="n">_station</span><span class="o">.</span><span class="nf">getIcons</span><span class="p">())</span>
+    <span class="n">timetableView</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">_station</span><span class="o">.</span><span class="n">timeTables</span><span class="p">)</span>
+    <span class="n">facilitiesView</span><span class="o">.</span><span class="nf">setupUI</span><span class="p">(</span><span class="n">_station</span><span class="o">.</span><span class="n">facilities</span><span class="p">)</span>
+    <span class="n">exitView</span><span class="o">.</span><span class="nf">setupUI</span><span class="p">(</span><span class="n">_station</span><span class="o">.</span><span class="n">exits</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>UI约束与数据初始化一气呵成，而且清晰明了。（顺便感谢Swift的链式语法）</p>
+
+<h3 id="搜索页">搜索页</h3>
+
+<p>用到搜索页的地方有两处，一个是首页点击最上方进入的页面，一个是首页点击下方右边按钮进入的页面。两者的不同是：前者有输入起点和终点的工具栏，后者只是单纯搜索定位车站。</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/yb5M2LcIEAno8Vf.jpg" alt="5613ec79jw1f7ztpzxw31j21jk0xcn1y.png" /></p>
+
+<h4 id="问题-2">问题</h4>
+
+<ol>
+  <li>之前的版本的两个界面完全独立，等于许多逻辑重复了两遍，违背了DRY(Don’t Repeat Yourself)原则。</li>
+  <li>和线路详情页类似，此处也缺少对数据合理的对象化封装，导致在使用时需要大量的判断逻辑。<br />
+ 比如，会出现下面这样的代码片段：
+    <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">if</span> <span class="p">([</span><span class="n">workDict</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"city"</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="p">[[</span><span class="n">workDict</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"city"</span><span class="p">]</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="n">_cityName</span><span class="p">])</span> <span class="p">{</span>
+     <span class="n">_isShowingWork</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+     <span class="k">if</span> <span class="p">([</span><span class="n">workDict</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"add"</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Station</span>
+         <span class="p">...</span>
+     <span class="p">}</span>
+     <span class="k">else</span> <span class="p">{</span> <span class="c1">// POI</span>
+         <span class="p">[</span><span class="n">self</span> <span class="nf">updateHistoryItem</span><span class="p">:</span><span class="n">workDict</span><span class="p">];</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="k">else</span><span class="p">{</span> <span class="c1">// Have not set</span>
+     <span class="p">...</span>
+ <span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>这种直接对原始数据进行操作的做法实在是既繁琐又容易出错。</p>
+  </li>
+  <li>
+    <p>对子控件的直接更新，这点和前面的线路结果页类似，但更加麻烦：由于当前编辑状态在随时变化，在决定更新控件时必须由零碎的变量来辅助判断到底要对哪个控件进行操作。<br />
+ 比如在百度定位API返回结果之后，下面的这段响应代码：</p>
+
+    <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updatePOIFromLocation</span><span class="p">:(</span><span class="n">BMKPoiInfo</span> <span class="o">*</span><span class="p">)</span><span class="nv">info</span><span class="p">{</span>
+ <span class="n">Station</span> <span class="o">*</span><span class="n">station</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CMDataSource</span> <span class="nf">getInstance</span><span class="p">]</span> <span class="nf">getNearestStation</span><span class="p">:</span><span class="n">info</span><span class="p">.</span><span class="n">pt</span><span class="p">.</span><span class="n">latitude</span> <span class="nf">andLo</span><span class="p">:</span><span class="n">info</span><span class="p">.</span><span class="n">pt</span><span class="p">.</span><span class="n">longitude</span><span class="p">];</span>
+    
+ <span class="k">if</span> <span class="p">(</span><span class="n">isUpdatingStart</span><span class="p">)</span> <span class="p">{</span>
+     <span class="p">...</span> <span class="c1">// Do some work</span>
+     <span class="n">self</span><span class="p">.</span><span class="n">currentEditing</span> <span class="o">=</span> <span class="n">CMSearchEditingEnd</span><span class="p">;</span>
+ <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">isUpdatingEnd</span><span class="p">){</span>
+     <span class="p">...</span> <span class="c1">// Doing work</span>
+ <span class="p">}</span>
+    
+ <span class="k">if</span> <span class="p">(</span><span class="n">isUpdatingStart</span><span class="p">)</span> <span class="p">{</span>
+     <span class="n">isUpdatingStart</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+     <span class="n">_startIsShowingLocation</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+ <span class="p">}</span>
+    
+ <span class="k">if</span> <span class="p">(</span><span class="n">isUpdatingEnd</span><span class="p">)</span> <span class="p">{</span>
+     <span class="n">isUpdatingEnd</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+     <span class="n">_endIsShowingLocation</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>又要凭借状态变量进行判断，又要记得时刻更新它们，还得防止考虑不周更新错了状态，简直是车祸现场。</p>
+
+<h4 id="改进-2">改进</h4>
+
+<h5 id="合并两个页面">合并两个页面</h5>
+
+<p>我直接把两个页面合并到了一起，由入口参数决定最终显示哪个界面。<br />
+但后来意识到，这并不是最好的解决方案。弊端是，原来是毫无耦合造成重复，现在两个页面的耦合又太紧了，虽然在这版的需求中工作得很好，再有调整又会比较棘手。更好的做法是使用<code class="language-plaintext highlighter-rouge">组合</code>，把公共的列表提取出来。<br />
+这一点在Casa的<a href="http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html">《跳出面向对象思想(一) 继承》</a>中解释得非常好，我就不再赘述。</p>
+
+<h5 id="新定义数据对象">新定义数据对象</h5>
+
+<p>在前面提到的<code class="language-plaintext highlighter-rouge">DataModel</code>中增加了<code class="language-plaintext highlighter-rouge">POI</code>对象，包含<code class="language-plaintext highlighter-rouge">Station</code>作为它的一个property。</p>
+
+<p>这代表，现在整个界面中，甚至整个app运行期间，都只有一种数据对象——<code class="language-plaintext highlighter-rouge">CMPOI</code>，清爽，干净，不紧绷。</p>
+
+<h5 id="只更新数据源不操作控件-1">只更新数据源，不操作控件</h5>
+
+<p>基本同前，不赘述。</p>
+
+<h5 id="成果-2">成果</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>文件</th>
+      <th style="text-align: center">地铁通3.x</th>
+      <th style="text-align: center">地铁通4.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SearchStationViewController</td>
+      <td style="text-align: center">2019行</td>
+      <td style="text-align: center">469行</td>
+    </tr>
+    <tr>
+      <td>StationSearchView</td>
+      <td style="text-align: center">821行</td>
+      <td style="text-align: center">N/A</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="datasource">DataSource</h3>
+
+<h4 id="明确职责">明确职责</h4>
+
+<p>这个组件作为整个app的数据中心，在新版的开发中更加明确了它的职责，把原来分散在其他组件中的一些功能划了过来。<br />
+比如，之前城市列表读取及解析功能是被划到网络请求组件中的，因为从服务器拿过来的返回数据可以就地解析；但从更高层的逻辑考虑这是不正确的，因为对程序城市列表的需求是更直接的，网络模块只要做好本职的网络交互就行了。<br />
+修改之后，网络请求组件读取成功城市列表后，并不直接返回，而是将列表保存到本地缓存起来，再发一个Notification通知到关心读取成功这个事件的其他组件：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">updateCityList</span><span class="p">(){</span>
+    <span class="o">...</span> <span class="c1">// Initialization code for paramaters</span>
+        
+    <span class="k">let</span> <span class="nv">param</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">"param"</span><span class="p">:</span> <span class="kt">JSONStringParam</span><span class="p">]</span>
+        
+    <span class="n">manager</span><span class="o">.</span><span class="kt">POST</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="n">param</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">opreation</span><span class="p">,</span> <span class="n">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">object</span> <span class="k">as!</span> <span class="kt">NSData</span>
+        <span class="k">if</span> <span class="kt">CMDataSource</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="nf">loadXMLResponse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="kc">true</span><span class="p">{</span>
+            <span class="k">let</span> <span class="nv">documentPath</span> <span class="o">=</span> <span class="nf">getDocumentPath</span><span class="p">(</span><span class="s">"guides/guides.info"</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="nf">writeToFile</span><span class="p">(</span><span class="n">documentPath</span><span class="p">,</span> <span class="nv">atomically</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+                
+            <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">postNotificationName</span><span class="p">(</span><span class="kt">PropertyKeys</span><span class="o">.</span><span class="n">kCMCityListUpdateSuccessNotification</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">})</span> <span class="p">{</span> <span class="p">(</span><span class="n">opreation</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+                <span class="o">...</span> <span class="c1">// Error handler</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>将组件间的耦合降到最低。另外注意这段代码中对返回结果的解析已经移到<code class="language-plaintext highlighter-rouge">DataSource</code>了。</p>
+
+<h4 id="减少耦合">减少耦合</h4>
+
+<p>正如上面提到的做法，之前诸多对<code class="language-plaintext highlighter-rouge">DataSource</code>直接的操作，在这一版中有许多都改为了通过Notification交互：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">init</span><span class="p">(){</span>
+    <span class="k">let</span> <span class="nv">cityComponents</span> <span class="o">=</span> <span class="nf">getCityListFromFile</span><span class="p">()</span>
+        
+    <span class="o">...</span> <span class="c1">// Data initialization</span>
+        
+    <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="kd">#selector(</span><span class="nf">CMDataSource.didSetStart()</span><span class="kd">)</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">PropertyKeys</span><span class="o">.</span><span class="n">kCMSetStartStationNotification</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="kd">#selector(</span><span class="nf">CMDataSource.didSetEnd()</span><span class="kd">)</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">PropertyKeys</span><span class="o">.</span><span class="n">kCMSetEndStationNotification</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="kd">#selector(</span><span class="nf">CMDataSource.didRemoveStart()</span><span class="kd">)</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">PropertyKeys</span><span class="o">.</span><span class="n">kCMRemoveStartNotification</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="kd">#selector(</span><span class="nf">CMDataSource.didRemoveEnd()</span><span class="kd">)</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">PropertyKeys</span><span class="o">.</span><span class="n">kCMRemoveEndNotification</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span>
+    
+<span class="kd">deinit</span><span class="p">{</span>
+    <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">removeObserver</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="其他">其他</h3>
+
+<p>对于与上面谈到的改进点比较接近的页面，限于篇幅不再赘述，只在此处一并提及：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">地图View</code>，去掉了与上层的所有耦合，交互改为发<code class="language-plaintext highlighter-rouge">NSNotification</code>；同时将地图上要显示的控件统一到一个<code class="language-plaintext highlighter-rouge">protocol</code>之下，这样就可以利用Swift新提供的<code class="language-plaintext highlighter-rouge">泛型</code>特性，写出很强一致性的代码：
+    <pre><code class="language-swfit">  func updateCoor&lt;T: TiledScrollViewOverlay where T: UIView&gt;(_view: T, zoom: Bool){
+      ... // Update code
+  }
+</code></pre>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">网络请求模块</code>，上面已有提及，在移除不属于自身逻辑的同时，重新整理了解析数据的时机（原来的版本中居然重复着极为相似的三段代码！又一个车祸现场）；</li>
+  <li><code class="language-plaintext highlighter-rouge">分享模块</code>，之前的封装使用非常繁琐，每次还要自行加到UIWindow上去。于是又重新写了一个，弹出分享控件只需下面几步：
+    <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">let</span> <span class="nv">shareKit</span><span class="p">:</span> <span class="kt">CMShareKit</span> <span class="o">=</span> <span class="kt">CMShareKit</span><span class="o">.</span><span class="nf">getInstance</span><span class="p">()</span>
+  <span class="n">shareKit</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="s">"分享文字"</span><span class="p">,</span> 
+      <span class="nv">emailBody</span><span class="p">:</span> <span class="s">"邮件文字"</span><span class="p">,</span> 
+      <span class="nv">smsBody</span><span class="p">:</span> <span class="n">shareContent</span><span class="p">,</span> 
+      <span class="nv">weixinTitle</span><span class="p">:</span> <span class="n">appName</span><span class="p">,</span> 
+      <span class="nv">weixinBody</span><span class="p">:</span> <span class="n">shareContent</span><span class="p">,</span> 
+      <span class="nv">weixinPengyouBody</span><span class="p">:</span> <span class="n">shareContent</span><span class="p">,</span> 
+      <span class="nv">weixinURL</span><span class="p">:</span> <span class="kt">CMConfig</span><span class="o">.</span><span class="kt">AppDownloadURLTrim</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> 
+      <span class="nv">qqTitle</span><span class="p">:</span> <span class="n">appName</span><span class="p">,</span> 
+      <span class="nv">qqBody</span><span class="p">:</span> <span class="n">shareContent</span><span class="p">,</span> 
+      <span class="nv">qqURL</span><span class="p">:</span> <span class="kt">CMConfig</span><span class="o">.</span><span class="kt">AppDownloadURLTrim</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> 
+      <span class="nv">weiboBody</span><span class="p">:</span> <span class="n">shareContent</span><span class="p">,</span> 
+      <span class="nv">image</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="nf">getCurrentViewShot</span><span class="p">())</span>
+  <span class="n">shareKit</span><span class="o">.</span><span class="nf">show</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>后来看到Matt Gemmell在他的<a href="http://mattgemmell.com/api-design/">《API Design》</a>这篇blog中也不谋而合地提到了这一点：</p>
+
+    <blockquote>
+      <p>Rule 6: <strong>Get up and running in 3 lines</strong><br />
+Excluding delegate methods, you should aim to make it usable at least for testing purposes with only 3 lines of code.<br />
+Those lines are:</p>
+      <blockquote>
+        <p>Instantiate it.<br />
+Basically configure, so it will show and/or do something.<br />
+Display or otherwise activate it.</p>
+      </blockquote>
+
+      <p>That should be it. Anything substantially more onerous is a code smell.</p>
+    </blockquote>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">添加/删除书签和历史模块</code>，干掉，完全移入<code class="language-plaintext highlighter-rouge">DataSource</code>。并且前一版本是把数据序列化后保存为文件，这导致了相当大的性能问题，在暴力测试疯狂增删时甚至可能导致崩溃。新版中改为只保存必要的信息（比如起点和终点），等需要时再把路线实时计算出来即可。</li>
+</ul>
+
+<h2 id="一些私心">一些私心</h2>
+
+<p>上面基本把大块的重构页面讲完了，下面说几个旧版本中没有的页面，也算是我自己的私心。<br />
+考虑到这是我最后一次负责这个项目，也是第一次有如此大的决定权，我不禁在重构之余腾出手来加了一些自己想加的页面。</p>
+
+<h3 id="致谢页面">致谢页面</h3>
+
+<p>作为一个有点情怀的程序员，我一直对于程序中没有对开源库的致谢这一点耿耿于怀。以前对项目没有话语权，也腾不出手做，这次怎么也得补上：<br />
+<img src="https://s2.loli.net/2023/02/23/ThS49zNxY6cOBmX.jpg" width="60%" /><br />
+注：由于当时在发布时CocoaPods和Swift还有些兼容性问题，所以没有用CocoaPods自动生成的，而是自己写了个HTML网页。</p>
+
+<h3 id="关于页">关于页</h3>
+
+<p>关于页也是夙愿之一。事实上更早的版本中有这个页面，但由于一些不可考的原因给砍掉了。<br />
+我仿照之前的关于页用Photoshop作了个图，并且顺便把以前版本的关于页也加了进来，往右边滑动即可看到。虽然这么个深藏在n级页面之下的页面估计没多少人点进来，但总算还是为以前那些已经离职的曾经为地铁通出过力的同事在这个角落立了个碑。</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/SqCpQsx6ad5Z1og.jpg" width="60%" /></p>
+
+<h3 id="历史版本">历史版本</h3>
+
+<p>这个点子我是在做好线路详情页的时候想到的：既然我做了一套可以在cell上画线路的代码，那么我可以把它复用到别的地方啊——比如整个地铁通的发展史！<br />
+于是就有了下面的页面：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/GJKOikCTs1F7LPt.jpg" width="60%" /></p>
+
+<p>看起来很简单，其实做起来还是有点麻烦的。我在元旦跨年的时候去了趟日本休年假，途中带上了笔记本电脑，那真是一有时间就在做这个页面啊……</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/uDrE93QBvgadKCX.jpg" alt="5613ec79jw1f7y52ic05dj21hc1z4x0s.png" /></p>
+
+<h3 id="末班车提示">末班车提示</h3>
+
+<p>这也是我私心特别想做的功能，也借着这次机会做了出来：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/MExPOTJo6Kj4XUG.jpg" width="60%" /></p>
+
+<p>上个动图演示：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/eN1rVqMzhPkomws.gif" alt="5613ec79gw1f80yq2elx9g20c80lrnpd.png" /></p>
+
+<p>对于地铁线路而言，首班车很简单——只需从数据库中读取起点站的首班车信息即可。可末班车却复杂得多，它既不是简单的起点站末班车时间，也不是最后一个换乘站的末班车时间，而是有点类似于木桶原理，取决于短板——也就是说，取决于整条换乘路径中收班最早的换乘站。<br />
+在之前的版本中，我们实现了这个算法，但不时有用户表示疑惑：这个末班车是怎么算出来的？为什么这么诡异？<br />
+上面的这个功能就是对这个问题的优雅解答，一切都是自解释的：在用户操作的时候就能注意到变化，一句多余的说明都不用。<br />
+只要赶上标红字的站点的末班车，整条末班车线路就能成立。</p>
+
+<p>事实上，之前的产品经理曾经做出过一版设计：<br />
+<img src="https://s2.loli.net/2023/02/23/r58NUvdsSymeVpO.jpg" width="60%" /></p>
+
+<p>我不喜欢这个设计，因为它割裂了上下文。弹窗是个十分影响交互体验的设计模式，除非你一定要显式地引起用户注意，否则引入弹窗就是错误的。电脑出栈入栈尚且有开销，何况人脑？（另外注意这个页面里的“首班车”和“末班车”按钮——没有比这俩按钮更突兀的设计了）<br />
+后来这个功能在反对声中索性被砍掉了，但我还是觉得这个需求是有必要的，只是需要找到更合理的设计。<br />
+在找到现在这个解决方案之前也纠结了很久，最终在某个凌晨能很快实现还是要归功于这次合理的架构设计，很难想象在之前那一坨3000行的代码里加个这种功能要抓狂到什么地步。</p>
+
+<h3 id="彩蛋">彩蛋</h3>
+
+<p>是的，作为一个有着不止一点情怀的程序员……我还埋了个彩蛋，估计没人发现过，即使如此我也不想说xD<br />
+PS. 那些大公司的软件里彩蛋到底是怎么埋的？一Code Review不是就直接被辞退了吗？</p>
+
+<h2 id="未竟事业">未竟事业</h2>
+
+<p>事实上，我还抽空稍微规划了一下iPad版本的地铁通：<br />
+<img src="https://s2.loli.net/2023/02/23/mExW1lZiNCtI3gb.jpg" alt="5613ec79jw1f87g7fusumj21kw11xk57.png" /></p>
+
+<p>但由于时间实在是不够用，最终作罢。</p>
+
+<h2 id="跋">跋</h2>
+
+<p>基本写完了程序主体，然后我又开始做起了市场。<br />
+当时赶工时每天唯一的娱乐是伴饭看一集《广告狂人》，所以到这个想广告词的环节觉得特别带感，感觉Don Draper（《广告狂人》男主角）上身。<br />
+于是就有了我用Photoshop做的下面这一批AppStore宣传图：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/gc6xaVe42CpjwTI.jpg" alt="5613ec79jw1f811hg8q9kj21kw0k7dnk.png" /></p>
+
+<p>扶上驴，送一程。至此，对于这个项目，我的任务差不多完成了。<br />
+用户反馈差不多是这样：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/XfZDGl1n7TsxCuI.jpg" width="60%" /></p>
+
+<p>就用项目刚开始时我在豆瓣发的一条广播来结束本文吧：</p>
+
+<p><img src="https://s2.loli.net/2023/02/23/IPHQlh3BS78Ff1v.jpg" width="60%" /></p>
+
+<p>希望能给你带来一些启发，欢迎提出意见和批评。<br />
+感谢观赏。</p>
+
+<hr />
+
+<p>广告：<br />
+我现在正在找工作，希望加入一个比较大的团队继续学习。<br />
+如果您觉得我比较合适，可以联系：zshowing[at]gmail.com</p>
+
+      <div id="more">
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tags -->
+  <div class="post-tags">
+    
+      
+        <span class="post-single-tag"><a href="/tag/iOS">iOS</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/架构">架构</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/Swift">Swift</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/产品设计">产品设计</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/作品">作品</a></span>
+    
+  </div>
+
+  <!-- Series links -->
+  
+
+  <script src="https://giscus.app/client.js"
+        data-repo="zshowing/zshowing.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnk2ODMxMDU3Mw=="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBBJWLc4CUkLK"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+  </script>
+</div>
+
+
+
+<link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>

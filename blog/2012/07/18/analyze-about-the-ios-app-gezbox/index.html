@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
+	<title> Jon Showing - iOS App“格子箱”试用研究</title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick-theme.css"/>
+	<link rel="alternate" type="application/rss+xml" href="http://localhost:4000/feed.xml">
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/assets/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6BJK9WV14"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84283556-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-R6BJK9WV14');
+	  gtag('config', 'UA-84283556-1');
+	</script>
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<div class="menu-button"><span id="menu-button"><i class="fa-solid fa-bars"></i></span></div>
+		<ul class="nav-list">
+			<li class="nav-item ">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item selected">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/ACGBM/"><span nav-hover="书影游">ACGBM</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- 
+		post -->
+	<div class="main-text">
+		<h1 class="post-title">
+  <span>
+    
+      iOS App“格子箱”试用研究
+    
+  </span>
+</h1>
+<div class="post-meta">
+  <span class="post-date">发布于 2012-07-18</span>
+	 | <span class="post-category">分类于 
+  
+    
+  
+    </span>
+      <a href="/blog/#产品设计">产品设计</a>
+    
+  
+	<div class="post-desc">
+		从产品的角度，剖析了这款app在设计和运营上一些打动自己的亮点。 
+	</div>
+</div>
+<div id="fullpage" onclick="closingImage(this)"></div>
+<div id="container">
+  <div id="content">
+    <div class="post">
+      <p>现在每天新出的移动端app众多，但随之能让人真正驻足留意，以至花时间投入其中的app就太少了。也正是因此，当我发现自己居然在没人推荐的情况下，被一个完全没有熟人的社区吸引的时候，我就暗暗震惊，并且出于敏感开始收集这个app是如何做到这一点的。</p>
+
+<h3 id="背景">背景</h3>
+
+<p>最开始发现这款app，神奇地与任何app推广形式都没关系，而是起始于我搜索相机信息时，搜到了一篇对微单和单反的对比文章<a href="https://www.douban.com/note/202625985/">《单反还是微单？他们选择了……》</a><strong>（2016年注：原链接已挂，只能搜到该团队在豆瓣运营的帐号发表的同名日志）</strong>：</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/WTgCkNZYFIxUhrc.jpg" alt="5613ec79jw1f7y3bnmlsij20hs0eiq44.png" /></p>
+
+<p>仅就这篇文章来讲，初看之下其成文角度非常新颖，在众多疑似枪文的评测之中，这篇文章在少量讲解之后配以大量的实例，而“在格子箱内，所有使用微单相机的用户，有40%的人选择购买了索尼Nex-5系列”这样的数据流风格，也完全符合我数据控的口味。<br />
+于是我开始翻看这个博主的其他文章。</p>
+
+<p>在<a href="http://www.19lou.com/forum-1440-thread-9901329960441003-1-1.html">《有了iPhone和Mac，还需要……？》</a><strong>（2016年注：这篇更是只能在一个莫名其妙的社区的转帖中才能找到尸体）</strong> 这篇文章中，这种数据流发挥到了极致。“21%的Mac用户购买了Lamy笔”，“10%的用户购买了参天 Sante FX Neo眼药水”这样的统计数据彻底撩起了我的兴趣，虽然我还没搞清楚这个app究竟是干什么的，对这种细致分析的认同和追随也促使我去下载了这款app。这时是6月19日。</p>
+
+<p>到这里我认为比较重要的一点是，新颖的原创文章，翔实的真实数据对用户的吸引（用户能得到别处得不到的有条理的信息）。同时，还发挥出了自身社区的长处（这也是别处不可替代的）。不可否认的是这样的文章对文字编辑要有很高的要求。</p>
+
+<h3 id="第一印象">第一印象</h3>
+<p>格子箱app（v2.0以前）打开之后如图所示：</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/FzJX9gsvel7LWBd.jpg" alt="5613ec79jw1f7vuxgsj1ej21kw0sstna.png" /></p>
+
+<p>最上面的大图就是前面提到的专题。如果说网上的文章是导火索，在程序中对应的专题则起到了巩固作用。这些专题让我觉得真的得到了一些新鲜的（而且在不断更新的）消息，是一个蛮特别且颇专业的RSS feed。(下图：往期专题内容）</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/62CU9SPcEvkHFsp.jpg" alt="5613ec79jw1f7y3d96i1jj20hs0qo77i.png" /></p>
+
+<p>而下面的列表则采取了非常灵活的组织方式，在我试用的十几天里变换了若干次，有些section是突然出现的（当然这也是运营人员在不断地摸索，最近一两周内已经趋于稳定），而所有的section都在不定时更新。其更新策略我不太确定，但推测也是人工干预主推内容的。</p>
+
+<p>到目前为止我们已经看到了这个程序在内容展现上的一大特点：有一双看不见的手在精心安排。哪怕（除了“专题”外）几乎所有的内容都是用户自己产生的，在展现上也是经过了足够的权衡而成。</p>
+
+<h3 id="互动">互动</h3>
+
+<p>内容吸引人，展现得有趣，这些只是吸引用户驻足的一面，而让用户真正扎下根来，靠的还是互动。<br />
+程序中有许多网友自己建立的小组，在安装程序当天我就加入了一个：</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/3zg1KFNo4dyQLkU.jpg" alt="5613ec79jw1f7y3du7aifj20hs0qo75j.png" /></p>
+
+<p>不过小组只是作为内容聚合的另一种纬度存在的，也相当于在程序内增加了一个自己感兴趣的RSS feed。<br />
+在潜水了多天之后，7月2号，我上传了自己的第一批东西，没想到迅速收到了几条回复，这促使我发了一条微博：</p>
+
+<blockquote>
+  <p>这个格子箱做得很好啊，最开始是觉得各种编辑专题很不错（包括相机显示器等东西的选购，最近甚至有剃须刀和Lamy笔），后来发现社区也颇活跃，刚试着传了几个东西就一堆回复……之前完全没有听说过，哪儿来的这么多用户= =</p>
+</blockquote>
+
+<p><img src="https://s2.loli.net/2023/02/28/SzM7bAHTdZmhEeg.jpg" alt="5613ec79jw1f7y3ezv8c4j20b60hswfe.png" /></p>
+
+<p>这与上次产品会中讨论的，用户在得到来自别人的认同感时会产生继续分享的愿望，是一致的。</p>
+
+<p>所以再往后就是一个良性循环。<br />
+7月2日上传物品3件，7月4日13件，7月5日发状态一条，物品2件，7月7日发物品6件，7月8日12件，7月9日8件，7月11日3件，7月12日3件，7月13日1件，7月14日13件……</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/Aus6LZDeaUqQ7yw.jpg" alt="5613ec79jw1f7vttdwg6cj21kw10jafk.png" /></p>
+
+<p>你分享的东西越多，收到的回复就越多，于是你就越有动力继续发。甚至，你会发现与自己兴趣类似的人，当他们更新了某些东西时，你会想到自己也有相关的东西，于是也会找出来分享：</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/i8BFhma16dz9rAj.jpg" alt="5613ec79jw1f7y3g63x9zj20hs0qo428.png" /></p>
+
+<p>在此图中，因为我在前几天刚刚传了一大堆收藏的科幻小说上去，并且与几个人聊了不少，所以这位“思思”看到又有人传科幻时便想起了我，而我在看到这张时则又去找了几本前几天懒得拍照上传的科幻书分享。这就是良性循环的开始。<br />
+而这里面最关键的第一推动力，就是最开始的那几条回复。（我后来很怀疑其中有该公司内部人士）<br />
+互动还包括一种形式，就是与App运营人员的互动。在对这款app的试用中，我多次感到（虽然是隐式的）在受到运维人员的影响。如图：</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/QaeluqYhUFz4wsB.jpg" alt="5613ec79jw1f7y3ip4jmkj20hs0qo40o.png" /></p>
+
+<p>截图日期是7月10日，即运营人员发现我在几天之内上传了若干物品，比较活跃后，立即将我加入了“人物”这个section。毋庸置疑，这对一个新人的正面影响还是比较大的。<br />
+7月11日，我则发现自己又进入了“热门人物”：</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/FLcWkDr36hIO7Bj.jpg" alt="5613ec79jw1f7vu4d8l5dj216o1kwdmj.png" /></p>
+
+<p>还有件好玩的，在我最近一周趋于沉寂时，今晚突然发现自己又被app放到了首页“箱子推荐”里面（下图），想必是想用可能带来的加关注和新回复提醒来让我继续回来。（当然，我的箱子也确实有点货值得推荐）。</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/ogdi9HJApfk83rF.jpg" alt="5613ec79jw1f7vu6gwde8j20hs0qoaca.png" /></p>
+
+<h3 id="改版">改版</h3>
+
+<p>在试用过程中，此程序除了上面说过的变化分栏形式外，还有一次大的升级，下图是某次打开后的升级提示：</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/P32nGejviyf8xhQ.jpg" alt="5613ec79jw1f7vu8chsyzj216o1kwjz0.png" /></p>
+
+<p>自我下载后的几版升级都截了图，按时间顺序从左到右列于下方。</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/jwLErYMo8bKx6eS.jpg" alt="5613ec79jw1f7vu9pn8b6j21kw0whtjw.png" /></p>
+
+<p>可以看到运营人员的尝试，到最新一版时，把最上面的面积大幅缩小，同时不再限于专题，而是把精选的用户物品也展现出来，更加发挥了此app的精髓和竞争力所在。<br />
+由于有社区的存在，此app每次改版的特点是，会有大量用户参与讨论，并且会很快得到答复。这是7月19号2.2版上线后我对此版本的评价，以及就在当天得到的回复。</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/lWrwF7hOuxSKdTV.jpg" alt="5613ec79jw1f7vuqka3ucj21kw137dsy.png" /></p>
+
+<p>让每个人都有参与感，让人人都成为某个圈子的一份子，让每个ID和头像后面都成为独一无二的人，邀请活跃用户加入到整个程序构架的讨论（并且得到回复），这就是这个app给人的体验。</p>
+
+<h3 id="理念">理念</h3>
+
+<p>翻回头来，让我们从底层探讨一下——这款app的理念是什么，它怎么就笃定用户有分享的欲望？</p>
+
+<p>仅说我个人的体会，我认为每个人都会有自己的爱好，有自己的倾向性，正是这些让你成了你自己而不是其他人。在不同的人到当下或长或短的人生中，或多或少会有些自己的收藏，像手办这样正式的也好，过生日时别人送的随便什么东西也好，家中的每一个藏品实际上都是一个故事。<br />
+那么问题就来了，收藏一直以来就是个颇个人化的体验，只对自己有纪念意义的不说，就算是大众能理解的物品，真正至于邀请别人到家中欣赏的也毕竟是少数。结果就是，我收集了许多东西，却只能孤芳自赏。</p>
+
+<p><img src="https://s2.loli.net/2023/02/28/MnTwadCqHbm9y4u.jpg" alt="5613ec79gw1f7y3lis99dj216o1kw7jf.png" /></p>
+
+<p>SNS带来了一些改变，但他们无法解决的问题是，SNS唯一的纬度是时间即Timeline，3天之前的新鲜事是无人问津的。从组织形式上讲，这就与物品和故事的分享相悖。当然还有个问题，过分在SNS上晒物品有装逼嫌疑。</p>
+
+<p>“格子箱”不属于创新，“格子”的概念来源于现实，这与苹果具象化的设计理念直接对应，其效果也非常好，用法一目了然。在最开始，该app一直宣称是“整理强迫症人士必备的软件”云云，口号是“生活、购物、分享”，这个定位非常狭窄。我曾经在微博说，我完全懒得整理，只喜欢收集。结果到最新的2.2版，口号已经换成了“用‘物’感受生活”，这与我上面说的“藏品背后有故事”已经非常接近。</p>
+
+<p>实际上，在旅行的体验上，也有着相似的情况。首先，旅行体验实际上也是个非常个人化的过程。每个人在每个地方都有自己的经历和故事，但这些经历大多只和当时有关。你在青旅偶遇了什么旅伴，你在当地碰巧赶上焰火表演，这是人愿意分享的，但与其他人并无太大关系。其次，在SNS上的Timeline flood情况依然存在，我这次去广州的事儿总不能说半年吧，那过后的这些故事难道就被掩埋在几千条微博之中了吗？<br />
+所以，在旅行的问题上，我们需要个“格子箱”来整理自己的旅行经历，当建立起一个行程（格子）之后，他最好可以从微博抓取当时的故事并按时间排列；可以从Camera roll抓取照片并自动填充进去；……</p>
+
+<h3 id="不足">不足</h3>
+
+<p>前面说的都是这款app值得学习的地方，最后提一下不足之处，那就是其<a href="http://weibo.com/gezbox">官方新浪微博</a>。当我看到这个帐号的时候，简直难以相信其中的内容是和那些日志和专题出自同一个团队之手，该官博更新的内容与其他官博并无太多不同，几乎没有发挥出自己本身的优势。当然，我只尝试往新浪微博同步了一条微博，就在第二天被该官博转发了，他还是多少往正确的方向做了些努力，虽然远远不够。</p>
+
+<p>摘抄前几天我发的微博：</p>
+<blockquote>
+  <p>微博上营销帐号的策略实在是……我关注你是为了看你贴这些三流笑话的么 可好像大部分的官微都是这德性= = 我觉得还是要发和自己相关的东西，提供信息；信息量不够维持的话就互动；还不够维持的话像当年大众软件那样编编辑部故事也好啊！当年买大软一半的原因是看他们编辑部又发生什么了！</p>
+</blockquote>
+
+<h3 id="来自2016年的补充">来自2016年的补充</h3>
+
+<p>格子箱倒掉很久了，联想到我上一家公司的经历，这样的结果并不意外。<br />
+一款产品，有核心用户是好的，但是又是没什么用的——我们之前的产品Boss经常说类似的观点，虽然听起来有些刺耳，但不得不承认有一些道理。<br />
+作为创业公司，只有能让你盈利的用户才是好用户。这是颠簸不破的真理。</p>
+
+<p>事实上，现在想起来，格子箱和什么值得买在最初时有迥异的切入点，最后什么值得买活了下来，还把格子箱之前做的东西（晒物、购物比较）给做了。<br />
+原因就在于，什么值得买的切入点，自带盈利属性啊。</p>
+
+<h3 id="来自2023年的补充">来自2023年的补充</h3>
+
+<p>现在再看，只有一句补充：本站在某种程度上就是我自己DIY给自己的一个「格子箱」了。</p>
+
+      <div id="more">
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tags -->
+  <div class="post-tags">
+    
+      
+        <span class="post-single-tag"><a href="/tag/产品设计">产品设计</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/体验报告">体验报告</a></span>
+    
+  </div>
+
+  <!-- Series links -->
+  
+
+  <script src="https://giscus.app/client.js"
+        data-repo="zshowing/zshowing.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnk2ODMxMDU3Mw=="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBBJWLc4CUkLK"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+  </script>
+</div>
+
+
+
+<link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>

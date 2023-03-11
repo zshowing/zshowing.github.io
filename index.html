@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
+	<title> Jon Showing - 主页</title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick-theme.css"/>
+	<link rel="alternate" type="application/rss+xml" href="http://localhost:4000/feed.xml">
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/assets/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6BJK9WV14"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84283556-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-R6BJK9WV14');
+	  gtag('config', 'UA-84283556-1');
+	</script>
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<div class="menu-button"><span id="menu-button"><i class="fa-solid fa-bars"></i></span></div>
+		<ul class="nav-list">
+			<li class="nav-item selected">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/ACGBM/"><span nav-hover="书影游">ACGBM</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="image-container" id="image-container">
+		<div id="postcard-photo">
+			<span class="loader"></span>
+			<img src="" style="width: 100%;" id="photo" alt="">
+			<div id="greeting"><img src="/assets/greeting.png"></div>
+			<div id="location"></div>
+			<div id="metas"></div>
+		</div>
+	</div>
+	
+	<!-- 
+		default -->
+	<div class="main-text">
+		<p>常用网名Jon (Showing)，85后，燕京人士，沪上求学，现在仍暂居于京。<br />
+程序员，摄影和设计爱好者，互联网原住民，世界观察者。</p>
+
+<p><strong>职业生涯</strong>的大半时间在开发旅行相关app的公司TouchChina工作，最终负责<a href="/blog/2016/09/21/the-rewrite-of-ChinaMetro-V4-0">从零搭架构重写了地铁通这款app</a>。</p>
+
+<p>作为<strong>设计爱好者</strong>，最完整的经历是有幸全程负责了<a href="/project/rdfzer-10-years-reunion/">人大附中2005届毕业十年聚会的设计工作</a>。<br />
+作为<strong>摄影爱好者</strong>，在这些年的旅行当中积攒了一些照片，上面是精选出来的一部分，可以移步<a href="/photo/Selected/">「精选集」</a>页面完整欣赏列表，或者单独的<a href="/photo/">「摄影」</a>页观赏更多照片。</p>
+
+<p><strong>观察这个世界</strong>运行的本质并发出评论也是我的爱好，因此我保持了在社交平台上发布日志和状态的习惯，它从最早的MSN Space、博客大巴、公众号、新浪微博、豆瓣延续到现在的个人网站和长毛象（Mastodon）。所以除了<a href="/blog/">「日志」</a>页面，这里也特地开辟了一个<a href="/thought/">「日常想法」</a>页面，收集了近几年发布的一些状态。</p>
+
+<p>我十分确信，能带给我欢乐和成就感的事情是<strong>创造</strong>，我也一直在试图以此为目标构建适合自己的理想生活方式。它是什么样子我至今仍未摸透，我希望至少每年会离它更近一点。<br />
+<a href="/project/">「项目」</a>页里面总结了我近些年零零碎碎的一些闯作。</p>
+
+<p>同时，我相信真正能持续的感情只能来源于互相欣赏和相处愉快，而不来源于其他一切「硬指标」。因此，我仍在以这个标准<a href="/thought/2021vol01/#旅行者一号代发刊词">寻找伴侣中</a>。</p>
+
+<p>朋友们，<strong>keep safe，keep FREE</strong>.</p>
+
+<h2 id="有关我的其他存在">有关我的其他存在</h2>
+
+<p>除了本站，我主要还会在下面这些地方出没：</p>
+<ul class="sns">
+	<li>
+		<i class="fa-brands fa-mastodon"></i><a href="https://m.cmx.im/@zshowing">长毛象</a>2022年1月注册，4月微博被炸号后成为主力SNS。
+	</li>
+	<li>
+		<img class="douban" src="/assets/font/douban.svg" alt="" /><a href="https://www.douban.com/people/zshowing">豆瓣</a>2011年注册，精神角落，活跃至今。
+	</li>
+	<li>
+		<i class="fa fa-instagram" aria-hidden="true"></i><a class="instagram" href="https://www.instagram.com/zshowing/">Instagram</a>这里有没有更新可能是衡量我日子过得好不好的最直观反映。
+	</li>
+	<li>
+		<i class="fa-brands fa-telegram"></i><a href="https://t.me/jonshowing">Telegram频道</a>2022年建立，还没完全想好它的定位。
+	</li>
+	<li>
+		<i class="fa-brands fa-bilibili"></i><a href="https://space.bilibili.com/7685282">B站</a>如果有整活视频的话会传到这里。
+	</li>
+	<li>
+		<i class="fa-brands fa-github"></i><a href="https://github.com/zshowing">Github</a>当然了，程序员怎么能没有基特hà勃！主要用途是用来存放本站。
+	</li>
+</ul>
+
+<h2 id="有关本站">有关本站</h2>
+
+<p>「想要在网络上开辟一块真正属于自己的地方」，这个执念始于何时已经不可考。我只知道它伴随了我太长时间，以至于这两年身体开始变差后，它是我能想到的「如果很快就要死的话一定要完成的事情」里排在最前面的。</p>
+
+<p>在本站之前，我在Bluehost上面花了好几年的钱租服务器，但一直没时间和精力真正动手写，硬盘里只有一个半成品，和一些设计文稿（我戏称这些钱是「给自己留个念想」）；最后还是在Github Pages基于Hexo+Next主题搭建了一个博客，运行了好几年。<br />
+直到2022年9月，机缘巧合下我才又开始琢磨这个项目。细节在此不赘述，完整的经历可以去<a href="/project/jonshowing-website/">个人网站项目页</a>查看。</p>
+
+<p>这里值得一记的是，在设计理念上，我有意在很多地方想向明信片的样式靠拢，因为这些年联系越来越少的好朋友们给我寄过的实体明信片是给了我很多力量和抚慰的事物，我想在自己的线上空间复刻这个感觉。<br />
+每5秒钟轮换我拍的照片也是我比较喜爱的设计，我建议您<del>也像我一样</del>打开之后一直放在那里当作屏保。</p>
+
+<h2 id="友情链接">友情链接</h2>
+
+<p>至今记得当年MSN Spaces边栏的友链，和那一朵朵代表着有更新的小黄花。<br />
+如今似乎其中<strong>所有人</strong>都已经不再写日志了，一些人取而代之的是在朋友圈发的下一代照片，更多人彻底在网络空间消失了。<br />
+还好我后来还认识了下面这些朋友：</p>
+
+<ul>
+  <li><a href="https://www.guobetty.com/">猫伯爵</a> 豆瓣超喜欢的友邻，画画特别棒，想法也特别赞。担任主美做了款游戏叫<a href="https://store.steampowered.com/app/465100">「月影之塔」</a>。<span class="shady">我是在她的带动下注册的长毛象！</span></li>
+  <li><a href="https://web.okjike.com/u/56F1031A-5452-445E-8438-BDEBF6514D7B">炫彩小张</a> 在即刻app上认识的朋友，我从未见过如此有趣的女生。<span class="shady">能认识何其有幸！</span>有个几十万订阅的播客叫<a href="https://www.xiaoyuzhoufm.com/podcast/5e285523418a84a04627767d">「贤者时间」</a>。</li>
+  <li><a href="https://www.douban.com/people/kakahex">何卡卡</a> 豆瓣超喜欢的友邻，<span class="shady">在豆瓣小黑屋有套房</span> 知名<a href="https://www.douban.com/doulist/126926900">唢呐表演艺术家</a>，正在欧洲求学的青年钢琴家，有趣度爆棚的女生。</li>
+  <li><a href="https://www.douban.com/people/kavanish">Kavanish</a> 在地球另一端的好友，颇有见地的电影番剧播客鉴赏家，也是个<span class="shady">年更的</span>烹饪博主。</li>
+  <li><a href="https://bamboobone9.com/">竹淡刻骨</a> 精神生活异常活跃的豆瓣友邻，摄影、烹饪、穿搭、评论均是一把好手。<span class="shady">谁能想到刚认识她时她还只是个专注的文具博主呢（</span></li>
+</ul>
+
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>
