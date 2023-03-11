@@ -77,7 +77,7 @@ def read_website_data(latest_data, searchtype):
 				html = '<p style="font-size: 0.9em;">最后更新时间：{}</p>'.format(now.strftime('%Y-%m-%d %H:%M'))
 				directory = './_includes'
 				if not os.path.exists(directory):
-    				os.makedirs(directory)
+					os.makedirs(directory)
 				with open('./_includes/csv-update-date.html', 'w+') as f:
 					f.write(html)
 				break
