@@ -2,7 +2,7 @@ name: Update Douban
 
 on:
   schedule:
-  - cron: "27 * * * *"
+  - cron: "45 * * * *"
 
 jobs:
   update_csv:
