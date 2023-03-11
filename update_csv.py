@@ -35,6 +35,7 @@ def read_website_data(latest_data, searchtype):
 	targettitle = latest_data.iloc[0]['title']
 	data = []
 	df = pd.read_csv('./_data/' + searchtype + 's.csv')
+	isFirst = True
 	while not found:
 		url = "https://m.douban.com/rexxar/api/v2/user/1413857/interests?type="+searchtype+"&status=done&start="+str(index)+"&count=50&ck=67nb&for_mobile=1"
 		response = requests.request("GET", url, headers=headers)
@@ -59,13 +60,14 @@ def read_website_data(latest_data, searchtype):
 			# new_row = {'title': title, 'description': description, 'rating': rating, 'link': link, 'date': date, 'mine': mine, 'tags': tags, 'comment': comment, 'visibility': 'public', 'istop': False, 'istopmanga': False}
 			print("Found ",title, description, rating, link, date, mine, tags, comment)
 			if title == targettitle:
-				print("Find Match!")
+				found = True
+				if isFirst:
+					isFirst = False
+					break
 				shutil.copy('./_data/' + searchtype + 's.csv', './_data/' + searchtype + 's_backup.csv')
-
 				df_new = pd.DataFrame(data, columns=df.columns)
 				df_combined = pd.concat([df_new, df], ignore_index=True)
 				df_combined.to_csv('./_data/' + searchtype + 's.csv', index=False)
-				found = True
 				break
 			else:
 				if searchtype == 'book':
