@@ -33,7 +33,7 @@ category: acgbm
     <h4>电影</h4>
     <div>
       <span class="expand-all-button">展开全部详情</span>
-        {% assign five_star_movies = movies | where: "istopmovie", "1" %}
+        {% assign five_star_movies = movies | where: "istopmovie", "1.0" %}
         {% assign five_star_movies_sorted = five_star_movies | sort: "date" | reverse %}
       <ul class="movie-list">
       {% for movie in five_star_movies_sorted %}
@@ -54,7 +54,7 @@ category: acgbm
       <h4>剧集</h4>
       <div>
         <span class="expand-all-button">展开全部详情</span>
-          {% assign five_star_movies = movies | where: "istopseries", "1" %}
+          {% assign five_star_movies = movies | where: "istopseries", "1.0" %}
           {% assign five_star_movies_sorted = five_star_movies | sort: "date" | reverse %}
         <ul class="movie-list">
         {% for movie in five_star_movies_sorted %}
@@ -75,7 +75,7 @@ category: acgbm
     <h4>动画</h4>
     <div>
       <span class="expand-all-button">展开全部详情</span>
-        {% assign five_star_movies = movies | where: "istopanime", "1" %}
+        {% assign five_star_movies = movies | where: "istopanime", "1.0" %}
         {% assign five_star_movies_sorted = five_star_movies | sort: "date" | reverse %}
       <ul class="movie-list">
       {% for movie in five_star_movies_sorted %}
