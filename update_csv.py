@@ -56,9 +56,10 @@ def read_website_data(latest_data, searchtype):
 			tags = ','.join(row['tags'])
 			rating = row['subject']['rating']['value']
 			date = row['create_time']
-			new_row = {'title': title, 'description': description, 'rating': rating, 'link': link, 'date': date, 'mine': mine, 'tags': tags, 'comment': comment, 'visibility': 'public', 'istop': False, 'istopmanga': False}
-			
+			# new_row = {'title': title, 'description': description, 'rating': rating, 'link': link, 'date': date, 'mine': mine, 'tags': tags, 'comment': comment, 'visibility': 'public', 'istop': False, 'istopmanga': False}
+			print("Found ",title, description, rating, link, date, mine, tags, comment)
 			if title == targettitle:
+				print("Find Match!")
 				shutil.copy('./_data/' + searchtype + 's.csv', './_data/' + searchtype + 's_backup.csv')
 
 				df_new = pd.DataFrame(data, columns=df.columns)
