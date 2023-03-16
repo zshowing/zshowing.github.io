@@ -1,0 +1,24 @@
+name: Generate Tags
+
+on: push
+
+jobs:
+  update_csv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Generate tags
+        run: |
+          python generateTags.py
+      - name: Commit results
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "tags generated" || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
