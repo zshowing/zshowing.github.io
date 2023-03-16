@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
+	<title> Jon Showing - 用Github Actions搭建自己的自动化中心</title>
+	<link rel="stylesheet" href="/assets/css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="/assets/slick/slick-theme.css"/>
+	<link rel="alternate" type="application/rss+xml" href="http://localhost:4000/feed.xml">
+	<!-- <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link> -->
+	<script src="https://kit.fontawesome.com/135e018b83.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="/assets/slick/slick.min.js"></script>
+	<script src="/assets/js/script.js"></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6BJK9WV14"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84283556-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-R6BJK9WV14');
+	  gtag('config', 'UA-84283556-1');
+	</script>
+</head>
+
+<div class="reading-progress-bar"></div>
+<div class="content-wrapper">
+	<div class="nav-container">
+		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<div class="menu-button"><span id="menu-button"><i class="fa-solid fa-bars"></i></span></div>
+		<ul class="nav-list">
+			<li class="nav-item ">
+				<a class="nav-link" href="/"><span nav-hover="关于">About</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/photo/"><span nav-hover="摄影">Photo</span></a>
+			</li>
+			<li class="nav-item selected">
+				<a class="nav-link" href="/blog/"><span nav-hover="日志">Blog</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/project/"><span nav-hover="项目">Project</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/thought/"><span nav-hover="日常想法">Thought</span></a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link" href="/ACGBM/"><span nav-hover="书影游">ACGBM</span></a>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- 
+		post -->
+	<div class="main-text">
+		<h1 class="post-title">
+  <span>
+    
+      用Github Actions搭建自己的自动化中心
+    
+  </span>
+</h1>
+<div class="post-meta">
+  <span class="post-date">发布于 2023-03-16</span>
+	 | <span class="post-category">分类于 
+  
+    
+  
+    </span>
+      <a href="/blog/#Code">Code</a>
+    
+  
+	<div class="post-desc">
+		后知后觉地发现Github Actions竟然如此良心。 
+	</div>
+</div>
+<div id="fullpage" onclick="closingImage(this)"></div>
+<div id="container">
+  <div id="content">
+    <div class="post">
+      <p>窗外已经是人工智能时代了，我竟然刚发现Github Actions是如此的良心。</p>
+
+<p>注意到Github Actions，是前一阵建立本站时偶然看到的<a href="https://imnerd.org/doumark.html">豆瓣书影音同步 GitHub Action</a>这篇文章，里面提到了他通过Github Action实现了定期同步自己的豆瓣观影记录到自己blog的需求。我一看，嚯，我也有这个需求啊！然后就开了这个坑。</p>
+
+<h2 id="豆瓣同步">豆瓣同步</h2>
+
+<p>于是我就从同步豆瓣书影游数据开始研究起来。由于我想最大程度地控制数据格式，所以想找到上面提到的这篇文章里共享出来的源码进行修改，然而仔细看了下才发现他分享出来的是封装好的docker，真正的源代码我似乎是看不到的……</p>
+
+<p>没办法，只能自己再造一遍轮子了。我手头能用到的是一款叫<a href="https://blog.doufen.org/">「豆坟」</a>的Chrome插件，它已经很好地完成了豆瓣数据的抓取和备份工作，所以我能拿到存有我当前书影游数据的CSV文件。接下来我只需做增量的部分就行了。</p>
+
+<p>写Python脚本的过程没什么可说的，总之，借助上面「豆坟」插件运行时的log暴露出的豆瓣API，我比较顺利地拿到了数据，把它与CSV文件中的最新一条进行比对，如果不一样就存进去，如果一样就中止。</p>
+
+<p>接下来就是Github Actions的部分了。我最开始以为在脚本中对CSV文件的操作就直接改了仓库里的文件，在这种错误的认知下，我还查了半天怎么自己来做这个Jekyll站点的构建和发布；结果最后发现，还是需要自己手动commit和push的……那就好办了，因为push操作本身自然就会触发之前已有的系统自带的站点构建和发布Action，我就完全不用管了。</p>
+
+<p>自然，我还花了好几天从头写了一个单独的<a href="/ACGBM/">书影游页面</a>来承载这些数据，不赘述。</p>
+
+<blockquote>
+  <p>说起来，让我感到神奇的是，这个Actions每次在执行时都要从头重新完全初始化一遍环境——当然，这从软件的层面上说不仅逻辑完全正确而且非常有必要，只是我还是会想到，这就像每次要玩游戏都从头装一遍系统orz</p>
+</blockquote>
+
+<h2 id="豆瓣捧哏">豆瓣捧哏</h2>
+
+<p>一旦尝到甜头，我就开始想这玩意还能用来做些什么。<br />
+正好最近ChatGPT火热，我就顺手又写了个脚本，让Github Actions定时检查我的豆瓣动态，如果有新的，就自动调用ChatGPT的API发表一条回复。</p>
+
+<p>这个脚本也没啥可讲的，只是在这里用到了<code class="language-plaintext highlighter-rouge">Github Actions Secrets</code>值得一提，它可以隐藏你重要的隐私数据，比如API token，在程序里只需引用设定好的指代ID就可以。</p>
+
+<p>不过由于我没有小号，甚至没有可以用来申小号的手机号，因此所有的回复都是以<strong>我自己回复自己</strong>这种撒鼻息的形式进行的……</p>
+
+<p><img src="https://s2.loli.net/2023/03/16/zl5eQXSjfr17CBZ.png" alt="截屏2023-03-16 21.50.24.png" /></p>
+
+<h2 id="自动上访">自动上访</h2>
+
+<p>一不做二不休！我干脆把我的赛博上访工作也挪到这个境外势力这里来吧！</p>
+
+<h3 id="网易云音乐">网易云音乐</h3>
+
+<p>去年我的网易云音乐账号被封禁了评论功能，他们官方提供了一个申诉接口，于是我曾经写过一个Python脚本帮我在收到「申诉被驳回」结果的两分钟内再次提交申诉。但当时我只能在自己的电脑上跑，于是我那阵得有一个多月没怎么关过电脑，见证了网易方面在深夜也有人以随机的时间点击驳回的搞笑场景（如果不是人点击的，而是程序随机驳回的，就更搞笑了<span class="shady">什么程序对攻</span>）。</p>
+
+<p>现在，我可以把这个脚本移植到Github Actions了，我只需大概每过一周更新一下cookie就可以了。</p>
+
+<p>我还花了点时间研究了下怎么把结果发送到Telegram Bot，这样每次它提交完申诉我就能在第一时间知道了。这也不难，我复用的是别人做好的现成的Action：<code class="language-plaintext highlighter-rouge">appleboy/telegram-action@master</code>，只是在自定义通知内容这件事上有点麻烦，因为似乎Github Actions没有提供很方便的办法能让脚本输出的内容在后面的步骤使用，我只能把要给Telegram发的文本保存到本地，然后在后面再把它读取到环境变量里。大概是：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">输出 Python 脚本运行结果</span>
+    <span class="s">id</span><span class="pi">:</span> <span class="s">python-output</span>
+   <span class="s">run</span><span class="pi">:</span> <span class="s">echo "RESULT=$(cat 163-output.txt)" &gt;&gt; $GITHUB_OUTPUT</span>
+
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Send Notification</span>
+    <span class="s">if</span><span class="pi">:</span> <span class="s">${{ env.NEED-REPORT != 'false' }}</span>
+<span class="na">uses</span><span class="pi">:</span> <span class="s">appleboy/telegram-action@master</span>
+    <span class="s">to</span><span class="pi">:</span> <span class="s">${{ secrets.TELEGRAM_CHAT_ID }}</span>
+  <span class="s">token</span><span class="pi">:</span> <span class="s">${{ secrets.TELEGRAM_BOT_TOKEN }}</span>
+<span class="s">message:|</span>
+    <span class="s">${{ steps.python-output.outputs.RESULT }}</span>
+</code></pre></div></div>
+
+<p>最后的成果大概是：<br />
+<img src="https://s2.loli.net/2023/03/16/uCtvsEy6qbZezIP.png" width="60%" /></p>
+
+<h3 id="互联网信息服务投诉平台">互联网信息服务投诉平台</h3>
+
+<p><strong>互联网信息服务投诉平台</strong>（<a href="https://ts.isc.org.cn/">https://ts.isc.org.cn/</a>），在2020年的知乎文章和答案中似乎还是个非常有用的平台，但到了2022年已经完全是个样子货了。</p>
+
+<p>不过没关系，我的应对办法就是同样用样子货——我写的脚本来无情反复投诉。</p>
+
+<p>这家网站的限制是每天对同一企业只能投诉两次，每次投诉后大概三五天后会收到一条文本完全一样的「已处理」短信。我之前在手机上用Scripts这个App写了个脚本，让我可以在手机上随时想起来就投一条；并且还在「快捷指令」的自动化栏目下增添了收到那条文本万年不变的短信时自动上诉的应答。</p>
+
+<p>现在，这些就可以全不要啦！我也要把它们放在Github Actions上面！</p>
+
+<p>这个网站有一点好，就是它的cookie似乎不会过期，至少从我提取时到现在都快半年了还能继续用。</p>
+
+<p>我把上访的时间设在了凌晨，每天两次，不多不少。</p>
+
+<p><img src="https://s2.loli.net/2023/03/16/DntBf4JTPhKNyua.png" width="60%" /></p>
+
+<h2 id="是否新出了种子">是否新出了种子</h2>
+
+<p>接下来的应用略有扩展，它来源于我时不时会做的一件事：查看我喜欢的女演员的新作是不是出了下载。</p>
+
+<p>我本来觉得这也是随便写个脚本的事，没想到还颇有一番周折：我常用的那个可以查看影片下载种子的网站，在我本地跑脚本时一切正常，可一旦在Github的服务器上跑脚本，就会触发它的反爬虫机制，开启Cloudflare的防护服务。</p>
+
+<p>我试了几个现成的库，都对这层防护无能为力。后来受到一篇文章的启发，还是启用了爬虫的最终杀手锏——模拟网页登录，用起了Selenium，或者准确地说，是基于它对反爬机制进行有针对性破解的<a href="https://github.com/ultrafunkamsterdam/undetected-chromedriver">undetected_chromedriver</a>。</p>
+
+<p>在接入这个库的过程中也报了许多错，几乎是改一步前进一寸。</p>
+<ul>
+  <li>比如报错<code class="language-plaintext highlighter-rouge">This version of ChromeDriver only supports Chrome version 110</code>，解决办法是后来才看到文档里就写了一个初始化参数<code class="language-plaintext highlighter-rouge">version_main=110</code>；</li>
+  <li>比如报错<code class="language-plaintext highlighter-rouge">cannot connect to chrome at 127.0.0.1:xxx from chrome not reachable</code>，搜到在Github上的一个回答说<code class="language-plaintext highlighter-rouge">Make sure you have Xvfb installed :</code>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xvfb :99 <span class="nt">-ac</span> 2&gt;/dev/null &amp; 
+<span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span>:99 
+</code></pre></div>    </div>
+    <p>我最开始完全没理解这个程序是什么东西，以为是无关的东西，没想到试了下居然真的管用orz</p>
+  </li>
+  <li>比如无法加载cookie，最后有人说只需<strong>先访问那个网站一次，再清除所有cookie，最后再进行实际的访问</strong>即可，听起来也太tricky了吧……结果照这么做还真行……</li>
+</ul>
+
+<p>整个过程中new Bing也帮了不少忙，它对于信息的搜索和整合能力真的对提高工作效率帮助良多。我的体会是，基本上常识性、文档或手册里有的问题问它比较好，而偏门的问题、全网就一个帖子的某个角落能提到解决方案的问题，还是Google能解决得更好。<span class="shady">与此同时，我甚至怀疑百度有没有收录那个关键的网页</span></p>
+
+<p>最终结果还算是不错，虽然还没有得到检验，我已经开始期待某一天早上收到Telegram发来的信息——<br />
+<strong>「XXX-XXX出种子啦！」</strong></p>
+
+<h2 id="end">End</h2>
+
+<p>目前暂时就是这些，不知以后还能想出什么玩法来。</p>
+
+      <div id="more">
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tags -->
+  <div class="post-tags">
+    
+      
+        <span class="post-single-tag"><a href="/tag/脚本">脚本</a></span>
+    
+      
+        <span class="post-single-tag"><a href="/tag/自动化">自动化</a></span>
+    
+  </div>
+
+  <!-- Series links -->
+  
+
+  <script src="https://giscus.app/client.js"
+        data-repo="zshowing/zshowing.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnk2ODMxMDU3Mw=="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBBJWLc4CUkLK"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+  </script>
+</div>
+
+
+
+<link rel="preload" href="/assets/css/code.css" as="style" onload="this.rel='stylesheet'">
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>
+	</div>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="copyright">
+				© 2016 – 
+				<span itemprop="copyrightYear">2023</span>
+				<span class="with-love">
+					<i class="fa-solid fa-heart"></i>
+				</span>
+				<span class="author" itemprop="copyrightHolder">Jon</span>
+			</div>
+			<div class="powered-by">Powered by <a href="https://jekyllrb.com/" class="theme-link" rel="noopener" target="_blank">Jekyll</a>, theme designed by Jon.
+			</div>
+		</div>
+	</footer>
+</div>
+</html>
