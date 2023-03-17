@@ -175,13 +175,13 @@
 <p>在接入这个库的过程中也报了许多错，几乎是改一步前进一寸。</p>
 <ul>
   <li>比如报错<code class="language-plaintext highlighter-rouge">This version of ChromeDriver only supports Chrome version 110</code>，解决办法是后来才看到文档里就写了一个初始化参数<code class="language-plaintext highlighter-rouge">version_main=110</code>；</li>
-  <li>比如报错<code class="language-plaintext highlighter-rouge">cannot connect to chrome at 127.0.0.1:xxx from chrome not reachable</code>，搜到在Github上的一个回答说<code class="language-plaintext highlighter-rouge">Make sure you have Xvfb installed :</code>
+  <li>比如报错<code class="language-plaintext highlighter-rouge">cannot connect to chrome at 127.0.0.1:xxx from chrome not reachable</code>，搜到在Github上的<a href="https://github.com/acheong08/ChatGPT/issues/502">一个回答</a>说<code class="language-plaintext highlighter-rouge">Make sure you have Xvfb installed :</code>
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xvfb :99 <span class="nt">-ac</span> 2&gt;/dev/null &amp; 
 <span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span>:99 
 </code></pre></div>    </div>
     <p>我最开始完全没理解这个程序是做什么的，以为是无关的东西，没想到试了下居然真的管用orz</p>
   </li>
-  <li>比如无法加载cookie，最后有人说只需<strong>先访问那个网站一次，再清除所有cookie，最后再进行实际的访问</strong>即可，听起来也太tricky了吧……结果照这么做还真行……</li>
+  <li>比如无法加载cookie（<code class="language-plaintext highlighter-rouge">invalid cookie domain</code>），最后<a href="https://stackoverflow.com/a/44857193">有人说</a>只需<strong>先访问那个网站一次，再清除所有cookie，最后再进行实际的访问</strong>即可，听起来也太tricky了吧……结果照这么做还真行……</li>
 </ul>
 
 <p>最终结果还算是不错，虽然还没有得到检验，我已经开始期待某一天早上收到Telegram发来的信息——<br />

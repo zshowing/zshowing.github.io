@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 17 Mar 2023 11:11:08 +0800</pubDate>
-    <lastBuildDate>Fri, 17 Mar 2023 11:11:08 +0800</lastBuildDate>
+    <pubDate>Fri, 17 Mar 2023 14:29:38 +0800</pubDate>
+    <lastBuildDate>Fri, 17 Mar 2023 14:29:38 +0800</lastBuildDate>
     <generator>Jekyll v3.9.3</generator>
     
       <item>
@@ -104,13 +104,13 @@
 &lt;p&gt;在接入这个库的过程中也报了许多错，几乎是改一步前进一寸。&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;比如报错&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;This version of ChromeDriver only supports Chrome version 110&lt;/code&gt;，解决办法是后来才看到文档里就写了一个初始化参数&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;version_main=110&lt;/code&gt;；&lt;/li&gt;
-  &lt;li&gt;比如报错&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cannot connect to chrome at 127.0.0.1:xxx from chrome not reachable&lt;/code&gt;，搜到在Github上的一个回答说&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Make sure you have Xvfb installed :&lt;/code&gt;
+  &lt;li&gt;比如报错&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cannot connect to chrome at 127.0.0.1:xxx from chrome not reachable&lt;/code&gt;，搜到在Github上的&lt;a href=&quot;https://github.com/acheong08/ChatGPT/issues/502&quot;&gt;一个回答&lt;/a&gt;说&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Make sure you have Xvfb installed :&lt;/code&gt;
     &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Xvfb :99 &lt;span class=&quot;nt&quot;&gt;-ac&lt;/span&gt; 2&amp;gt;/dev/null &amp;amp; 
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DISPLAY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;:99 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
     &lt;p&gt;我最开始完全没理解这个程序是做什么的，以为是无关的东西，没想到试了下居然真的管用orz&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;比如无法加载cookie，最后有人说只需&lt;strong&gt;先访问那个网站一次，再清除所有cookie，最后再进行实际的访问&lt;/strong&gt;即可，听起来也太tricky了吧……结果照这么做还真行……&lt;/li&gt;
+  &lt;li&gt;比如无法加载cookie（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;invalid cookie domain&lt;/code&gt;），最后&lt;a href=&quot;https://stackoverflow.com/a/44857193&quot;&gt;有人说&lt;/a&gt;只需&lt;strong&gt;先访问那个网站一次，再清除所有cookie，最后再进行实际的访问&lt;/strong&gt;即可，听起来也太tricky了吧……结果照这么做还真行……&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;最终结果还算是不错，虽然还没有得到检验，我已经开始期待某一天早上收到Telegram发来的信息——&lt;br /&gt;

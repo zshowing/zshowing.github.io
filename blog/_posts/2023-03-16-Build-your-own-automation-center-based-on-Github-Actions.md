@@ -99,13 +99,13 @@ Github Actions的最短执行间隔是5分钟，这比不上我当初在电脑�
 
 在接入这个库的过程中也报了许多错，几乎是改一步前进一寸。
 - 比如报错`This version of ChromeDriver only supports Chrome version 110`，解决办法是后来才看到文档里就写了一个初始化参数`version_main=110`；
-- 比如报错`cannot connect to chrome at 127.0.0.1:xxx from chrome not reachable`，搜到在Github上的一个回答说`Make sure you have Xvfb installed :`
+- 比如报错`cannot connect to chrome at 127.0.0.1:xxx from chrome not reachable`，搜到在Github上的[一个回答](https://github.com/acheong08/ChatGPT/issues/502)说`Make sure you have Xvfb installed :`
 ```bash
 Xvfb :99 -ac 2>/dev/null & 
 export DISPLAY=:99 
 ```
 我最开始完全没理解这个程序是做什么的，以为是无关的东西，没想到试了下居然真的管用orz
-- 比如无法加载cookie，最后有人说只需**先访问那个网站一次，再清除所有cookie，最后再进行实际的访问**即可，听起来也太tricky了吧……结果照这么做还真行……
+- 比如无法加载cookie（`invalid cookie domain`），最后[有人说](https://stackoverflow.com/a/44857193)只需**先访问那个网站一次，再清除所有cookie，最后再进行实际的访问**即可，听起来也太tricky了吧……结果照这么做还真行……
 
 最终结果还算是不错，虽然还没有得到检验，我已经开始期待某一天早上收到Telegram发来的信息——
 **「XXX-XXX出种子啦！」**
