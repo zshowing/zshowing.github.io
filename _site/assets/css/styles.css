@@ -1591,6 +1591,14 @@ td {
 }
 
 @media screen and (max-width: 400px){
+  #greeting {
+    left: 10px;
+  }
+
+  #postcard-photo {
+    width: 93%;
+  }
+
   .post img, .thought-content img, .main-text img {
     width: 100%;
   }
