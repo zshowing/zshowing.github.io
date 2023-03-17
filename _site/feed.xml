@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 17 Mar 2023 00:40:14 +0800</pubDate>
-    <lastBuildDate>Fri, 17 Mar 2023 00:40:14 +0800</lastBuildDate>
+    <pubDate>Fri, 17 Mar 2023 09:52:21 +0800</pubDate>
+    <lastBuildDate>Fri, 17 Mar 2023 09:52:21 +0800</lastBuildDate>
     <generator>Jekyll v3.9.3</generator>
     
       <item>
@@ -25,7 +25,7 @@
 
 &lt;p&gt;接下来就是Github Actions的部分了。我最开始以为在脚本中对CSV文件的操作就直接改了仓库里的文件，在这种错误的认知下，我还查了半天怎么自己来做这个Jekyll站点的构建和发布；结果最后发现，还是需要自己手动commit和push的……那就好办了，因为push操作本身自然就会触发之前已有的系统自带的站点构建和发布Action，我就完全不用管了。&lt;/p&gt;
 
-&lt;p&gt;自然，我还花了好几天从头写了一个单独的&lt;a href=&quot;/ACGBM/&quot;&gt;书影游页面&lt;/a&gt;来承载这些数据，不赘述。&lt;/p&gt;
+&lt;p&gt;自然，我还花了两天从头写了一个单独的&lt;a href=&quot;/ACGBM/&quot;&gt;书影游页面&lt;/a&gt;来承载这些数据，不赘述。&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;说起来，让我感到神奇的是，这个Actions每次在执行时都要从头重新完全初始化一遍环境——当然，这从软件的层面上说不仅逻辑完全正确而且非常有必要，只是我还是会想到，这就像每次要玩游戏都从头装一遍系统orz&lt;/p&gt;
@@ -48,7 +48,7 @@
 
 &lt;h3 id=&quot;网易云音乐&quot;&gt;网易云音乐&lt;/h3&gt;
 
-&lt;p&gt;去年我的网易云音乐账号被封禁了评论功能，他们官方提供了一个申诉接口，于是我曾经写过一个Python脚本帮我在收到「申诉被驳回」结果的两分钟内再次提交申诉。但当时我只能在自己的电脑上跑，于是我那阵得有一个多月没怎么关过电脑，见证了网易方面在深夜也有人以随机的时间点击驳回的搞笑场景（如果不是人点击的，而是程序随机驳回的，就更搞笑了&lt;span class=&quot;shady&quot;&gt;什么程序对攻&lt;/span&gt;）。&lt;/p&gt;
+&lt;p&gt;去年我的网易云音乐账号被封禁了评论功能，他们官方提供了一个申诉接口，于是我曾经写过一个Python脚本帮我在收到「申诉被驳回」结果的两分钟内再次提交申诉。但当时我只能在自己的电脑上跑，于是我那阵得有一个多月没怎么关过电脑，见证了网易方面在深夜也有人以随机的时间点击驳回的活体西西弗斯搞笑场景（如果不是人点击的，而是程序随机驳回的，就更搞笑了&lt;span class=&quot;shady&quot;&gt;什么程序对攻&lt;/span&gt;）。&lt;/p&gt;
 
 &lt;p&gt;现在，我可以把这个脚本移植到Github Actions了，我只需大概每过一周更新一下cookie就可以了。&lt;/p&gt;
 
@@ -71,7 +71,8 @@
 &lt;img src=&quot;https://s2.loli.net/2023/03/16/uCtvsEy6qbZezIP.png&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;请忽略这个bot的名字，三年前我似乎想写个服务来记录豆瓣上面电影的评分变化，结果马上发现早有人&lt;a href=&quot;https://douyabot.com/&quot;&gt;造好了这个轮子&lt;/a&gt;。&lt;del&gt;然后bot的名字也没法改了&lt;/del&gt;&lt;/p&gt;
+  &lt;p&gt;请忽略这个bot的名字。&lt;br /&gt;
+三年前我似乎想写个服务来记录豆瓣上面电影的评分变化，结果马上发现早有人&lt;a href=&quot;https://douyabot.com/&quot;&gt;造好了这个轮子&lt;/a&gt;。&lt;del&gt;然后bot的名字也没法改了&lt;/del&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;Github Actions的最短执行间隔是5分钟，这比不上我当初在电脑上每2分钟检测一次的正义执行力（这也是网易云音乐网页版里面他们自己的轮询频率），但也足够了。基于公德心，我把间隔设置成了10分钟。而且从结果上看，现在的驳回速度远远赶不上去年夏天了，不知为什么=v=&lt;/p&gt;
@@ -86,7 +87,7 @@
 
 &lt;p&gt;现在，这些就可以全不要啦！我也要把它们放在Github Actions上面！&lt;/p&gt;
 
-&lt;p&gt;这个网站有一点好，就是它的cookie似乎不会过期，至少从我提取时到现在都快半年了还能继续用。&lt;/p&gt;
+&lt;p&gt;这个网站有一点好，就是它的cookie似乎不会过期，至少从我提取时到现在都半年多了还能继续用。&lt;/p&gt;
 
 &lt;p&gt;我把上访的时间设在了凌晨，每天两次，不多不少。&lt;/p&gt;
 
@@ -107,17 +108,17 @@
     &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Xvfb :99 &lt;span class=&quot;nt&quot;&gt;-ac&lt;/span&gt; 2&amp;gt;/dev/null &amp;amp; 
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DISPLAY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;:99 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;我最开始完全没理解这个程序是什么东西，以为是无关的东西，没想到试了下居然真的管用orz&lt;/p&gt;
+    &lt;p&gt;我最开始完全没理解这个程序是做什么的，以为是无关的东西，没想到试了下居然真的管用orz&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;比如无法加载cookie，最后有人说只需&lt;strong&gt;先访问那个网站一次，再清除所有cookie，最后再进行实际的访问&lt;/strong&gt;即可，听起来也太tricky了吧……结果照这么做还真行……&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;整个过程中new Bing也帮了不少忙，它对于信息的搜索和整合能力真的对提高工作效率帮助良多。我的体会是，基本上常识性、文档或手册里有的问题问它比较好，而偏门的问题、全网就一个帖子的某个角落能提到解决方案的问题，还是Google能解决得更好。&lt;span class=&quot;shady&quot;&gt;与此同时，我甚至怀疑百度有没有收录那个关键的网页&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;最终结果还算是不错，虽然还没有得到检验，我已经开始期待某一天早上收到Telegram发来的信息——&lt;br /&gt;
 &lt;strong&gt;「XXX-XXX出种子啦！」&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;end&quot;&gt;End&lt;/h2&gt;
+
+&lt;p&gt;整个过程中new Bing也帮了不少忙，它对于信息的搜索和整合能力真的对提高工作效率帮助良多。我的体会是，基本上常识性、文档或手册里有的问题，以及从提纲挈领高维度问的问题，当然包括现生成代码段的问题，问它都比较好；而细节、偏门、全网就一个帖子的某个角落能提到解决方案的问题，还是Google搜索更精准一些。&lt;span class=&quot;shady&quot;&gt;与此同时，我甚至怀疑百度有没有收录那个关键的网页&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;目前暂时就是这些，不知以后还能想出什么玩法来。&lt;/p&gt;
 </description>
