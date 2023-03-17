@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 17 Mar 2023 11:00:18 +0800</pubDate>
-    <lastBuildDate>Fri, 17 Mar 2023 11:00:18 +0800</lastBuildDate>
+    <pubDate>Fri, 17 Mar 2023 11:11:08 +0800</pubDate>
+    <lastBuildDate>Fri, 17 Mar 2023 11:11:08 +0800</lastBuildDate>
     <generator>Jekyll v3.9.3</generator>
     
       <item>
@@ -116,9 +116,11 @@
 &lt;p&gt;最终结果还算是不错，虽然还没有得到检验，我已经开始期待某一天早上收到Telegram发来的信息——&lt;br /&gt;
 &lt;strong&gt;「XXX-XXX出种子啦！」&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;end&quot;&gt;End&lt;/h2&gt;
+&lt;h2 id=&quot;其他以及todo&quot;&gt;其他以及ToDO&lt;/h2&gt;
 
 &lt;p&gt;整个过程中new Bing也帮了不少忙，它对于信息的搜索和整合能力真的对提高工作效率帮助良多。我的体会是，基本上常识性、文档或手册里有的问题，以及从提纲挈领高维度问的问题，当然包括现生成代码段的问题，问它都比较好；而细节、偏门、全网就一个帖子的某个角落能提到解决方案的问题，还是Google搜索更精准一些。&lt;span class=&quot;shady&quot;&gt;与此同时，我甚至怀疑百度有没有收录那个关键的网页&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;另外还有个#Todo，就是不知能否自动获取本地浏览器的cookie然后上传更新到Github。&lt;/p&gt;
 
 &lt;p&gt;目前暂时就是这些，不知以后还能想出什么玩法来。&lt;/p&gt;
 </description>
