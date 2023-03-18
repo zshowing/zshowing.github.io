@@ -51,7 +51,7 @@ def read_website_data(latest_data, searchtype):
 			title = row['subject']['title']
 			comment = row['comment']
 			if 'rating' in row:
-				mine = row['rating']['value']
+				mine = float(row['rating']['value'])
 			else:
 				mine = ""
 			description = row['subject']['card_subtitle']

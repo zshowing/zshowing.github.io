@@ -1,5 +1,5 @@
-var images = ['jptokyoginkgoave.jpg','jptokyo-shibuya.jpeg','gbstonehenge.jpeg','babymetal.jpeg','bayinbuluke.jpeg','bjbeihai.jpeg','duku.jpeg','duku2.jpeg','duku3.jpeg','duku4.jpeg','duku5.jpeg','duku6.jpeg','gbgrass.jpeg','gblogo.jpeg','gboxford.jpeg','gboxford2.jpeg','gbsheep.jpeg','gobath.jpeg','hunanmuseum.jpeg','jpicesea.jpeg','jpkyotodaohe.jpeg','jpkyototemplewithredleaves.jpeg','jpkyototower.jpeg','jplogowithredleaves.jpeg','jpmastumotowinter.jpeg','jpnaganocat.jpeg','jpnarabudda.jpeg','jpnararedleves.jpeg','jposaka.jpeg','jptokyoginza.jpeg','jptokyologos.jpeg','jptokyonight.jpeg','jptokyoredhat.jpeg','jptokyotower.jpeg','jptokyotowernight.jpeg','jpxuchuanzoo.jpeg','qiongkushitai.jpeg','qiongkushitai2.jpeg','qiongkushitai3.jpeg','takelamagan.jpeg','tsingtao.jpeg','tw.jpeg','xj.jpeg'];
-var metas = {'babymetal.jpeg': ['英国，伦敦 / 温布利体育馆', '2016.4 / Canon 700D'],
+const images = ['jptokyoginkgoave.jpg','jptokyo-shibuya.jpeg','gbstonehenge.jpeg','babymetal.jpeg','bayinbuluke.jpeg','bjbeihai.jpeg','duku.jpeg','duku2.jpeg','duku3.jpeg','duku4.jpeg','duku5.jpeg','duku6.jpeg','gbgrass.jpeg','gblogo.jpeg','gboxford.jpeg','gboxford2.jpeg','gbsheep.jpeg','gobath.jpeg','hunanmuseum.jpeg','jpicesea.jpeg','jpkyotodaohe.jpeg','jpkyototemplewithredleaves.jpeg','jpkyototower.jpeg','jplogowithredleaves.jpeg','jpmastumotowinter.jpeg','jpnaganocat.jpeg','jpnarabudda.jpeg','jpnararedleves.jpeg','jposaka.jpeg','jptokyoginza.jpeg','jptokyologos.jpeg','jptokyonight.jpeg','jptokyoredhat.jpeg','jptokyotower.jpeg','jptokyotowernight.jpeg','jpxuchuanzoo.jpeg','qiongkushitai.jpeg','qiongkushitai2.jpeg','qiongkushitai3.jpeg','takelamagan.jpeg','tsingtao.jpeg','tw.jpeg','xj.jpeg'];
+const metas = {'babymetal.jpeg': ['英国，伦敦 / 温布利体育馆', '2016.4 / Canon 700D'],
 'bayinbuluke.jpeg': ['新疆，独库公路 / 巴音郭楞', '2021.6 / DJI Mini 2'],
 'bjbeihai.jpeg': ['北京，北海公园', '2014.8 / Canon 700D'],
 'duku.jpeg': ['新疆，独库公路', '2021.6 / DJI Mini 2'],
@@ -302,6 +302,61 @@ function expandAllMovies() {
 	});
 }
 
+function filterMovies() {
+	const type = $('.movie-type .selected').data('value');
+	const typeQuery = type ? `[data-type=${type}]` : "";
+	const year = $('.movie-year .selected').data('value');
+	const yearQuery = year ? `[data-value=${year}]` : '';
+	const rate = $('.movie-rate .selected').data('value');
+	const rateQuery = rate ? `[data-rating="${rate}.0"]` : '';
+
+	updateMoviesListTitle(type, year, $('.movie-rate .selected').text())
+
+	var movieslist = $(typeQuery+yearQuery+rateQuery);
+	movieslist.removeClass('hide');
+	movieslist.find('.movie-rating:not([load=true])').each(function() {
+	  const ratingValue = $(this).data('rating');
+	  let starHtml = '';
+	  for (let i = 0; i < ratingValue; i++) {
+		starHtml += '<i class="fa-solid fa-star" style="color: #FFAC2D; font-size: .7em;"></i>';
+	  }
+	  $(this).append(starHtml).attr('load', 'true');
+	});
+  }
+
+  function updateMoviesListTitle(type, year, rate) {
+	var typeString = "";
+	var actionString = "";
+	if (type == 'book') {
+		typeString = '书籍';
+		actionString = "阅读";
+	} else if (type == 'movie') {
+		typeString = '影视剧';
+		actionString = '看';
+	} else if ( type == 'game') {
+		typeString = '游戏';
+		actionString = '玩';
+	}
+
+	let title = '';
+	if (year) {
+	  title = `${year}年${actionString}过的`;
+	} else {
+	  title = `全部${actionString}过的`;
+	}
+
+	if (title.includes('全部')) {
+		if (!rate.includes('全部')) {
+			title += rate;
+		}
+	} else {
+		title += rate;
+	}
+
+	title += `${typeString}`;
+	$('.movies-list h2').text(title);
+  }
+
 window.addEventListener('DOMContentLoaded', (event) => {
 	if ($("#photo").length){
 		change();
@@ -341,178 +396,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 
 	$('.movie-type a').on('click', function () {
-		$(this).siblings().removeClass('selected');
-		$(this).addClass('selected');
+		$(this).siblings().removeClass('selected').end().addClass('selected');
 		$('.movie-single').addClass('hide');
-
-		const type = $(this).data('value');
-		const typequery = "[data-type=" + type + "]";
-		var typeString = "";
-		var actionString = "";
-		if (type == 'book') {
-			typeString = '书籍';
-			actionString = "阅读";
-		} else if (type == 'movie') {
-			typeString = '影视剧';
-			actionString = '看';
-		} else if ( type == 'game') {
-			typeString = '游戏';
-			actionString = '玩';
-		}
-		var title = "";
-		var selectedRate = $('.movie-rate').find('.selected');
-		var ratequery = "[data-rating]";
-		const rate = $(selectedRate).data('value');
-		if (rate != "" && rate != undefined) {
-			ratequery = '[data-rating="' + rate + '.0"]';
-			title = $(selectedRate).text();
-		}
-		var selectedYear = $('.movie-year').find('.selected');
-		var yearquery = "[data-value]";
-		const year = $(selectedYear).data('value');
-		if (year != "" && year != undefined) {
-			yearquery = '[data-value="' + year + '"]';
-			title = year + "年" + actionString + "过的" + typeString;
-		} else {
-			title = actionString + "过的全部" + title + typeString;
-		}
-		
-		var movieslist = $(typequery+yearquery+ratequery);
-		movieslist.removeClass('hide');
-
-		$('.movies-list h2').text(title);
+		filterMovies();
 	});
 
 	$('.movie-year a').on('click', function () {
-		$(this).siblings().removeClass('selected');
-		$(this).addClass('selected');
+		$(this).siblings().removeClass('selected').end().addClass('selected');
 		$('.movie-single').addClass('hide');
-
-		var selectedType = $('.movie-type').find('.selected');
-		const type = $(selectedType).data('value');
-		const typequery = "[data-type=" + type + "]";
-		var typeString = "";
-		var actionString = "";
-		if (type == 'book') {
-			typeString = '书籍';
-			actionString = "阅读";
-		} else if (type == 'movie') {
-			typeString = '影视剧';
-			actionString = '看';
-		} else if ( type == 'game') {
-			typeString = '游戏';
-			actionString = '玩';
-		}
-
-		var selected = $('.movie-rate').find('.selected');
-		var ratequery = "[data-rating]";
-		var title = "";
-		if (selected.length > 0) {
-			const rate = $(selected).data('value');
-			if (rate != "") {
-				ratequery = '[data-rating="' + rate + '"]';
-				title = $(selected).text() + title;
-			} else {
-				title = "全部";
-			}
-		}
-		var moviesquery = '[data-value]' + ratequery;
-		const year = $(this).data('value');
-		if (year != "") {
-			moviesquery = '[data-value="' + year + '"]'+ratequery;
-			title = year + "年" + actionString + "过的" + title + typeString;
-		} else {
-			if (title != '全部') {
-				title = "全部" + actionString + "过的" + title + typeString;	
-			} else {
-				title = "全部" + actionString + "过的" + typeString;
-			}
-		}
-		movieslist = $(moviesquery+typequery);
-		movieslist.removeClass('hide');
-
-		$('.movies-list h2').text(title);
-
-		// 弄星级
-		movieslist.each(function() {
-		  var $rating = $(this).find('.movie-rating');
-		  const done = $rating.attr('load');
-		  if (done != 'true') {
-		  	var ratingValue = Number($rating.data('rating'));
-			  var starHtml = '';
-		    for (var i = 0; i < ratingValue; i++) {
-		      starHtml += '<i class="fa-solid fa-star" style="color: #FFAC2D; font-size: .7em;"></i>';
-		    }
-		    $rating.append(starHtml);
-		    $rating.attr('load', 'true');
-		  }
-		});
+		filterMovies();
 	});
 
 	$('.movie-rate a').on('click', function () {
-		$(this).siblings().removeClass('selected');
-		$(this).addClass('selected');
+		$(this).siblings().removeClass('selected').end().addClass('selected');
 		$('.movie-single').addClass('hide');
-
-		var selectedType = $('.movie-type').find('.selected');
-		const type = $(selectedType).data('value');
-		const typequery = "[data-type=" + type + "]";
-		var typeString = "";
-		var actionString = "";
-		if (type == 'book') {
-			typeString = '书籍';
-			actionString = "阅读";
-		} else if (type == 'movie') {
-			typeString = '影视剧';
-			actionString = '看';
-		} else if ( type == 'game') {
-			typeString = '游戏';
-			actionString = '玩';
-		}
-
-		var selected = $('.movie-year').find('.selected');
-		var yearquery = "[data-value]";
-		var title = "";
-		if (selected.length > 0) {
-			const year = $(selected).data('value');
-			if (year != "") {
-				yearquery = '[data-value="' + year + '"]';
-				title = year + "年" + actionString + "过的";
-			} else {
-				title = "全部";
-			}
-		}
-		var moviesquery = '[data-rating]' + yearquery;
-		const rate = $(this).data('value');
-		if (rate != "") {
-			moviesquery = '[data-rating="' + rate + '"]' + yearquery;
-			title = title + $(this).text() + typeString;
-		} else {
-			if (title == '全部') {
-				title = actionString + "过的全部" + typeString;
-			} else {
-				title = title + "全部" + typeString;
-			}
-		}
-		
-		movieslist = $(moviesquery+typequery);
-		movieslist.removeClass('hide');
-
-		$('.movies-list h2').text(title);
-
-		// 弄星级
-		movieslist.each(function() {
-		  var $rating = $(this).find('.movie-rating');
-		  const done = $rating.attr('load');
-		  if (done != 'true') {
-		  	var ratingValue = Number($rating.data('rating'));
-			  var starHtml = '';
-		    for (var i = 0; i < ratingValue; i++) {
-		      starHtml += '<i class="fa-solid fa-star" style="color: #FFAC2D; font-size: .7em;"></i>';
-		    }
-		    $rating.append(starHtml);
-		    $rating.attr('load', 'true');
-		  }
-		});
+		filterMovies();
 	});
 });
