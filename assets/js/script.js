@@ -395,19 +395,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		expandAllMovies();
 	}
 
-	$('.movie-type a').on('click', function () {
-		$(this).siblings().removeClass('selected').end().addClass('selected');
-		$('.movie-single').addClass('hide');
-		filterMovies();
-	});
-
-	$('.movie-year a').on('click', function () {
-		$(this).siblings().removeClass('selected').end().addClass('selected');
-		$('.movie-single').addClass('hide');
-		filterMovies();
-	});
-
-	$('.movie-rate a').on('click', function () {
+	$('.movie-type a, .movie-year a, .movie-rate a').on('click', function () {
 		$(this).siblings().removeClass('selected').end().addClass('selected');
 		$('.movie-single').addClass('hide');
 		filterMovies();
