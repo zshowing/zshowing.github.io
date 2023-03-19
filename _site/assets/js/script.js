@@ -52,10 +52,14 @@ function change() {
 	var location = metas[images[index]][0]
 	var meta = metas[images[index]][1]
 
-	if (firsttime) {
-		$("#photo").attr("src",src);
+	function updateInfo() {
 		$("#location").text(location);
 		$("#metas").text(meta);
+	}
+
+	if (firsttime) {
+		$("#photo").attr("src",src);
+		updateInfo();
 		var height = $("#postcard-photo").width() / 1200 * 800;
 		$("#photo").height(Math.ceil(height) + 'px');
 
@@ -83,8 +87,7 @@ function change() {
 			if (!firsttime) {
 				$("#photo").attr("src",src);
 			}
-			$("#location").text(location);
-			$("#metas").text(meta);
+			updateInfo();
 			if (firsttime) {
 				$("#photo").height(Math.ceil(height)+'px');
 			}
