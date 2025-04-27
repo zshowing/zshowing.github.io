@@ -6,6 +6,14 @@ category: acgbm
 {% assign movies = site.data.movies %}
 {% assign books = site.data.books %}
 {% assign games = site.data.games %}
+{% assign all_dates = site.data.movies | concat: site.data.books | concat: site.data.games | map: 'date' %}
+{% assign years = "" | split: "" %}
+{% for date in all_dates %}
+  {% assign year = date | date: "%Y" %}
+  {% assign years = years | push: year %}
+{% endfor %}
+{% assign all_years = years | uniq | sort | reverse %}
+
 <div class="main-text">
   <h2>TOP PICK</h2>
   <p>这里汇集了我最喜欢的一些书籍、电影、剧集和游戏等。<br>之前我颁发过一届的<a href="/blog/2021/12/31/the-first-jonscar/">Jonscar</a>，这里也许可以称为<strong>终身Jonscar</strong>。</p>
@@ -120,23 +128,14 @@ category: acgbm
       <a data-value="movie" href="javascript:void 0">影</a>
       <a data-value="game" href="javascript:void 0">游</a>
     </div>
+    
     <div class="movie-year">
       <a data-value="" href="javascript:void 0">全部</a>
-      <a data-value="2023" href="javascript:void 0">2023</a>
-      <a data-value="2022" href="javascript:void 0">2022</a>
-      <a data-value="2021" href="javascript:void 0">2021</a>
-      <a data-value="2020" href="javascript:void 0">2020</a>
-      <a data-value="2019" href="javascript:void 0">2019</a>
-      <a data-value="2018" href="javascript:void 0">2018</a>
-      <a data-value="2017" href="javascript:void 0">2017</a>
-      <a data-value="2016" href="javascript:void 0">2016</a>
-      <a data-value="2015" href="javascript:void 0">2015</a>
-      <a data-value="2014" href="javascript:void 0">2014</a>
-      <a data-value="2013" href="javascript:void 0">2013</a>
-      <a data-value="2012" href="javascript:void 0">2012</a>
-      <a data-value="2011" href="javascript:void 0">2011</a>
-      <a data-value="2010" href="javascript:void 0">2010</a>
+      {% for year in all_years %}
+        <a data-value="{{ year }}" href="javascript:void 0">{{ year }}</a>
+      {% endfor %}
     </div>
+
     <div class="movie-rate">
       <a data-value="" href="javascript:void 0">全部</a>
       <a data-value="5" href="javascript:void 0">五星</a>
