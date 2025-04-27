@@ -50,7 +50,7 @@ def read_website_data(latest_data, searchtype):
 		for row in rows:
 			title = row['subject']['title']
 			comment = row['comment']
-			if 'rating' in row:
+			if 'rating' in row and row['rating'] is not None:
 				mine = float(row['rating']['value'])
 			else:
 				mine = ""
