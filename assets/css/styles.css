@@ -2048,13 +2048,13 @@ ul.tag-cloud a::after {
 }
 
 .movie-date::before {
-  content: "/";
+  content: "▸";
   color: var(--color-red);
   padding-right: 5px;
 }
 
 .movie-date::after {
-  content: "/";
+  /* content: "/"; */
   color: var(--color-red);
   padding-left: 5px;
 }
@@ -2062,8 +2062,12 @@ ul.tag-cloud a::after {
 .movie-date {
   font-size: .9em;
   color: #666;
-  display: inline-block;
-  margin-left: 5px;
+  /* display: inline-block; */
+  /* margin-left: 5px; */
+}
+
+.movie-single .movie-date {
+  font-size: .8em;
 }
 
 .movie-description {
@@ -2124,6 +2128,7 @@ ul.tag-cloud a::after {
   font-size: .9em;
   color: #666;
   margin-top: 8px;
+  margin-bottom: 4px;
 }
 
 .movies-list a::before ,.movie-list a::before{

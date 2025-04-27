@@ -29,7 +29,7 @@ category: acgbm
         <div class="movie-detail">
           <div class="movie-description">{{ movie.description }}</div>
           <div></div>
-        {{ movie.comment }}<span class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</span>
+        {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
         </div>
       </li>
     {% endfor %}
@@ -50,7 +50,7 @@ category: acgbm
           <div class="movie-detail">
             <div class="movie-description">{{ movie.description }}</div>
             <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
-          {{ movie.comment }}<span class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</span>
+          {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
           </div>
         </li>
       {% endfor %}
@@ -71,7 +71,7 @@ category: acgbm
             <div class="movie-detail">
               <div class="movie-description">{{ movie.description }}</div>
               <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
-            {{ movie.comment }}<span class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</span>
+            {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
             </div>
           </li>
         {% endfor %}
@@ -92,7 +92,7 @@ category: acgbm
           <div class="movie-detail">
             <div class="movie-description">{{ movie.description }}</div>
             <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
-          {{ movie.comment }}<span class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</span>
+          {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
           </div>
         </li>
       {% endfor %}
@@ -112,7 +112,7 @@ category: acgbm
           <div class="movie-detail">
             <div class="movie-description">{{ movie.description }}</div>
             <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
-          {{ movie.comment }}<span class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</span>
+          {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
           </div>
         </li>
       {% endfor %}
@@ -152,6 +152,7 @@ category: acgbm
         <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
+        <div class="movie-date">{{ movie.date | date: "%Y.%m.%d" }}标记</div>
       </div>
       {% endfor %}
       {% assign five_star_movies_sorted = games | sort: "date" | reverse %}
@@ -160,6 +161,7 @@ category: acgbm
         <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
+        <div class="movie-date">{{ movie.date | date: "%Y.%m.%d" }}标记</div>
       </div>
       {% endfor %}
       {% assign five_star_movies_sorted = books | sort: "date" | reverse %}
@@ -168,6 +170,7 @@ category: acgbm
         <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
+        <span class="movie-date">{{ movie.date | date: "%Y.%m.%d" }}标记</span>
       </div>
       {% endfor %}
     </div>
