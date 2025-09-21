@@ -370,6 +370,10 @@ blockquote p {
   color: var(--blockquote-color) !important;
 }
 
+blockquote li {
+  color: var(--blockquote-color) !important;
+}
+
 /* BLOG INDEX */
 #all-posts{
   margin: 0px auto 10px auto;
