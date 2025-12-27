@@ -53,15 +53,3 @@ title: 主页
 
 这里值得一记的是，在设计理念上，我有意在很多地方想向明信片的样式靠拢，因为这些年联系越来越少的好朋友们给我寄过的实体明信片是给了我很多力量和抚慰的事物，我想在自己的线上空间复刻这个感觉。
 每5秒钟轮换我拍的照片也是我比较喜爱的设计，我建议您~~也像我一样~~打开之后一直放在那里当作屏保。
-
-## 友情链接
-
-至今记得当年MSN Spaces边栏的友链，和那一朵朵代表着有更新的小黄花。
-如今似乎其中**所有人**都已经不再写日志了，一些人取而代之的是在朋友圈发的下一代照片，更多人彻底在网络空间消失了。
-还好我后来还认识了下面这些朋友：
-
-- [猫伯爵](https://www.guobetty.com/) 豆瓣超喜欢的友邻，画画特别棒，想法也特别赞。担任主美做了款游戏叫[「月影之塔」](https://store.steampowered.com/app/465100)。<span class="shady">我是在她的带动下注册的长毛象！</span>
-- [炫彩小张](https://web.okjike.com/u/56F1031A-5452-445E-8438-BDEBF6514D7B) 在即刻app上认识的朋友，我从未见过如此有趣的女生。<span class="shady">能认识何其有幸！</span>有个几十万订阅的播客叫[「贤者时间」](https://www.xiaoyuzhoufm.com/podcast/5e285523418a84a04627767d)。
-- [何卡卡](https://www.douban.com/people/kakahex) 豆瓣超喜欢的友邻，<span class="shady">在豆瓣小黑屋有套房</span> 知名[唢呐表演艺术家](https://www.douban.com/doulist/126926900)，正在欧洲求学的青年钢琴家，有趣度爆棚的女生。
-- [Kavanish](https://www.douban.com/people/kavanish) 在地球另一端的好友，颇有见地的电影番剧播客鉴赏家，也是个<span class="shady">年更的</span>烹饪博主。
-- [竹淡刻骨](https://bamboobone9.com/) 精神生活异常活跃的豆瓣友邻，摄影、烹饪、穿搭、评论均是一把好手。<span class="shady">谁能想到刚认识她时她还只是个专注的文具博主呢（</span>
