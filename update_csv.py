@@ -4,6 +4,16 @@ import shutil
 import datetime
 import pytz
 import os
+import re
+import io
+from PIL import Image
+
+IMAGE_BASE_DIR = './assets/acg-covers'
+SAVE_PATHS = {
+    'book': os.path.join(IMAGE_BASE_DIR, 'books'),
+    'movie': os.path.join(IMAGE_BASE_DIR, 'movies'),
+    'game': os.path.join(IMAGE_BASE_DIR, 'games')
+}
 
 headers = {
   'Accept': '*/*',
@@ -25,6 +35,38 @@ loadtypes = ['movie', 'book', 'game']
 def read_latest_data(csv_file):
     df_data = pd.read_csv(csv_file, header=0, nrows=1)
     return df_data
+
+def sanitize_filename(filename):
+    """清理文件名中的非法字符"""
+    return re.sub(r'[\\/:*?"<>|]', '_', filename)
+
+def download_and_convert_image(url, title, searchtype):
+    """下载图片并统一转换为 jpg 格式"""
+    folder = SAVE_PATHS.get(searchtype)
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    
+    safe_title = sanitize_filename(title)
+    target_path = os.path.join(folder, f"{safe_title}.jpg")
+    
+    # 如果本地已存在该图片，则跳过下载
+    if os.path.exists(target_path):
+        return
+
+    try:
+        print(f"  -> 正在下载封面: {title}...")
+        response = requests.get(url, headers=headers, timeout=20)
+        response.raise_for_status()
+        
+        # 使用 Pillow 处理图片
+        img = Image.open(io.BytesIO(response.content))
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+        
+        img.save(target_path, "JPEG", quality=90)
+        print(f"  -> 已保存至: {target_path}")
+    except Exception as e:
+        print(f"  -> 下载失败 [{title}]: {e}")
 
 def save_data(csv_file, data):
 	df = pd.read_csv(csv_file)
@@ -89,7 +131,7 @@ def read_website_data(latest_data, searchtype):
 					data.append([title, description, rating, link, date, mine, tags, comment, 'public', '', picurl])
 				elif searchtype == 'movie':
 					data.append([title, description, rating, link, date, mine, tags, comment, 'public', '', '', '', picurl])
-				
+				download_and_convert_image(picurl, title, searchtype)
 			index += 50
 
 # 主函数
