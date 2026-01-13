@@ -49,7 +49,7 @@ category: acgbm
           <span class="movie-title">{{ movie.title }}</span><span class="expand-button"></span>
           <div class="movie-detail">
             <div class="movie-description">{{ movie.description }}</div>
-            <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
+            <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ site.baseurl }}/assets/acg-covers/movies/{{ movie.title }}.jpg" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
           {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
           </div>
         </li>
@@ -70,7 +70,7 @@ category: acgbm
             <span class="movie-title">{{ movie.title }}</span><span class="expand-button"></span>
             <div class="movie-detail">
               <div class="movie-description">{{ movie.description }}</div>
-              <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
+              <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ site.baseurl }}/assets/acg-covers/movies/{{ movie.title }}.jpg" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
             {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
             </div>
           </li>
@@ -91,7 +91,7 @@ category: acgbm
           <span class="movie-title">{{ movie.title }}</span><span class="expand-button"></span>
           <div class="movie-detail">
             <div class="movie-description">{{ movie.description }}</div>
-            <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
+            <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ site.baseurl }}/assets/acg-covers/movies/{{ movie.title }}.jpg" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
           {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
           </div>
         </li>
@@ -111,7 +111,7 @@ category: acgbm
           <span class="movie-title">{{ movie.title }}</span><span class="expand-button"></span>
           <div class="movie-detail">
             <div class="movie-description">{{ movie.description }}</div>
-            <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
+            <a href="{{ movie.link }}" style="border-bottom:none;"><img class="lazy" data-src="{{ site.baseurl }}/assets/acg-covers/games/{{ movie.title }}.jpg" loading="lazy" referrer-policy="no-referrer" width="300" height="440"></a>
           {{ movie.comment }}<div class="movie-date">{{ movie.date | date: "%Y-%m-%d" }}标记</div>
           </div>
         </li>
@@ -149,7 +149,7 @@ category: acgbm
       {% assign five_star_movies_sorted = movies | sort: "date" | reverse %}
       {% for movie in five_star_movies_sorted %}
       <div class="movie-single hide" data-value="{{ movie.date | date: '%Y' }}" data-rating="{{ movie.mine }}" data-type="movie">
-        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
+        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ site.baseurl }}/assets/acg-covers/movies/{{ movie.title }}.jpg" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
         <div class="movie-date">{{ movie.date | date: "%Y.%m.%d" }}标记</div>
@@ -158,7 +158,7 @@ category: acgbm
       {% assign five_star_movies_sorted = games | sort: "date" | reverse %}
       {% for movie in five_star_movies_sorted %}
       <div class="movie-single hide" data-value="{{ movie.date | date: '%Y' }}" data-rating="{{ movie.mine }}" data-type="game">
-        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
+        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ site.baseurl }}/assets/acg-covers/games/{{ movie.title }}.jpg" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
         <div class="movie-date">{{ movie.date | date: "%Y.%m.%d" }}标记</div>
@@ -167,7 +167,7 @@ category: acgbm
       {% assign five_star_movies_sorted = books | sort: "date" | reverse %}
       {% for movie in five_star_movies_sorted %}
       <div class="movie-single hide" data-value="{{ movie.date | date: '%Y' }}" data-rating="{{ movie.mine }}" data-type="book">
-        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ movie.picurl }}" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
+        <a href="{{ movie.link }}"><img class="lazy" data-src="{{ site.baseurl }}/assets/acg-covers/books/{{ movie.title }}.jpg" loading="lazy" referrer-policy="no-referrer" width="200" height="270"><div class="movie-title">{{ movie.title }}</div></a>
         <div class="movie-rating" data-rating="{{ movie.mine }}"></div>
         <div class="movie-comment">{{ movie.comment }}</div>
         <span class="movie-date">{{ movie.date | date: "%Y.%m.%d" }}标记</span>
