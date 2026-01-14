@@ -1,4 +1,5 @@
 .DS_Store
+_site/
 _site/404.html
 _site/feed.xml
 _site/index.html
