@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 gemspec
-gem "webrick", "~> 1.7"
+gem "webrick", "~> 1.8"
 gem "kramdown"
 gem "rouge"
 gem 'github-pages'
