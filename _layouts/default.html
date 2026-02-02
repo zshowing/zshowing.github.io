@@ -1,9 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ page.lang | default: site.lang | default: 'zh-CN' }}">
 <head>
 	<meta charset="utf-8">
 	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
 	<title> Jon Showing - {{ page.title }}</title>
+	<meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160, '...' | default: site.description }}">
+	<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+	<!-- Open Graph -->
+	<meta property="og:site_name" content="{{ site.title | default: 'Jon Showing' }}">
+	<meta property="og:title" content="{{ page.title | default: site.title }}">
+	<meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160, '...' | default: site.description }}">
+	<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+	<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+	<meta property="og:image" content="{{ page.image | default: site.social_image | prepend: site.url }}">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ page.title | default: site.title }}">
+	<meta name="twitter:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160, '...' | default: site.description }}">
+	<meta name="twitter:image" content="{{ page.image | default: site.social_image | prepend: site.url }}">
+
+	<!-- Structured data (JSON-LD) -->
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "WebSite",
+	  "url": "{{ site.url }}",
+	  "name": "{{ site.title | default: 'Jon Showing' }}",
+	  "description": "{{ site.description }}"
+	}
+	</script>
 	<link rel="stylesheet" href="/assets/css/styles.css"></link>
 	<link rel="stylesheet" type="text/css" href="/assets/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="/assets/slick/slick-theme.css"/>
@@ -30,7 +57,7 @@
 <div class="reading-progress-bar"></div>
 <div class="content-wrapper">
 	<div class="nav-container">
-		<div class="logo"><a href="/"><img src="/assets/logo.png"></a></div>
+		<div class="logo"><a href="/"><img src="/assets/logo.png" alt="{{ site.title | default: 'Jon Showing' }}"></a></div>
 		<div class="menu-button"><span id="menu-button"><i class="fa-solid fa-bars"></i></span></div>
 		<ul class="nav-list">
 			<li class="nav-item {% if page.layout == 'default'%}selected{% endif %}">
@@ -57,18 +84,18 @@
 	<div class="image-container" id="image-container">
 		<div id="postcard-photo">
 			<span class="loader"></span>
-			<img src="" style="width: 100%;" id="photo" alt="">
-			<div id="greeting"><img src="/assets/greeting.png"></div>
+			<img src="" style="width: 100%;" id="photo" alt="{{ page.image_alt | default: page.title | default: site.title }}">
+			<div id="greeting"><img src="/assets/greeting.png" alt="greeting"></div>
 			<div id="location"></div>
 			<div id="metas"></div>
 		</div>
 	</div>
 	{% endif %}
-	<!-- {{page.category}}
-		{{page.layout}} -->
-	<div class="{% if page.layout == 'photo_set' %}photolist-wrapper
-		{% elsif page.category == 'photo' or page.category == 'projectlist'%} photoset-wrapper 
-			{% elsif page.category == 'blog' or page.layout == 'post' or page.layout == 'thought' or page.layout == 'project' or page.layout == 'default' %}main-text{% else %}wrapper{% endif %}">
+		<!-- {{page.category}}
+			{{page.layout}} -->
+		<div id="main-content" role="main" class="{% if page.layout == 'photo_set' %}photolist-wrapper
+			{% elsif page.category == 'photo' or page.category == 'projectlist'%} photoset-wrapper 
+				{% elsif page.category == 'blog' or page.layout == 'post' or page.layout == 'thought' or page.layout == 'project' or page.layout == 'default' %}main-text{% else %}wrapper{% endif %}">
 		{{ content }}
 	</div>
 
