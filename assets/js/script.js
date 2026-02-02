@@ -1,3 +1,15 @@
+// 常量定义
+const CONFIG = {
+  IMAGE_RATIO_W: 1200,
+  IMAGE_RATIO_H: 800,
+  FADE_DURATION: 1000,
+  CHANGE_INTERVAL: 10000,
+  ANIMATE_DURATION: 500,
+  IMAGE_HOVER_DELAY: 2000,
+  IMAGE_UPDATE_INTERVAL: 3000,
+  SCROLL_THROTTLE: 100
+};
+
 const images = ['jptokyoginkgoave.jpg','jptokyo-shibuya.jpeg','gbstonehenge.jpeg','babymetal.jpeg','bayinbuluke.jpeg','bjbeihai.jpeg','duku.jpeg','duku2.jpeg','duku3.jpeg','duku4.jpeg','duku5.jpeg','duku6.jpeg','gbgrass.jpeg','gblogo.jpeg','gboxford.jpeg','gboxford2.jpeg','gbsheep.jpeg','gobath.jpeg','hunanmuseum.jpeg','jpicesea.jpeg','jpkyotodaohe.jpeg','jpkyototemplewithredleaves.jpeg','jpkyototower.jpeg','jplogowithredleaves.jpeg','jpmastumotowinter.jpeg','jpnaganocat.jpeg','jpnarabudda.jpeg','jpnararedleves.jpeg','jposaka.jpeg','jptokyoginza.jpeg','jptokyologos.jpeg','jptokyonight.jpeg','jptokyoredhat.jpeg','jptokyotower.jpeg','jptokyotowernight.jpeg','jpxuchuanzoo.jpeg','qiongkushitai.jpeg','qiongkushitai2.jpeg','qiongkushitai3.jpeg','takelamagan.jpeg','tsingtao.jpeg','tw.jpeg','xj.jpeg'];
 const metas = {'babymetal.jpeg': ['英国，伦敦 / 温布利体育馆', '2016.4 / Canon 700D'],
 'bayinbuluke.jpeg': ['新疆，独库公路 / 巴音郭楞', '2021.6 / DJI Mini 2'],
@@ -42,176 +54,232 @@ const metas = {'babymetal.jpeg': ['英国，伦敦 / 温布利体育馆', '2016.
 'tsingtao.jpeg': ['青岛', '2014.9 / Canon 700D'],
 'tw.jpeg': ['台湾，台东', '2014.10 / Canon 700D'],
 'xj.jpeg': ['新疆，库车 / 苏巴什佛寺遗址', '2021.6 / SONY RX100M7']};
-var index = 0;
-var firsttime = true;
-var active = false;
+
+let firsttime = true;
+let active = false;
+let changeTimeout;
+
+// 工具函数
+function calculateImageHeight(width, imageWidth, imageHeight) {
+  return (width / imageWidth) * imageHeight;
+}
+
+function positionLoader() {
+  const $postcard = $('#postcard-photo');
+  const $loader = $('.loader');
+  
+  if ($postcard.length === 0 || $loader.length === 0) return;
+  
+  const parentWidth = $postcard.width();
+  const parentHeight = $postcard.height();
+  const childWidth = $loader.width();
+  const childHeight = $loader.height();
+  
+  // 只有当 loader 有实际尺寸时才进行定位
+  if (childWidth > 0 && childHeight > 0) {
+    const left = (parentWidth - childWidth) / 2;
+    const top = (parentHeight - childHeight) / 2;
+    $loader.css({
+      'position': 'absolute',
+      'left': left + 'px',
+      'top': top + 'px'
+    });
+  }
+}
 
 function change() {
-	var index = Math.floor(Math.random() * images.length);
-	var src = "/assets/pics/" + images[index];
-	var location = metas[images[index]][0]
-	var meta = metas[images[index]][1]
+  // 清除之前的超时
+  if (changeTimeout) {
+    clearTimeout(changeTimeout);
+  }
 
-	function updateInfo() {
-		$("#location").text(location);
-		$("#metas").text(meta);
-	}
+  const randomIndex = Math.floor(Math.random() * images.length);
+  const imageName = images[randomIndex];
+  const src = "/assets/pics/" + imageName;
+  const [location, meta] = metas[imageName];
 
-	if (firsttime) {
-		$("#photo").attr("src",src);
-		updateInfo();
-		var height = $("#postcard-photo").width() / 1200 * 800;
-		$("#photo").height(Math.ceil(height) + 'px');
+  function updateInfo() {
+    $("#location").text(location);
+    $("#metas").text(meta);
+  }
 
-		var parentWidth = $('#postcard-photo').width();
-	  var parentHeight = $('#postcard-photo').height();
-	  var childWidth = $('.loader').width();
-	  var childHeight = $('.loader').height();
-	  var leftOffset = (parentWidth - childWidth) / 2;
-	  var topOffset = (parentHeight - childHeight) / 2;
-	  $('.loader').css({
-	    'position': 'absolute',
-	    'left': leftOffset + 'px',
-	    'top': topOffset + 'px'
-	  });
-	}
+  if (firsttime) {
+    $("#photo").attr("src", src);
+    updateInfo();
+    const containerWidth = $("#postcard-photo").width();
+    const height = containerWidth / CONFIG.IMAGE_RATIO_W * CONFIG.IMAGE_RATIO_H;
+    $("#photo").height(Math.ceil(height) + 'px');
 
-	var obj = new Image(); 
-	obj.src = src;
-	var fadeTo = firsttime ? 1 : 0;
-	obj.onload=function(){
-		$("#photo").fadeTo(1000,fadeTo, function() {
-			setTimeout(change, 10000);
+    // 延迟定位 loader，确保其尺寸已确定
+    setTimeout(() => {
+      positionLoader();
+    }, 0);
+  }
 
-			var height = $("#photo").width() / obj.width * obj.height;
-			if (!firsttime) {
-				$("#photo").attr("src",src);
-			}
-			updateInfo();
-			if (firsttime) {
-				$("#photo").height(Math.ceil(height)+'px');
-			}
-			$("#photo").animate({height: Math.ceil(height)+'px'}, 500);
-			firsttime = false;
+  const obj = new Image();
+  obj.src = src;
+  obj.onerror = function() {
+    console.error('Failed to load image:', src);
+    $('#loading').hide();
+    changeTimeout = setTimeout(change, CONFIG.CHANGE_INTERVAL);
+  };
+  
+  const fadeTo = firsttime ? 1 : 0;
+  obj.onload = function() {
+    $("#photo").fadeTo(CONFIG.FADE_DURATION, fadeTo, function() {
+      const height = calculateImageHeight($("#photo").width(), obj.width, obj.height);
+      
+      if (!firsttime) {
+        $("#photo").attr("src", src);
+      }
+      updateInfo();
+      
+      if (firsttime) {
+        $("#photo").height(Math.ceil(height) + 'px');
+      }
+      $("#photo").animate({height: Math.ceil(height) + 'px'}, CONFIG.ANIMATE_DURATION);
+      firsttime = false;
 
-			var parentHeight = $('#photo').height();
-			var childHeight = $('.loader').height();
-			$('.loader').css({
-		    'position': 'absolute',
-		    'left': leftOffset + 'px',
-		    'top': topOffset + 'px'
-		  });
+      // 只绑定一次 load 事件，先移除之前的
+      $("#photo").off('load').on('load', function() {
+        $('#loading').hide();
+        $("#photo").fadeTo(CONFIG.FADE_DURATION, 1);
+      });
 
-			$("#photo").on('load', function(){
-				$('#loading').hide();
-				$("#photo").fadeTo(1000,1);
-			});
-		});
-	}
+      changeTimeout = setTimeout(change, CONFIG.CHANGE_INTERVAL);
+    });
+  };
+}
+
+// 节流函数
+function throttle(func, delay) {
+  let lastCall = 0;
+  return function(...args) {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      func.apply(this, args);
+    }
+  };
 }
 
 function registerScrollPercent() {
-	var THRESHOLD = 50;
-    var readingProgressBar = document.querySelector('.reading-progress-bar');   
-    window.addEventListener('scroll', () => {
-      if (readingProgressBar) {
-        var docHeight = document.querySelector('.content-wrapper').offsetHeight;
-        var winHeight = window.innerHeight;
-        var contentVisibilityHeight = docHeight > winHeight ? docHeight - winHeight : document.body.scrollHeight - winHeight;
-        var scrollPercent = Math.min(100 * window.scrollY / contentVisibilityHeight, 100);
-        
-        if (readingProgressBar) {
-          readingProgressBar.style.width = scrollPercent.toFixed(2) + '%';
-        }
-      }
-    });
+  const readingProgressBar = document.querySelector('.reading-progress-bar');
+  if (!readingProgressBar) return;
+
+  const contentWrapper = document.querySelector('.content-wrapper');
+  if (!contentWrapper) return;
+
+  const handleScroll = throttle(() => {
+    const docHeight = contentWrapper.offsetHeight;
+    const winHeight = window.innerHeight;
+    const contentVisibilityHeight = docHeight > winHeight ? docHeight - winHeight : document.body.scrollHeight - winHeight;
+    const scrollPercent = Math.min(100 * window.scrollY / contentVisibilityHeight, 100);
+    readingProgressBar.style.width = scrollPercent.toFixed(2) + '%';
+  }, CONFIG.SCROLL_THROTTLE);
+
+  window.addEventListener('scroll', handleScroll);
 }
 
 function registerImageMouse(target) {
-	$(target).mousemove(function(e) {
-		var num = $(target).attr('num');
-		var index = Math.max(Math.ceil(e.offsetX / $(target).width() * parseInt(num)), 1);
-		var src = "/assets/photos/" + $(target).attr('name') + "/" + $(target).attr('name') + "-" + index + ".jpeg";
-		$(target).find('img').attr('src', src)
-	});
+  const $target = $(target);
+  const name = $target.attr('name');
+  const maxNum = parseInt($target.attr('num'));
+  const $img = $target.find('img');
+
+  $target.mousemove(function(e) {
+    const index = Math.max(Math.ceil(e.offsetX / $target.width() * maxNum), 1);
+    const src = "/assets/photos/" + name + "/" + name + "-" + index + ".jpeg";
+    $img.attr('src', src);
+  });
 }
 
 function registerImageHover(target) {
-	var update;
-	var ft = true;
-	var updateImage = function () {
-		clearTimeout(update);
-		update = setTimeout(updateImage, 3000);
+  let updateTimer;
+  let firstLoad = true;
+  const $target = $(target);
+  const $img = $target.find('img');
+  const name = $target.attr('name');
+  const maxNum = parseInt($target.attr('num'));
 
-		var num = $(target).attr('num');
-		var randomIndex = Math.floor(Math.random() * parseInt(num)) + 1;
-		//todo: make the random index diff from the previous one
-		var src = "/assets/photos/" + $(target).attr('name') + "/" + $(target).attr('name') + "-" + randomIndex + ".jpeg";
+  const updateImage = function () {
+    clearTimeout(updateTimer);
+    updateTimer = setTimeout(updateImage, CONFIG.IMAGE_UPDATE_INTERVAL);
 
-		var obj = new Image(); 
-		obj.src = src;
-		obj.onload=function(){
-			$(target).find('img').fadeTo(250, 0, function() {
-				
-				$(target).find('img').attr('src', src);
-				var height = $(target).find('img').width() / obj.width * obj.height;
-				if (ft) {
-					$(target).find('img').height(Math.ceil(height)+'px');
-				}else{
-					$(target).find('img').animate({height: Math.ceil(height)+'px'}, 500);	
-				}
-				
-				$(target).find('img').on('load', function(){
-					$(target).find('img').fadeTo(500,1);
-				});
-			});
-		};
-	};
+    const randomIndex = Math.floor(Math.random() * maxNum) + 1;
+    const src = "/assets/photos/" + name + "/" + name + "-" + randomIndex + ".jpeg";
 
-	var timer;
+    const obj = new Image();
+    obj.src = src;
+    obj.onerror = function() {
+      console.error('Failed to load hover image:', src);
+    };
+    obj.onload = function() {
+      $img.fadeTo(250, 0, function() {
+        $img.attr('src', src);
+        const height = calculateImageHeight($img.width(), obj.width, obj.height);
+        
+        if (firstLoad) {
+          $img.height(Math.ceil(height) + 'px');
+          firstLoad = false;
+        } else {
+          $img.animate({height: Math.ceil(height) + 'px'}, CONFIG.ANIMATE_DURATION);
+        }
 
-	$(target).on('mouseenter', 'img', function(e) {
-    timer = setTimeout(function(){
-        updateImage();
-    }, 2000);
-	});
-	$(target).on('mouseleave', 'img', function(e) {
-		clearTimeout(update);
-		clearTimeout(timer);
-	});
+        $img.off('load').on('load', function() {
+          $img.fadeTo(500, 1);
+        });
+      });
+    };
+  };
+
+  let hoverTimer;
+
+  $target.on('mouseenter', 'img', function(e) {
+    hoverTimer = setTimeout(updateImage, CONFIG.IMAGE_HOVER_DELAY);
+  });
+
+  $target.on('mouseleave', 'img', function(e) {
+    clearTimeout(updateTimer);
+    clearTimeout(hoverTimer);
+  });
 }
 
 function registerPostHeaders() {
-	var headers = $('.post-group-title');
+  const headers = $('.post-group-title');
+  const $currentSection = $('#current-section');
+  const $postSortCategory = $('#post-sort-category');
+  const $allPosts = $('#all-posts');
+  const $sortByCategory = $('#sort-by-category');
 
-	$(window).on('scroll', function(){
-	 	var scrollPos = $(window).scrollTop();
-	 	var screenHeight = $(window).height();
+  const handleScroll = throttle(() => {
+    const scrollPos = $(window).scrollTop();
 
-	 	if ( $('#all-posts').offset().top >= scrollPos ) {
-	  	$('#current-section').text("按时间显示");
-	  }
+    if ($allPosts.offset().top >= scrollPos) {
+      $currentSection.text("按时间显示");
+    }
 
-	  if ( $('#sort-by-category').offset().top <= scrollPos + 5 ) {
-	  	$('#post-sort-category').text("切换按时间显示");
-	  	$('#post-sort-category').attr('href', '#sort-by-date');
-	  } else {
-	  	$('#post-sort-category').text("切换按分类显示");
-	  	$('#post-sort-category').attr('href', '#sort-by-category');
-	  }
+    if ($sortByCategory.offset().top <= scrollPos + 5) {
+      $postSortCategory.text("切换按时间显示");
+      $postSortCategory.attr('href', '#sort-by-date');
+    } else {
+      $postSortCategory.text("切换按分类显示");
+      $postSortCategory.attr('href', '#sort-by-category');
+    }
 
-		headers.each(function(i){
-		 	var thisHeader = $(this),
-		 	nextHeader = headers.eq(i+1),
-	    prevHeader = headers.eq(i-1);
-	  
-	  	if( thisHeader.offset().top <= scrollPos + 5) {
-	  		if ( nextHeader.offset().top >= scrollPos ) {
-	  			$('#current-section').text(thisHeader.text());
-	  		}
-	  	};
-		});
-	});
+    headers.each(function(i) {
+      const thisHeader = $(this);
+      const nextHeader = headers.eq(i + 1);
+
+      if (thisHeader.offset().top <= scrollPos + 5) {
+        if (nextHeader.length === 0 || nextHeader.offset().top >= scrollPos) {
+          $currentSection.text(thisHeader.text());
+        }
+      }
+    });
+  }, CONFIG.SCROLL_THROTTLE);
+
+  $(window).on('scroll', handleScroll);
 };
 
 function fullScreenImages(className) {
@@ -251,16 +319,18 @@ function closingImage(element) {
 }
 
 function toggle() {
-	active = !active;
-  let i = document.querySelector('#menu-button i');
-  let navlist = document.querySelector('.nav-list');
-  $(i).removeClass();
+  active = !active;
+  const $icon = $('#menu-button i');
+  const $navlist = $('.nav-list');
+  
+  $icon.removeClass();
+  
   if (active) {
-    $(i).addClass('fa-solid fa-xmark');
-    $(navlist).addClass('active');
+    $icon.addClass('fa-solid fa-xmark');
+    $navlist.addClass('active');
   } else {
-  	$(i).addClass('fa-solid fa-bars');
-  	$(navlist).removeClass('active');
+    $icon.addClass('fa-solid fa-bars');
+    $navlist.removeClass('active');
   }
 }
 
@@ -328,36 +398,33 @@ function filterMovies() {
   }
 
   function updateMoviesListTitle(type, year, rate) {
-	var typeString = "";
-	var actionString = "";
-	if (type == 'book') {
-		typeString = '书籍';
-		actionString = "阅读";
-	} else if (type == 'movie') {
-		typeString = '影视剧';
-		actionString = '看';
-	} else if ( type == 'game') {
-		typeString = '游戏';
-		actionString = '玩';
-	}
+    const typeMap = {
+      'book': { label: '书籍', action: '阅读' },
+      'movie': { label: '影视剧', action: '看' },
+      'game': { label: '游戏', action: '玩' }
+    };
 
-	let title = '';
-	if (year) {
-	  title = `${year}年${actionString}过的`;
-	} else {
-	  title = `全部${actionString}过的`;
-	}
+    const typeConfig = typeMap[type] || { label: '', action: '' };
+    const typeString = typeConfig.label;
+    const actionString = typeConfig.action;
 
-	if (title.includes('全部')) {
-		if (!rate.includes('全部')) {
-			title += rate;
-		}
-	} else {
-		title += rate;
-	}
+    let title = '';
+    if (year) {
+      title = `${year}年${actionString}过的`;
+    } else {
+      title = `全部${actionString}过的`;
+    }
 
-	title += `${typeString}`;
-	$('.movies-list h2').text(title);
+    if (title.includes('全部')) {
+      if (!rate.includes('全部')) {
+        title += rate;
+      }
+    } else {
+      title += rate;
+    }
+
+    title += typeString;
+    $('.movies-list h2').text(title);
   }
 
 window.addEventListener('DOMContentLoaded', (event) => {
