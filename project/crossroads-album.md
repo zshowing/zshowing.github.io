@@ -2,7 +2,7 @@
 title : 主题摄影集「Crossroads」
 cover: Crossroads
 description: 这一系列照片摄于不同城市街头的路口，最开始的几张是完全无意的，直到这张在香港拍的照片，我才意识到自己对这个构图的钟爱，并有意继续照了一些，最终形成了这个系列。
-date: 2009年 - 2019年
+datedesc: 2009年 - 2019年
 important: true
 ---
 （这个名字顺便致敬了我最爱的专辑之一，Bon Jovi 的同名精选集）

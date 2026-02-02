@@ -2,7 +2,7 @@
 title : 地铁通App V4.0
 cover: ChinaMetro
 description: 在之前公司时我负责「地铁通」这个项目，最终在离职前，我决定用当时刚刚稳定下来的Swift语言从底层重写了整个App。
-date: 2016年
+date: 2016-01-01
 type: 程序
 ---
 ## 序

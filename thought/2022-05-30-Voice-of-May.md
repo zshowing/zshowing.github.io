@@ -1,6 +1,6 @@
 ---
 title: 状态合集·五月之声
-date: 2022-05
+date: 2022-05-01
 layout: thought
 description: 「在这个时代，被炸号也是一种英雄主义」
 ---

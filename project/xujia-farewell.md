@@ -1,7 +1,7 @@
 ---
 title : 送别徐经理 明信片套装
 cover: xu-jia-farewell
-date: 2015年
+datedesc: 2015年
 type: 设计
 ---
 ## 缘起

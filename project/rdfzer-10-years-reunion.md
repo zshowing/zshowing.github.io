@@ -2,7 +2,7 @@
 title : 人大附中05届毕业生十年重聚
 cover: 2015RDFZReunion
 description: 在高中毕业十周年返校聚会即将到来的时候，我临危受命，负责设计了与之相关的一系列物料，包括主视觉Logo、纪念品（冰箱贴和明信片）、收集用的印章图案等。
-date: 2015年6月 - 7月
+datedesc: 2015年6月 - 7月
 important: true
 ---
 ## 缘起

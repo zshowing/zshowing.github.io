@@ -1,6 +1,6 @@
 ---
 title: 状态合集·黑暗时代特别篇
-date: 2022-04
+date: 2022-04-01
 layout: thought
 description: 这集我看过，最后取得伟大胜利了。
 ---

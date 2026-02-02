@@ -1,7 +1,7 @@
 ---
 title : 「Jon's Story」
 cover: podcast
-date: 2019年5月
+datedesc: 2019年5月
 type: 播客
 ---
 ![IMG_6359.jpeg](https://s2.loli.net/2023/02/22/Km61FWpzAHMNRqZ.jpg)

@@ -2,7 +2,7 @@
 title : 「Life Invitation」系列设计
 cover: Live-Invitation
 description: 以「邀请你和我一起生活」的预想为主题进行的一系列设计，作品数量较少，项目仍未完结。
-date: 2019年4月起
+datedesc: 2019年4月起
 important: true
 ---
 
