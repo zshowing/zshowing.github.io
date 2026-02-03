@@ -2,6 +2,31 @@
 layout: default
 ---
 {% assign num = page.photos.size %}
+{% assign page_url = page.url | prepend: site.url %}
+{% assign cover_image = "" %}
+{% if num and num > 0 %}
+  {% assign cover_image = "/assets/photos/" | append: page.photos.set | append: "/" | append: page.photos.set | append: "-1.jpg" | prepend: site.url %}
+{% else %}
+  {% assign cover_image = page.image | default: site.social_image | prepend: site.url %}
+{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  "name": "{{ page.title | strip_html | strip_newlines }}",
+  "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160, '...' }}",
+  "url": "{{ page_url }}",
+  "image": [
+    {% for i in (1..num) %}
+    "{{ site.url }}/assets/photos/{{ page.photos.set }}/{{ page.photos.set }}-{{ i }}.jpg"{% if forloop.last == false %},{% endif %}
+    {% endfor %}
+  ],
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "{{ cover_image }}"
+  }
+}
+</script>
 <!-- {% assign content = post.content | strip_newlines %} -->
 
 <h1>{{ page.title }}</h1>
