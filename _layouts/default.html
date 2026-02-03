@@ -22,15 +22,7 @@
 	<meta name="twitter:image" content="{{ page.image | default: site.social_image | prepend: site.url }}">
 
 	<!-- Structured data (JSON-LD) -->
-	<script type="application/ld+json">
-	{
-	  "@context": "https://schema.org",
-	  "@type": "WebSite",
-	  "url": "{{ site.url }}",
-	  "name": "{{ site.title | default: 'Jon Showing' }}",
-	  "description": "{{ site.description }}"
-	}
-	</script>
+	{% include structured-data.html %}
 	<link rel="stylesheet" href="/assets/css/styles.css"></link>
 	<link rel="stylesheet" type="text/css" href="/assets/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="/assets/slick/slick-theme.css"/>

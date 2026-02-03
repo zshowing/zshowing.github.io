@@ -1,0 +1,107 @@
+{% assign page_url = page.url | prepend: site.url %}
+{% assign fallback_image = page.image | default: site.social_image | prepend: site.url %}
+{% assign cover_image = fallback_image %}
+{% if page.cover %}
+  {% assign cover_image = "/assets/projects/" | append: page.cover | append: ".jpeg" | prepend: site.url %}
+{% endif %}
+{% assign photo_count = page.photos.size | default: 0 %}
+{% assign project_pages = site.pages | where: "layout", "project" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "url": "{{ site.url }}",
+      "name": "{{ site.title | default: 'Jon Showing' }}",
+      "description": "{{ site.description }}"
+    },
+    {% if page.layout == "post" or page.layout == "thought" %}
+    {
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ page_url }}"
+      },
+      "headline": "{{ page.title | strip_html | strip_newlines }}",
+      "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160, '...' }}",
+      "image": "{{ fallback_image }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ site.author.name | default: site.title | default: 'Jon Showing' }}"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "{{ site.title | default: 'Jon Showing' }}"
+      },
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}",
+      "url": "{{ page_url }}"
+    }
+    {% elsif page.layout == "project" %}
+    {
+      "@type": "CreativeWork",
+      "name": "{{ page.title | strip_html | strip_newlines }}",
+      "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160, '...' }}",
+      "url": "{{ page_url }}",
+      "image": "{{ cover_image }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ site.author.name | default: site.title | default: 'Jon Showing' }}"
+      },
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}"
+    }
+    {% elsif page.layout == "photo_set" %}
+    {
+      "@type": "ImageGallery",
+      "name": "{{ page.title | strip_html | strip_newlines }}",
+      "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160, '...' }}",
+      "url": "{{ page_url }}",
+      "image": [
+        {% if photo_count and photo_count > 0 %}
+          {% for i in (1..photo_count) %}
+          "{{ site.url }}/assets/photos/{{ page.photos.set }}/{{ page.photos.set }}-{{ i }}.jpg"{% if forloop.last == false %},{% endif %}
+          {% endfor %}
+        {% endif %}
+      ],
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "{% if photo_count and photo_count > 0 %}{{ site.url }}/assets/photos/{{ page.photos.set }}/{{ page.photos.set }}-1.jpg{% else %}{{ fallback_image }}{% endif %}"
+      }
+    }
+    {% elsif page.category == "projectlist" %}
+    {
+      "@type": "CollectionPage",
+      "name": "{{ page.title | strip_html | strip_newlines }}",
+      "url": "{{ page_url }}",
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListOrder": "https://schema.org/ItemListUnordered",
+        "numberOfItems": {{ project_pages | size }},
+        "itemListElement": [
+          {% for project_page in project_pages %}
+          {
+            "@type": "ListItem",
+            "position": {{ forloop.index }},
+            "url": "{{ site.url }}{{ project_page.url }}",
+            "name": "{{ project_page.title | strip_html | strip_newlines }}",
+            "description": "{{ project_page.description | strip_html | strip_newlines | truncate: 160, '...' }}",
+            "image": "{{ site.url }}/assets/projects/{{ project_page.cover }}.jpeg"
+          }{% if forloop.last == false %},{% endif %}
+          {% endfor %}
+        ]
+      }
+    }
+    {% else %}
+    {
+      "@type": "WebPage",
+      "name": "{{ page.title | strip_html | strip_newlines | default: site.title }}",
+      "url": "{{ page_url }}",
+      "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160, '...' }}",
+      "image": "{{ fallback_image }}"
+    }
+    {% endif %}
+  ]
+}
+</script>

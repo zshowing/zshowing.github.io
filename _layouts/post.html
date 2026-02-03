@@ -2,32 +2,6 @@
 layout: default
 comments: true
 ---
-{% assign page_url = page.url | prepend: site.url %}
-{% assign page_image = page.image | default: site.social_image | prepend: site.url %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ page_url }}"
-  },
-  "headline": "{{ page.title | strip_html | strip_newlines }}",
-  "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160, '...' }}",
-  "image": "{{ page_image }}",
-  "author": {
-    "@type": "Person",
-    "name": "{{ site.author.name | default: site.title | default: 'Jon Showing' }}"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "{{ site.title | default: 'Jon Showing' }}"
-  },
-  "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}",
-  "url": "{{ page_url }}"
-}
-</script>
 <h1 class="post-title">
   <span>
     {% if page.titlehtml %}
