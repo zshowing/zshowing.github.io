@@ -26,7 +26,7 @@ category: projectlist
 </div>
 <hr style="margin-top: 20px;">
 <div class="project-list project-normal">
-	{% assign important_projects = project_pages | where: 'important', 'false' %}
+	{% assign important_projects = project_pages | where: 'important', 'false' | sort: 'date' | reverse %}
 	{% for project_page in important_projects %}
 		<div class="project-single-normal">
 			<div class="project-single-image">

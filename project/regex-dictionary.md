@@ -2,6 +2,7 @@
 title : 正则单词搜索
 cover: regexdic
 datedesc: 2026年
+date: 2026-02-24
 type: 工具
 ---
 
